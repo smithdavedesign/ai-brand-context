@@ -1,0 +1,81 @@
+{
+  "Dark": {
+    "Solidigm Purple": {
+      "$type": "color",
+      "$value": "#4f00b5"
+    },
+    "Light Purple": {
+      "$type": "color",
+      "$value": "#8d59cf"
+    },
+    "Dark Purple": {
+      "$type": "color",
+      "$value": "#2f006b"
+    },
+    "Ultra Dark Purple": {
+      "$type": "color",
+      "$value": "#160231"
+    },
+    "Dark Blue": {
+      "$type": "color",
+      "$value": "#00083f"
+    },
+    "Dark Grey": {
+      "$type": "color",
+      "$value": "#21201f"
+    },
+    "Black": {
+      "$type": "color",
+      "$value": "#000000"
+    },
+    "Gradient": {
+      "$type": "gradient",
+      "$value": {
+        "type": "linear",
+        "angle": 180,
+        "stops": [
+          {
+            "color": "#000000",
+            "position": 0
+          },
+          {
+            "color": "#52514f",
+            "position": 1
+          }
+        ]
+      }
+    }
+  },
+  "Light": {
+    "White": {
+      "$type": "color",
+      "$value": "#ffffff"
+    },
+    "Light Gray": {
+      "$type": "color",
+      "$value": "#f5f3f1"
+    },
+    "Gray": {
+      "$type": "color",
+      "$value": "#a5a29d"
+    },
+    "Medium Gray": {
+      "$type": "color",
+      "$value": "#52514f"
+    }
+  },
+  "Accents": {
+    "Electric Teal": {
+      "$type": "color",
+      "$value": "#00ffec"
+    },
+    "Electric Pink": {
+      "$type": "color",
+      "$value": "#ea11bc"
+    },
+    "Orange": {
+      "$type": "color",
+      "$value": "#ffa42c"
+    }
+  }
+}

@@ -1,0 +1,342 @@
+{
+  "Desktop": {
+    "DT Hero": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "112px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "110%",
+        "textTransform": "capitalize",
+        "textDecoration": "none"
+      }
+    },
+    "DT Headline 1": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "72px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "82px",
+        "textTransform": "capitalize",
+        "textDecoration": "none"
+      }
+    },
+    "DT Headline 2": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "62px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "110%",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Headline 3": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "42px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "48px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Headline 4": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "32px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "38px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Headline 5": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "24px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "28px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Headline 6": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "20px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "26px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Accordion": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "32px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "38px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Body": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "16px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "20px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Caption": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "14px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "18px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Category": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "10px",
+        "fontWeight": 600,
+        "letterSpacing": "2px",
+        "lineHeight": "14px",
+        "textTransform": "uppercase",
+        "textDecoration": "none"
+      }
+    },
+    "DT Button": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "10px",
+        "fontWeight": 600,
+        "letterSpacing": "2px",
+        "lineHeight": "14px",
+        "textTransform": "uppercase",
+        "textDecoration": "none"
+      }
+    },
+    "DT Disclaimer": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "12px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "14px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "DT Breadcrumb": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "10px",
+        "fontWeight": 700,
+        "letterSpacing": "2px",
+        "lineHeight": "14px",
+        "textTransform": "uppercase",
+        "textDecoration": "none"
+      }
+    }
+  },
+  "Mobile": {
+    "MB Hero": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "52px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "58px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Headline 1": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "42px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "48px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Headline 2": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "32px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "38px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Headline 3": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "24px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "28px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Headline 4": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "18px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "24px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Headline 5": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "16px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "20px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Headline 6": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "14px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "18px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Accordion": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "18px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "22px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Body 1": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "14px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "18px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Caption": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "16px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "20px",
+        "textTransform": "capitalize",
+        "textDecoration": "none"
+      }
+    },
+    "MB Category": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "14px",
+        "fontWeight": 600,
+        "letterSpacing": "2px",
+        "lineHeight": "18%",
+        "textTransform": "uppercase",
+        "textDecoration": "none"
+      }
+    },
+    "MB Button Link": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "10px",
+        "fontWeight": 600,
+        "letterSpacing": "2px",
+        "lineHeight": "14px",
+        "textTransform": "uppercase",
+        "textDecoration": "none"
+      }
+    },
+    "MB Disclaimer": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "10px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "12px",
+        "textTransform": "none",
+        "textDecoration": "none"
+      }
+    },
+    "MB Breadcrumb": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "10px",
+        "fontWeight": 700,
+        "letterSpacing": "2px",
+        "lineHeight": "16px",
+        "textTransform": "uppercase",
+        "textDecoration": "none"
+      }
+    }
+  }
+}
