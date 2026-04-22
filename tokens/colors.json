@@ -27,23 +27,6 @@
     "Black": {
       "$type": "color",
       "$value": "#000000"
-    },
-    "Gradient": {
-      "$type": "gradient",
-      "$value": {
-        "type": "linear",
-        "angle": 180,
-        "stops": [
-          {
-            "color": "#000000",
-            "position": 0
-          },
-          {
-            "color": "#52514f",
-            "position": 1
-          }
-        ]
-      }
     }
   },
   "Light": {

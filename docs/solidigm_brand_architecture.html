@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solidigm Brand System Architecture</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f9f8f6;
+    color: #1a1a1a;
+    padding: 32px;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #444441;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    font-size: 12px;
+    color: #888780;
+    margin-bottom: 24px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ── shared card styles ── */
+  .col-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5f5e5a;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+
+  .layer {
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 4px;
+    position: relative;
+  }
+  .layer-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .layer-sub {
+    font-size: 11px;
+    opacity: 0.75;
+  }
+  .layer-num {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: #b4b2a9;
+  }
+
+  .arrow {
+    text-align: center;
+    color: #b4b2a9;
+    font-size: 14px;
+    line-height: 1;
+    margin: 2px 0;
+  }
+
+  /* ── color themes ── */
+  .gray    { background: #f1efe8; border: 0.5px solid #5f5e5a; }
+  .gray    .layer-title { color: #444441; }
+  .gray    .layer-sub   { color: #5f5e5a; }
+
+  .purple  { background: #eeedfe; border: 0.5px solid #534ab7; }
+  .purple  .layer-title { color: #3c3489; }
+  .purple  .layer-sub   { color: #534ab7; }
+
+  .teal    { background: #e1f5ee; border: 0.5px solid #0f6e56; }
+  .teal    .layer-title { color: #085041; }
+  .teal    .layer-sub   { color: #0f6e56; }
+
+  .green   { background: #eaf3de; border: 0.5px solid #3b6d11; }
+  .green   .layer-title { color: #27500a; }
+  .green   .layer-sub   { color: #3b6d11; }
+
+  .amber   { background: #faeeda; border: 0.5px solid #854f0b; }
+  .amber   .layer-title { color: #412402; }
+  .amber   .layer-sub   { color: #633806; }
+
+  .white-blue { background: #ffffff; border: 0.5px solid #185fa5; }
+  .white-blue .layer-title { color: #042c53; }
+  .white-blue .layer-sub   { color: #185fa5; }
+
+  /* ── MCP tools grid ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3px;
+    margin-top: 6px;
+  }
+  .tool-item {
+    font-size: 10px;
+    color: #0f6e56;
+    background: rgba(15,110,86,0.06);
+    padding: 3px 5px;
+    border-radius: 4px;
+  }
+
+  /* ── consumer row ── */
+  .consumer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .consumer-card {
+    border-radius: 8px;
+    padding: 8px 6px;
+    text-align: center;
+    background: #ffffff;
+    border: 0.5px solid #185fa5;
+  }
+  .consumer-card .ct { font-size: 12px; font-weight: 600; color: #042c53; }
+  .consumer-card .cs { font-size: 10px; color: #185fa5; margin-top: 2px; }
+
+  /* ── sharepoint bar ── */
+  .sp-bar {
+    background: #f1efe8;
+    border: 0.5px solid #5f5e5a;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin-top: 8px;
+  }
+  .sp-bar .st { font-size: 11px; font-weight: 600; color: #444441; margin-bottom: 4px; }
+  .sp-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .sp-pill {
+    font-size: 10px;
+    color: #5f5e5a;
+    background: #fff;
+    border: 0.5px solid #b4b2a9;
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  /* ── section dividers ── */
+  .section-divider {
+    border: none;
+    border-top: 0.5px solid #ddd;
+    margin: 20px 0 16px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444441;
+    margin-bottom: 4px;
+  }
+  .section-sub {
+    font-size: 11px;
+    color: #888780;
+    margin-bottom: 14px;
+  }
+
+  /* ── before/after columns ── */
+  .ba-grid {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+  .ba-col-title {
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 6px 10px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .before-title { background: #fff5f5; border: 0.5px solid #e24b4a; color: #791f1f; }
+  .after-title  { background: #e1f5ee; border: 0.5px solid #0f6e56; color: #085041; }
+
+  .flow-step {
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 11px;
+    text-align: center;
+    margin-bottom: 3px;
+  }
+  .before-step { background: #fff5f5; border: 0.5px solid #e24b4a; color: #a32d2d; }
+  .after-step  { background: #e1f5ee; border: 0.5px solid #0f6e56; color: #085041; }
+
+  .vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 32px;
+  }
+  .vs-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #5f5e5a;
+    background: #f1efe8;
+    border: 0.5px solid #b4b2a9;
+    border-radius: 12px;
+    padding: 3px 8px;
+  }
+
+  .mini-arrow {
+    text-align: center;
+    font-size: 11px;
+    color: #b4b2a9;
+    margin: 2px 0;
+  }
+
+  /* ── cron job flow ── */
+  .cron-flow {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 4px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .cron-arrow { font-size: 14px; color: #b4b2a9; text-align: center; }
+
+  .outcome-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .pass-card { background: #eaf3de; border: 0.5px solid #3b6d11; border-radius: 8px; padding: 8px 12px; }
+  .pass-card .pt { font-size: 12px; font-weight: 600; color: #27500a; }
+  .pass-card .ps { font-size: 10px; color: #3b6d11; margin-top: 2px; }
+  .fail-card { background: #fcebeb; border: 0.5px solid #a32d2d; border-radius: 8px; padding: 8px 12px; }
+  .fail-card .ft { font-size: 12px; font-weight: 600; color: #791f1f; }
+  .fail-card .fs { font-size: 10px; color: #a32d2d; margin-top: 2px; }
+
+  /* ── creation surfaces ── */
+  .creation-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  /* ── legend ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 0.5px solid #e5e3e0;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #5f5e5a; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<h1>Solidigm Brand System Architecture</h1>
+<p class="subtitle">End-to-end flow from source of truth to enforcement surfaces · Confidential</p>
+
+<div class="grid">
+
+  <!-- ═══════════════ LEFT COLUMN ═══════════════ -->
+  <div>
+    <p class="col-title">System stack</p>
+
+    <div style="position:relative; padding-left:24px;">
+
+      <div class="layer gray">
+        <span class="layer-num">1</span>
+        <div class="layer-title">Source of truth</div>
+        <div class="layer-sub">Git repo — tokens/colors.json · typography.json · branding.md</div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="layer gray">
+        <span class="layer-num">2</span>
+        <div class="layer-title">Build</div>
+        <div class="layer-sub">Style Dictionary — CSS · SCSS · JS/TS · Tailwind · Figma · ESLint</div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="layer purple">
+        <span class="layer-num">3</span>
+        <div class="layer-title">@solidigm/brand-tokens</div>
+        <div class="layer-sub">GitHub Packages — versioned · zero dependencies · no postinstall scripts</div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="layer purple">
+        <span class="layer-num">4</span>
+        <div class="layer-title">Composer API</div>
+        <div class="layer-sub">GET /context?platform=web-react&task=component&fidelity=production</div>
+        <div class="layer-sub" style="margin-top:2px">Assembles scoped payload — tokens + guidelines + quality gates + platform rules</div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div class="layer teal" style="padding-bottom:12px">
+        <span class="layer-num">5</span>
+        <div class="layer-title">Brand MCP module — mcp/departments/brand.py</div>
+        <div class="tools-grid">
+          <span class="tool-item">get_brand_context()</span>
+          <span class="tool-item">get_typography()</span>
+          <span class="tool-item">get_brand_system_prompt()</span>
+          <span class="tool-item">get_asset()</span>
+          <span class="tool-item">get_dos_and_donts()</span>
+          <span class="tool-item">validate_brand_output()</span>
+          <span class="tool-item">get_color()</span>
+          <span class="tool-item">get_platform_constraints()</span>
+          <span class="tool-item">list_brand_asset_urls()</span>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:4px;">
+        <div class="layer teal" style="margin-bottom:0">
+          <span class="layer-num">6</span>
+          <div class="layer-title">SolidigmGPT chat</div>
+          <div class="layer-sub">Brand-aware via MCP + system prompt</div>
+        </div>
+        <div class="layer green" style="margin-bottom:0">
+          <div class="layer-title">Brand compliance skill</div>
+          <div class="layer-sub">solidigm-skills/brand-compliance · invoked by validate_brand_output()</div>
+        </div>
+      </div>
+      <div class="arrow">↓</div>
+
+      <p style="font-size:10px; color:#b4b2a9; text-align:center; margin-bottom:6px;">enforcement surfaces</p>
+
+      <div class="consumer-row">
+        <div class="consumer-card">
+          <div class="ct">Engineers</div>
+          <div class="cs">npm install</div>
+          <div class="cs">ESLint + CI/CD</div>
+        </div>
+        <div class="consumer-card">
+          <div class="ct">Designers</div>
+          <div class="cs">Figma sync</div>
+          <div class="cs">token library</div>
+        </div>
+        <div class="consumer-card">
+          <div class="ct">All staff</div>
+          <div class="cs">SolidigmGPT</div>
+          <div class="cs">brand assistant</div>
+        </div>
+        <div class="consumer-card">
+          <div class="ct">External tools</div>
+          <div class="cs">Cursor · Claude API</div>
+          <div class="cs">.cursorrules</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sp-bar" style="margin-top:12px">
+      <p style="font-size:10px; color:#888; margin-bottom:6px;">SharePoint — asset store → feeds Composer API</p>
+      <div class="st">IntranetAssets / Brand / Core Brand Assets</div>
+      <div class="sp-pills">
+        <span class="sp-pill">02 Logos</span>
+        <span class="sp-pill">03 Fonts</span>
+        <span class="sp-pill">09 Icons</span>
+        <span class="sp-pill">04/05/08 Templates</span>
+        <span class="sp-pill">11/12 Images</span>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#eeedfe;border:0.5px solid #534ab7"></div>Distribution</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e1f5ee;border:0.5px solid #0f6e56"></div>Intelligence</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#ffffff;border:0.5px solid #185fa5"></div>Consumer</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f1efe8;border:0.5px solid #5f5e5a"></div>Structural</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#eaf3de;border:0.5px solid #3b6d11"></div>Compliance</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#faeeda;border:0.5px solid #854f0b"></div>Creation</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════ RIGHT COLUMN ═══════════════ -->
+  <div>
+    <p class="col-title">Brand team impact</p>
+
+    <!-- Before / After -->
+    <div class="section-title">Review flow</div>
+    <p class="section-sub">How the system changes what reaches the brand team</p>
+
+    <div class="ba-grid">
+      <div>
+        <div class="ba-col-title before-title">Before</div>
+        <div class="flow-step before-step">Someone creates something</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step before-step">Brand team reviews</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step before-step">Brand team corrects</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step before-step">Brand team approves</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step before-step">Ships</div>
+      </div>
+      <div class="vs-divider"><span class="vs-badge">vs</span></div>
+      <div>
+        <div class="ba-col-title after-title">With the system</div>
+        <div class="flow-step after-step">Creates using SolidigmGPT + brand context</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step after-step">Compliance skill audits automatically</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step after-step">Issues flagged and fixed before submission</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step after-step">Brand team final sign-off only</div>
+        <div class="mini-arrow">↓</div>
+        <div class="flow-step after-step">Ships</div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Cron job -->
+    <div class="section-title">Automated compliance — SharePoint cron job</div>
+    <p class="section-sub">Catches issues before the brand team is ever in the loop</p>
+
+    <div class="cron-flow">
+      <div class="layer gray" style="margin-bottom:0; text-align:center;">
+        <div class="layer-title" style="font-size:11px">Scheduled trigger</div>
+        <div class="layer-sub">cron / webhook</div>
+      </div>
+      <div class="cron-arrow">→</div>
+      <div class="layer gray" style="margin-bottom:0; text-align:center;">
+        <div class="layer-title" style="font-size:11px">SharePoint scan</div>
+        <div class="layer-sub">Brand review folder</div>
+      </div>
+      <div class="cron-arrow">→</div>
+      <div class="layer green" style="margin-bottom:0; text-align:center;">
+        <div class="layer-title" style="font-size:11px">Compliance skill</div>
+        <div class="layer-sub">validate_brand_output()</div>
+      </div>
+    </div>
+
+    <div class="outcome-row">
+      <div class="pass-card">
+        <div class="pt">✓ Pass — auto-tagged</div>
+        <div class="ps">Marked compliant, ready for review</div>
+      </div>
+      <div class="fail-card">
+        <div class="ft">✕ Fail — flagged report</div>
+        <div class="fs">Violations listed, author notified</div>
+      </div>
+    </div>
+
+    <div class="layer teal" style="text-align:center;">
+      <div class="layer-title">Brand team sees only pre-screened artifacts</div>
+      <div class="layer-sub">Failed items returned to author for correction before human review</div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Asset creation -->
+    <div class="section-title">Asset creation assistance</div>
+    <p class="section-sub">Compliance at point of creation — prevents issues entering the pipeline</p>
+
+    <div class="creation-row">
+      <div class="layer white-blue" style="margin-bottom:0; text-align:center;">
+        <div class="layer-title" style="font-size:11px">SolidigmGPT</div>
+        <div class="layer-sub">Generate + audit in same session</div>
+      </div>
+      <div class="layer white-blue" style="margin-bottom:0; text-align:center;">
+        <div class="layer-title" style="font-size:11px">Cursor / Copilot</div>
+        <div class="layer-sub">Brand context via .cursorrules + MCP</div>
+      </div>
+      <div class="layer white-blue" style="margin-bottom:0; text-align:center;">
+        <div class="layer-title" style="font-size:11px">PowerPoint / Word</div>
+        <div class="layer-sub">Approved template + GPT assist</div>
+      </div>
+    </div>
+
+    <div class="mini-arrow" style="margin: 6px 0;">↓</div>
+
+    <div class="layer amber" style="text-align:center;">
+      <div class="layer-title">Real-time brand suggestions</div>
+      <div class="layer-sub">Wrong color → suggest token · Off-voice copy → rewrite · Wrong font → flag</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

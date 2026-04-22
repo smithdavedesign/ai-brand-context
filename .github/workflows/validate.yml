@@ -1,0 +1,27 @@
+name: Validate Build
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build tokens
+        run: node build.js
+
+      - name: Check dist files are not stale
+        run: |
+          if ! git diff --exit-code dist/ tokens/ tailwind/ figma/ eslint/; then
+            echo ""
+            echo "ERROR: Generated files are out of date."
+            echo "Run 'node build.js' and commit the results."
+            exit 1
+          fi

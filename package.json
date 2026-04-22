@@ -1,0 +1,55 @@
+{
+  "name": "@solidigm/brand-tokens",
+  "version": "1.0.0",
+  "description": "Solidigm brand design tokens — colors, typography, and lint rules for consistent brand implementation",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/solidigm/ai-brand-context.git"
+  },
+  "scripts": {
+    "build": "node build.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/js/index.mjs",
+      "require": "./dist/js/index.js",
+      "types": "./dist/js/index.d.ts"
+    },
+    "./css": "./dist/css/index.css",
+    "./css/colors": "./dist/css/colors.css",
+    "./css/typography": "./dist/css/typography.css",
+    "./scss": "./dist/scss/_index.scss",
+    "./scss/colors": "./dist/scss/_colors.scss",
+    "./scss/typography": "./dist/scss/_typography.scss",
+    "./tokens": "./tokens/index.json",
+    "./tokens/colors": "./tokens/colors.json",
+    "./tokens/typography": "./tokens/typography.json",
+    "./tailwind": "./tailwind/preset.js",
+    "./figma": "./figma/tokens.json",
+    "./eslint": "./eslint/index.js"
+  },
+  "main": "./dist/js/index.js",
+  "module": "./dist/js/index.mjs",
+  "types": "./dist/js/index.d.ts",
+  "files": [
+    "dist/",
+    "tokens/",
+    "eslint/",
+    "tailwind/",
+    "figma/"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "solidigm",
+    "brand",
+    "design-tokens",
+    "css-variables",
+    "scss",
+    "tailwind",
+    "figma",
+    "eslint-plugin"
+  ]
+}
