@@ -4,6 +4,53 @@ import SectionHeader from '~/components/SectionHeader.astro';
 
 // Default MCP server URL can be overridden at build time via PUBLIC_MCP_URL.
 const mcpUrl = import.meta.env.PUBLIC_MCP_URL || 'http://localhost:8080';
+
+const quickDownloads = [
+  {
+    label: 'Standard Logo — Purple',
+    filename: 'solidigm-logo-purple.svg',
+    url: '/assets/logo/standard/purple/solidigm-logo-purple.svg',
+    hint: 'SVG · Light backgrounds',
+    dark: false,
+  },
+  {
+    label: 'Standard Logo — White',
+    filename: 'standard-logo-white-tm-1920x1080.png',
+    url: '/assets/logo/standard/white/standard-logo-white-tm-1920x1080.png',
+    hint: 'PNG · Dark backgrounds',
+    dark: true,
+  },
+  {
+    label: 'S Mark — Purple',
+    filename: 's-mark-purple-tm-1920x1080.png',
+    url: '/assets/logo/s-mark/purple/s-mark-purple-tm-1920x1080.png',
+    hint: 'PNG · Icon usage',
+    dark: false,
+  },
+  {
+    label: 'S Mark — White',
+    filename: 's-mark-white-tm-1920x1080.png',
+    url: '/assets/logo/s-mark/white/s-mark-white-tm-1920x1080.png',
+    hint: 'PNG · Icon on dark',
+    dark: true,
+  },
+  {
+    label: 'Purple Icons Pack',
+    filename: 'solidigm-purple-ppt-icons.pptx',
+    url: '/assets/docs/solidigm-purple-ppt-icons.pptx',
+    hint: 'PPTX · 80+ icons',
+    dark: false,
+    format: 'PPTX',
+  },
+  {
+    label: 'Brand Guidelines',
+    filename: 'solidigm-consolidated-brand-guidelines_revjan26.pdf',
+    url: '/assets/docs/solidigm-consolidated-brand-guidelines_revjan26.pdf',
+    hint: 'PDF · Jan 2026',
+    dark: false,
+    format: 'PDF',
+  },
+];
 ---
 
 <BaseLayout
@@ -11,12 +58,38 @@ const mcpUrl = import.meta.env.PUBLIC_MCP_URL || 'http://localhost:8080';
   description="Browse, filter, and download official Solidigm brand assets — logos, illustrations, and brand guideline documents."
   activeNav="assets"
 >
-  <section class="section section--narrow">
+  <section class="section">
+    <div class="container">
     <SectionHeader
       eyebrow="Assets"
       title="Brand asset library"
       lede="Every official Solidigm logo, illustration, and guideline document in one searchable place. Local assets load instantly; SharePoint assets require Solidigm authentication."
     />
+
+    <!-- Quick downloads: no MCP required -->
+    <div class="quick-dl">
+      <h3 class="quick-dl__heading">Quick downloads</h3>
+      <div class="quick-dl__grid">
+        {quickDownloads.map((item) => (
+          <a
+            class={`quick-dl__item${item.dark ? ' quick-dl__item--dark' : ''}`}
+            href={item.url}
+            download={item.filename}
+          >
+            <div class="quick-dl__preview">
+              {item.format
+                ? <span class="quick-dl__fmt">{item.format}</span>
+                : <img src={item.url} alt="" loading="lazy" />}
+            </div>
+            <div class="quick-dl__info">
+              <span class="quick-dl__label">{item.label}</span>
+              <span class="quick-dl__hint">{item.hint}</span>
+            </div>
+            <span class="quick-dl__action">↓</span>
+          </a>
+        ))}
+      </div>
+    </div>
 
     <div class="asset-controls" role="toolbar" aria-label="Asset filters">
       <label class="asset-field">
@@ -66,6 +139,7 @@ const mcpUrl = import.meta.env.PUBLIC_MCP_URL || 'http://localhost:8080';
       <span class="asset-pagination__info" id="assetPageInfo"></span>
       <button type="button" class="btn btn--sm btn--secondary" id="assetNext">Next →</button>
     </nav>
+    </div><!-- /.container -->
   </section>
 
   <!-- Asset preview modal -->
@@ -300,6 +374,105 @@ const mcpUrl = import.meta.env.PUBLIC_MCP_URL || 'http://localhost:8080';
   </script>
 
   <style>
+    /* ---------- Quick downloads ---------- */
+    .quick-dl {
+      margin: 0 0 var(--space-10, 48px);
+    }
+    .quick-dl__heading {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--color-neutral-600);
+      margin: 0 0 var(--space-4, 16px);
+    }
+    .quick-dl__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--space-3, 12px);
+    }
+    .quick-dl__item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--color-neutral-200);
+      color: var(--color-neutral-900);
+      text-decoration: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .quick-dl__item--dark {
+      background: var(--color-blue-900);
+      border-color: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .quick-dl__item:hover {
+      border-color: var(--color-purple-500);
+      box-shadow: 0 2px 12px rgba(79,0,181,0.12);
+      color: var(--color-neutral-900);
+    }
+    .quick-dl__item--dark:hover {
+      border-color: var(--color-purple-400);
+      color: #fff;
+    }
+    .quick-dl__item--dark:hover .quick-dl__hint {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .quick-dl__preview {
+      width: 48px;
+      height: 36px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .quick-dl__preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .quick-dl__fmt {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--color-neutral-500);
+      background: var(--color-neutral-100);
+      padding: 4px 6px;
+    }
+    .quick-dl__item--dark .quick-dl__fmt {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.6);
+    }
+    .quick-dl__info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .quick-dl__label {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .quick-dl__hint {
+      font-size: 11px;
+      color: var(--color-neutral-500);
+    }
+    .quick-dl__item--dark .quick-dl__hint { color: rgba(255,255,255,0.5); }
+    .quick-dl__action {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-purple-500);
+      flex-shrink: 0;
+    }
+    .quick-dl__item--dark .quick-dl__action { color: var(--color-purple-300, #B592E3); }
+
+    /* ---------- Asset controls ---------- */
     .asset-controls {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -334,44 +507,47 @@ const mcpUrl = import.meta.env.PUBLIC_MCP_URL || 'http://localhost:8080';
       gap: var(--space-4, 16px);
     }
 
-    .asset-card {
+    :global(.asset-card) {
       display: flex;
       flex-direction: column;
       background: #fff;
       border: 1px solid var(--color-neutral-200);
-      border-radius: 12px;
       overflow: hidden;
       transition: transform .15s ease, box-shadow .15s ease;
+      cursor: pointer;
     }
-    .asset-card:hover {
+    :global(.asset-card:hover) {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(79, 0, 181, 0.12);
     }
-    .asset-card__thumb {
+    :global(.asset-card__thumb) {
       aspect-ratio: 16 / 9;
       display: flex;
       align-items: center;
       justify-content: center;
       background: var(--color-neutral-50);
       padding: 16px;
+      overflow: hidden;
     }
-    .asset-card__thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .asset-card__placeholder {
+    :global(.asset-card__thumb img) { max-width: 100%; max-height: 100%; object-fit: contain; }
+    :global(.asset-card__placeholder) {
       font-size: 14px;
       font-weight: 600;
       letter-spacing: 1.5px;
       color: var(--color-neutral-500);
     }
-    .asset-card__body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
-    .asset-card__name {
+    :global(.asset-card__body) { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
+    :global(.asset-card__name) {
       margin: 0;
       font-size: 13px;
       font-weight: 600;
+      line-height: 1.4;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: var(--color-neutral-900);
     }
-    .asset-card__meta {
+    :global(.asset-card__meta) {
       margin: 0;
       font-size: 11px;
       letter-spacing: .4px;
@@ -445,8 +621,8 @@ const mcpUrl = import.meta.env.PUBLIC_MCP_URL || 'http://localhost:8080';
       padding: 32px;
       min-height: 240px;
     }
-    .asset-modal__preview img { max-width: 100%; max-height: 60vh; object-fit: contain; }
-    .asset-modal__placeholder {
+    :global(.asset-modal__preview img) { max-width: 100%; max-height: 60vh; object-fit: contain; }
+    :global(.asset-modal__placeholder) {
       font-size: 32px;
       font-weight: 700;
       letter-spacing: 3px;

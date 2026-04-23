@@ -157,6 +157,25 @@ a:hover { color: var(--color-purple-600); }
   color: var(--color-purple-600);
   font-size: 18px;
 }
+.nav__logo {
+  height: 28px;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+.nav__system-label {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+}
+.footer__logo {
+  height: 28px;
+  width: auto;
+  display: block;
+  opacity: 0.95;
+}
+/* kept for any legacy usages */
 .nav__brand-mark {
   width: 28px;
   height: 28px;
@@ -175,7 +194,7 @@ a:hover { color: var(--color-purple-600); }
   align-items: center;
   gap: var(--space-6, 24px);
 }
-@media (min-width: 900px) { .nav__links { display: flex; } }
+@media (min-width: 990px) { .nav__links { display: flex; } }
 .nav__link {
   color: var(--color-neutral-800);
   font-size: 14px;
@@ -194,7 +213,60 @@ a:hover { color: var(--color-purple-600); }
   border-radius: 2px;
 }
 .nav__cta { display: none; }
-@media (min-width: 900px) { .nav__cta { display: inline-flex; } }
+@media (min-width: 990px) { .nav__cta { display: inline-flex; } }
+
+/* --- Hamburger button --- */
+.nav__burger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-neutral-800);
+  border-radius: 8px;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.nav__burger:hover { background: var(--color-neutral-100); }
+.nav__burger .icon-close { display: none; }
+.nav__burger.is-open .icon-bars { display: none; }
+.nav__burger.is-open .icon-close { display: block; }
+@media (min-width: 990px) { .nav__burger { display: none; } }
+
+/* --- Mobile drawer --- */
+.nav__drawer {
+  display: none;
+  flex-direction: column;
+  padding: var(--space-3, 12px) var(--space-5, 20px) var(--space-6, 24px);
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  max-height: calc(100svh - 64px);
+  overflow-y: auto;
+}
+.nav__drawer.is-open { display: flex; }
+@media (min-width: 990px) { .nav__drawer { display: none !important; } }
+.nav__drawer-link {
+  font-size: 16px;
+  font-weight: 500;
+  padding: var(--space-3, 12px) 0;
+  border-bottom: 1px solid var(--color-neutral-100);
+  color: var(--color-neutral-800);
+  display: block;
+}
+.nav__drawer-link:last-of-type { border-bottom: none; }
+.nav__drawer-link:hover { color: var(--color-purple-500); }
+.nav__drawer-link.nav__link--active { color: var(--color-purple-500); }
+.nav__drawer-cta { margin-top: var(--space-5, 20px); align-self: flex-start; }
+
+/* --- Small phone: hide wordmark label to prevent overflow --- */
+@media (max-width: 479px) {
+  .nav__system-label { display: none; }
+  .nav__logo { height: 22px; }
+}
 
 /* ---------- Track badges ---------- */
 .badge {
