@@ -1,0 +1,181 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionHeader from '~/components/SectionHeader.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+---
+<BaseLayout title="How to use" activeNav="usage">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">How to use</span>
+      <h1 class="page-hero__title">Find your path.</h1>
+      <p class="page-hero__lede">
+        Three audiences, three guides. Jump to the one that fits — come back when you need
+        the other view.
+      </p>
+    </div>
+  </section>
+
+  <!-- Tab switcher -->
+  <section class="section">
+    <div class="container">
+      <div class="audience-tabs" role="tablist">
+        <button class="audience-tab is-active" data-aud="designers" role="tab">For Designers</button>
+        <button class="audience-tab" data-aud="engineers" role="tab">For Engineers</button>
+        <button class="audience-tab" data-aud="business" role="tab">For Business</button>
+      </div>
+
+      <!-- DESIGNERS -->
+      <div id="designers" class="audience-panel" data-aud-panel="designers">
+        <SectionHeader
+          eyebrow="For Designers"
+          title="Design in Figma. Stay in system."
+          lede="The Solidigm Design System 3.0 Figma library is your starting point. Tokens, components, and the Brand Angle are all there."
+        />
+        <div class="grid grid--2">
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">1. Open the library</h3>
+            <p class="text-small muted">Enable the <a href="https://www.figma.com/design/Ei8AT6lR0173XP1v8kY3JJ">Solidigm Design System 3.0</a> file as a team library in your Figma workspace.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">2. Use variables, not raw values</h3>
+            <p class="text-small muted">Every fill, text style, and spacing is exposed as a Figma variable. Never hardcode a hex or pixel value.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">3. Compose from components</h3>
+            <p class="text-small muted">Buttons, cards, heros — start from a library component. Detach only when the variant doesn't exist yet.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">4. Respect Brand Angle rules</h3>
+            <p class="text-small muted">The Brand Angle (45°/90° crop of the mark) has <a href="/brand">approved color combinations</a>. Check before shipping.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENGINEERS -->
+      <div id="engineers" class="audience-panel" data-aud-panel="engineers" hidden>
+        <SectionHeader
+          eyebrow="For Engineers"
+          title="Install, import, ship."
+          lede="Pick the format that matches your stack. One source of truth, six output formats."
+        />
+        <CodeBlock lang="bash" code={`npm install @solidigm/brand-tokens`} />
+        <div class="grid grid--2" style="margin-top: var(--space-5, 20px);">
+          <a href="/tokens/usage#css" class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">CSS variables</h3>
+            <p class="text-small muted">One <code>@import</code>. Every token available as a custom property.</p>
+          </a>
+          <a href="/tokens/usage#scss" class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">SCSS</h3>
+            <p class="text-small muted">Use tokens as Sass variables. Perfect for existing SCSS codebases.</p>
+          </a>
+          <a href="/tokens/usage#js" class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">JS / TS</h3>
+            <p class="text-small muted">Fully-typed token objects. Great for React, Vue, Svelte, and theming systems.</p>
+          </a>
+          <a href="/tokens/usage#tailwind" class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">Tailwind preset</h3>
+            <p class="text-small muted">Drop-in preset. Tailwind utilities automatically use Solidigm tokens.</p>
+          </a>
+          <a href="/tokens/usage#eslint" class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">ESLint plugin</h3>
+            <p class="text-small muted">Block off-brand colors at PR time. Auto-suggests the right token.</p>
+          </a>
+          <a href="/toolkit" class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">Plain CSS toolkit</h3>
+            <p class="text-small muted">No build step? Use <code>ui-toolkit.min.css</code> via a <code>&lt;link&gt;</code> tag.</p>
+          </a>
+        </div>
+        <div class="card" style="margin-top: var(--space-6, 24px); border-left: 4px solid var(--color-purple-500);">
+          <strong style="color: var(--color-purple-600);">AEM &amp; client libraries</strong>
+          <p class="text-small muted" style="margin-top:8px;">
+            For Adobe Experience Manager, package the UI toolkit CSS as a client library
+            (<code>etc.clientlibs</code>) and reference it in your page template. The CSS is
+            self-contained — no JS dependencies.
+          </p>
+        </div>
+      </div>
+
+      <!-- BUSINESS -->
+      <div id="business" class="audience-panel" data-aud-panel="business" hidden>
+        <SectionHeader
+          eyebrow="For Business"
+          title="Request, review, stay on-brand."
+          lede="You don't need to write code to use the system. These are the moments you'll interact with it."
+        />
+        <div class="grid grid--2">
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">How do I request a new component?</h3>
+            <p class="text-small muted">Open a GitHub issue on the <a href="https://github.com/solidigm/ai-brand-context">design-system repo</a> with use case, example, and audience. A designer + engineer will triage it.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">What stays on-brand without asking?</h3>
+            <p class="text-small muted">Any combination using our 14 colors, Sora family, and the 17-step spacing scale — as long as accents aren't dominant.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">What requires approval?</h3>
+            <p class="text-small muted">Electric Teal and Electric Pink in dominant roles. Logo variants beyond the standard set. Net-new typefaces or iconography.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">Brand compliance checklist</h3>
+            <ul class="text-small muted" style="margin:8px 0 0; padding-left:18px;">
+              <li>Uses tokens — not hardcoded values</li>
+              <li>Left-aligned body text</li>
+              <li>One primary action per view</li>
+              <li>TM in logo, title-case headlines</li>
+              <li>Accents used sparingly</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.audience-tabs {
+  display: inline-flex;
+  background: var(--color-neutral-50);
+  padding: 4px;
+  border-radius: 100px;
+  margin-bottom: var(--space-8, 32px);
+  flex-wrap: wrap;
+  gap: 2px;
+}
+.audience-tab {
+  background: transparent;
+  border: 0;
+  padding: 10px 20px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--color-neutral-600);
+  border-radius: 100px;
+  transition: background 0.15s, color 0.15s;
+}
+.audience-tab.is-active {
+  background: var(--color-purple-500);
+  color: #fff;
+}
+</style>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.audience-tab');
+  const panels = document.querySelectorAll<HTMLElement>('[data-aud-panel]');
+  const hash = window.location.hash.replace('#', '');
+  const activate = (aud: string) => {
+    tabs.forEach((t) => t.classList.toggle('is-active', t.dataset.aud === aud));
+    panels.forEach((p) => {
+      p.hidden = p.dataset.audPanel !== aud;
+    });
+  };
+  if (hash && ['designers', 'engineers', 'business'].includes(hash)) activate(hash);
+  tabs.forEach((t) => {
+    t.addEventListener('click', () => {
+      if (t.dataset.aud) {
+        activate(t.dataset.aud);
+        history.replaceState(null, '', `#${t.dataset.aud}`);
+      }
+    });
+  });
+</script>

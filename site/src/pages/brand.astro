@@ -1,0 +1,266 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionHeader from '~/components/SectionHeader.astro';
+import ContrastChecker from '~/components/islands/ContrastChecker.astro';
+
+const voice = [
+  { word: 'Optimistic', detail: 'Upbeat, possibility-thinking' },
+  { word: 'Analytical', detail: 'Thoughtful, deliberate' },
+  { word: 'Passionate', detail: 'Spirited, energized' },
+  { word: 'Genuine', detail: 'Authentic, human, dynamic' },
+  { word: 'Ambitious', detail: 'Confident, determined — never arrogant' },
+];
+
+const values = [
+  'Customer Inspired',
+  'Invention',
+  'Excellence',
+  'Openness',
+  'Agility',
+  'Partnership',
+];
+
+const logoRules = [
+  { do: 'Purple logo on light backgrounds', dont: 'Purple logo on gray or busy photography' },
+  { do: 'White logo on dark backgrounds', dont: 'Colored logo on similar-tone backgrounds' },
+  { do: 'Keep the TM mark in the bottom-right', dont: 'Remove, resize, or reposition the TM' },
+  { do: 'Minimum 50px (screen) / 13mm (print)', dont: 'Render smaller than minimum size' },
+];
+---
+<BaseLayout title="Brand Foundation" activeNav="brand">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Brand Foundation</span>
+      <h1 class="page-hero__title">The Seasoned Challenger.</h1>
+      <p class="page-hero__lede">
+        Solidigm™ (思得, <em>"See Duh"</em>) — from <em>solid</em> + <em>paradigm</em>. We're
+        thought leaders relishing the unsolved. The design system expresses that personality
+        across every surface.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Who we are"
+        title="Mission, values, personality."
+        lede="Brand identity isn't a logo — it's the character that shows up consistently across every interaction."
+      />
+      <div class="grid grid--2">
+        <div class="card">
+          <span class="eyebrow">Mission</span>
+          <p style="font-size: 20px; font-weight: 300; color: var(--color-purple-600); margin-top: 8px;">
+            Unlock data's virtually unlimited potential through advancements in storage technology.
+          </p>
+          <p class="text-small muted" style="margin-top: 12px;">Goal: become the #1 NAND business by 2030.</p>
+        </div>
+        <div class="card">
+          <span class="eyebrow">Values</span>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px;">
+            {values.map((v) => (
+              <span class="badge badge--npm">{v}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Voice & Tone"
+        title="Five words. One personality."
+        lede="Every headline, every button label, every error message should sound like the same brand speaking."
+      />
+      <div class="grid grid--3">
+        {voice.map((v) => (
+          <div class="card">
+            <h3 style="font-family: Sora; font-weight: 200; font-size: 32px; color: var(--color-purple-600); margin: 0 0 8px;">{v.word}</h3>
+            <p class="text-small muted" style="margin:0;">{v.detail}</p>
+          </div>
+        ))}
+      </div>
+      <p class="text-small muted" style="margin-top: var(--space-6, 24px); max-width: 680px;">
+        <strong>Never:</strong> arrogant, condescending, overly technical, or corporate-cold.
+        Write like a thoughtful expert who genuinely cares about the reader's problem.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Logo system"
+        title="The mark is the brand."
+        lede="The S is derived from interlocking SSD shapes built on 45° and 90° angles — a visual DNA of precision partnership."
+      />
+      <div class="logo-demo">
+        <div class="logo-demo__stage logo-demo__stage--light">
+          <div class="logo-demo__mark">S</div>
+          <span class="logo-demo__caption">On light · Purple</span>
+        </div>
+        <div class="logo-demo__stage logo-demo__stage--dark">
+          <div class="logo-demo__mark logo-demo__mark--white">S</div>
+          <span class="logo-demo__caption">On dark · White</span>
+        </div>
+        <div class="logo-demo__stage logo-demo__stage--gray">
+          <div class="logo-demo__mark logo-demo__mark--black">S</div>
+          <span class="logo-demo__caption">On medium · Black</span>
+        </div>
+      </div>
+
+      <div class="dodont" style="margin-top: var(--space-8, 32px);">
+        {logoRules.map((r) => (
+          <>
+            <div class="dodont__item dodont__item--do">
+              <div class="dodont__preview">{r.do}</div>
+              <div class="dodont__label">Do</div>
+            </div>
+            <div class="dodont__item dodont__item--dont">
+              <div class="dodont__preview">{r.dont}</div>
+              <div class="dodont__label">Don't</div>
+            </div>
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Color philosophy"
+        title="Lead with purple. Accent with restraint."
+        lede="Purple is Solidigm. Dark backgrounds frame depth. Grays do the quiet work. Accent colors (teal, pink, orange) are reserved — never dominant."
+      />
+      <div class="grid grid--4">
+        <div class="phil-chip" style="background: var(--color-purple-500); color: #fff;">
+          <strong>Purple</strong>
+          <span>Lead color</span>
+        </div>
+        <div class="phil-chip" style="background: var(--color-blue-900); color: #fff;">
+          <strong>Dark Blue</strong>
+          <span>Depth, overlays</span>
+        </div>
+        <div class="phil-chip" style="background: var(--color-neutral-50); color: var(--color-neutral-800); border:1px solid rgba(0,0,0,0.08);">
+          <strong>Grays</strong>
+          <span>Structure, quiet</span>
+        </div>
+        <div class="phil-chip" style="background: var(--color-accent-teal); color: var(--color-neutral-900);">
+          <strong>Accents</strong>
+          <span>Highlights only ⚠</span>
+        </div>
+      </div>
+      <p class="text-small muted" style="margin-top: var(--space-5, 20px); max-width: 680px;">
+        Accent colors (Electric Teal, Electric Pink, Orange) require brand approval for any
+        dominant use. See <a href="/tokens/colors">all tokens</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Typography"
+        title="Sora, with weight as hierarchy."
+        lede="We use Sora (Google Fonts, free) across every surface. Thin (200) for headlines, not size alone. Weight is how we create emphasis — not bold-inside-sentences."
+      />
+      <div class="type-philosophy">
+        <div class="type-philosophy__sample" style="font-family:Sora; font-weight:200; font-size: clamp(40px, 6vw, 88px); line-height: 1; color: var(--color-purple-600);">
+          Paradigm shift.
+        </div>
+        <div class="type-philosophy__note">
+          <p><strong>Headlines:</strong> Sora Thin (200) or ExtraLight. Title case. Never all-caps.</p>
+          <p><strong>Body:</strong> Light (300) or Regular (400). Left-aligned only. No center-aligned paragraphs.</p>
+          <p><strong>Buttons & labels:</strong> SemiBold (600), 10px, uppercase, 2px tracking.</p>
+          <p><strong>Emphasis:</strong> Use color or custom frames. <em>Never bold inside a sentence.</em></p>
+        </div>
+      </div>
+      <p class="text-small muted" style="margin-top: var(--space-6, 24px);">
+        CJK languages use <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a>.
+        Microsoft Office documents use Avenir Next LT Pro.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Accessibility"
+        title="WCAG 2.1 AA, always."
+        lede="Every color pairing in the system passes 4.5:1 minimum contrast. Try any combination below — if a brand color combination fails, it's not a valid pairing."
+      />
+      <ContrastChecker />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.logo-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-5, 20px);
+}
+.logo-demo__stage {
+  padding: var(--space-10, 48px) var(--space-6, 24px);
+  border-radius: var(--border-radius-md, 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.logo-demo__stage--light { background: var(--color-neutral-50); }
+.logo-demo__stage--dark { background: var(--color-blue-900); color: #fff; }
+.logo-demo__stage--gray { background: var(--color-neutral-600); color: #fff; }
+.logo-demo__mark {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: var(--color-purple-500);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: -2px;
+}
+.logo-demo__mark--white { background: #fff; color: var(--color-purple-500); }
+.logo-demo__mark--black { background: #000; color: #fff; }
+.logo-demo__caption {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.phil-chip {
+  padding: var(--space-6, 24px);
+  border-radius: var(--border-radius-md, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 140px;
+  justify-content: flex-end;
+}
+.phil-chip strong { font-size: 20px; font-weight: 500; }
+.phil-chip span { font-size: 12px; opacity: 0.85; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+
+.type-philosophy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8, 32px);
+  align-items: center;
+}
+@media (max-width: 767px) { .type-philosophy { grid-template-columns: 1fr; } }
+.type-philosophy__note p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--color-neutral-600);
+  line-height: 1.6;
+}
+.type-philosophy__note p strong { color: var(--color-purple-600); font-weight: 600; }
+</style>

@@ -1,0 +1,146 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+---
+<BaseLayout title="Install & usage" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">NPM Package</span>
+      <h1 class="page-hero__title">Install &amp; usage.</h1>
+      <p class="page-hero__lede">
+        The token package ships in six formats. Pick the one your stack likes best — or
+        combine them. All formats are generated from the same source JSON.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens">Overview</a></li>
+            <li><a href="/tokens/colors">Colors</a></li>
+            <li><a href="/tokens/typography">Typography</a></li>
+            <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/usage" class="active">Install & usage</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#install">Install</a></li>
+            <li><a href="#css">CSS variables</a></li>
+            <li><a href="#scss">SCSS</a></li>
+            <li><a href="#js">JavaScript / TypeScript</a></li>
+            <li><a href="#tailwind">Tailwind preset</a></li>
+            <li><a href="#eslint">ESLint plugin</a></li>
+            <li><a href="#figma">Figma sync</a></li>
+          </ul>
+        </aside>
+        <div class="stack-lg">
+          <section id="install">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">1. Configure GitHub Packages</h2>
+            <p class="muted" style="max-width:720px;">
+              The package is published privately to GitHub Packages. Add an
+              <code>.npmrc</code> and a personal access token with <code>read:packages</code>.
+            </p>
+            <CodeBlock lang="ini" filename=".npmrc" code={`@solidigm:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}`} />
+
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:var(--space-8, 32px) 0 8px;">2. Install</h2>
+            <CodeBlock lang="bash" code={`npm install @solidigm/brand-tokens`} />
+          </section>
+
+          <section id="css">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">CSS variables</h2>
+            <p class="muted" style="max-width:720px;">
+              Import the compiled CSS once in your entry point. Every token is available as
+              a custom property on <code>:root</code>.
+            </p>
+            <CodeBlock lang="css" filename="app.css" code={`@import '@solidigm/brand-tokens/css';
+
+.hero {
+  background: var(--color-purple-500);
+  color: var(--color-neutral-0);
+  padding: var(--space-12) var(--space-8);
+  border-radius: var(--border-radius-md);
+}`} />
+          </section>
+
+          <section id="scss">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">SCSS</h2>
+            <CodeBlock lang="scss" filename="app.scss" code={`@use '@solidigm/brand-tokens/scss' as tokens;
+
+.card {
+  background: tokens.$color-neutral-0;
+  padding: tokens.$space-6;
+  border-radius: tokens.$border-radius-md;
+}`} />
+          </section>
+
+          <section id="js">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">JavaScript / TypeScript</h2>
+            <p class="muted" style="max-width:720px;">
+              Import the token object. Fully typed — your editor will autocomplete every
+              token name.
+            </p>
+            <CodeBlock lang="ts" filename="theme.ts" code={`import tokens from '@solidigm/brand-tokens';
+
+export const theme = {
+  primary: tokens.color.purple[500],    // '#4f00b5'
+  surface: tokens.color.neutral[0],     // '#ffffff'
+  radius: tokens.borderRadius.md,       // '16px'
+};`} />
+          </section>
+
+          <section id="tailwind">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Tailwind preset</h2>
+            <p class="muted" style="max-width:720px;">
+              Drop in the preset and every Tailwind utility uses Solidigm tokens.
+            </p>
+            <CodeBlock lang="js" filename="tailwind.config.js" code={`import solidigm from '@solidigm/brand-tokens/tailwind';
+
+export default {
+  presets: [solidigm],
+  content: ['./src/**/*.{html,js,ts,tsx,jsx,astro}'],
+};`} />
+            <p class="text-small muted" style="margin-top:8px;">
+              Use classes like <code>bg-purple-500</code>, <code>text-neutral-0</code>,
+              <code>font-sora</code>, <code>text-dt-hero</code>.
+            </p>
+          </section>
+
+          <section id="eslint">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">ESLint plugin</h2>
+            <p class="muted" style="max-width:720px;">
+              Catch off-brand colors at PR time. <strong>Warns</strong> when a brand color is
+              hardcoded instead of using the token; <strong>errors</strong> when a non-brand
+              color sneaks in.
+            </p>
+            <CodeBlock lang="js" filename="eslint.config.js" code={`import solidigm from '@solidigm/brand-tokens/eslint';
+
+export default [
+  {
+    plugins: { solidigm },
+    rules: {
+      'solidigm/no-hardcoded-brand-colors': 'warn',
+      'solidigm/no-off-brand-colors': 'error',
+    },
+  },
+];`} />
+          </section>
+
+          <section id="figma">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Figma sync</h2>
+            <p class="muted" style="max-width:720px;">
+              A Figma-compatible token file ships with the package. Import into
+              <a href="https://tokens.studio/">Tokens Studio</a> or the Variables panel to
+              sync with the <a href="https://www.figma.com/design/Ei8AT6lR0173XP1v8kY3JJ">Solidigm Design System 3.0</a> library.
+            </p>
+            <CodeBlock lang="bash" code={`@solidigm/brand-tokens/figma  →  figma/tokens.json`} />
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

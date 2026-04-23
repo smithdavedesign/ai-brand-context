@@ -1,0 +1,114 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionHeader from '~/components/SectionHeader.astro';
+---
+<BaseLayout title="Showcase" activeNav="home">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Showcase</span>
+      <h1 class="page-hero__title">Real examples.</h1>
+      <p class="page-hero__lede">
+        Every surface on this very site is built with the Solidigm Design System. The best
+        proof is the site you're reading.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Self-referential"
+        title="This site eats its own dog food."
+        lede="No custom CSS snowflakes, no hardcoded colors, no one-off fonts. Every pixel traces back to a token."
+      />
+      <div class="grid grid--2">
+        <div class="card">
+          <h3 style="margin:0 0 8px; font-size:20px;">What you see</h3>
+          <ul class="text-small muted" style="padding-left:18px;">
+            <li>Hero typography: <code>DT Hero</code>, <code>DT Headline 1</code></li>
+            <li>All purples: <code>--color-purple-*</code> tokens</li>
+            <li>Spacing: <code>--space-*</code> 4pt scale</li>
+            <li>Buttons: <code>.btn--primary</code>, <code>.tk-btn</code> from the toolkit</li>
+            <li>Radius: <code>--border-radius-sm</code>, <code>--border-radius-md</code></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 8px; font-size:20px;">What you don't see</h3>
+          <ul class="text-small muted" style="padding-left:18px;">
+            <li>Any hardcoded hex values</li>
+            <li>Any magic numbers for spacing</li>
+            <li>Any font beyond Sora</li>
+            <li>Any one-off breakpoint hacks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Before / After"
+        title="Consistency you can feel."
+        lede="Two versions of the same page. One ad-hoc, one on-system."
+      />
+      <div class="ba-showcase">
+        <div class="ba-mock ba-mock--before">
+          <div class="ba-mock__header">Before — ad-hoc</div>
+          <div style="padding:24px;">
+            <div style="font-family:Arial; font-size:28px; color:#5a00a0; font-weight:700;">Storage, done right</div>
+            <div style="font-family:Arial; font-size:13px; color:#333; margin-top:8px;">Lorem ipsum dolor sit amet.</div>
+            <button style="margin-top:14px; background:#6600cc; color:#fff; border:0; padding:10px 18px; border-radius:3px; font-family:Arial; font-size:13px;">CLICK HERE</button>
+          </div>
+        </div>
+        <div class="ba-mock ba-mock--after">
+          <div class="ba-mock__header">After — on-system</div>
+          <div style="padding:24px;">
+            <div style="font-family:Sora; font-weight:200; font-size:32px; color:var(--color-purple-600); line-height:1.1;">Storage, done right.</div>
+            <div style="font-family:Sora; font-weight:300; font-size:14px; color:var(--color-neutral-600); margin-top:12px; line-height:1.5;">Unlock data's virtually unlimited potential through Solidigm storage.</div>
+            <button class="tk-btn tk-btn--primary" style="margin-top:16px;">Explore products</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--purple">
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title">Ready to build on-brand?</h2>
+      <p class="section-lede" style="margin: 0 auto var(--space-8, 32px);">
+        The system is live, documented, and enforced. Your turn.
+      </p>
+      <div style="display:inline-flex; gap:16px; flex-wrap:wrap; justify-content:center;">
+        <a href="/tokens/usage" class="btn btn--primary" style="background:#fff; color:var(--color-purple-500);">Install the tokens</a>
+        <a href="/toolkit" class="btn btn--secondary" style="color:#fff; border-color:#fff;">Use the toolkit</a>
+        <a href="https://github.com/solidigm/ai-brand-context" class="btn btn--ghost" style="color:#fff;">View the source ↗</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.ba-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5, 20px);
+}
+@media (max-width: 767px) { .ba-showcase { grid-template-columns: 1fr; } }
+.ba-mock {
+  border-radius: var(--border-radius-md, 16px);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+}
+.ba-mock__header {
+  padding: 8px 16px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #fff;
+}
+.ba-mock--before .ba-mock__header { background: #ba3640; }
+.ba-mock--after .ba-mock__header { background: #187e7b; }
+</style>

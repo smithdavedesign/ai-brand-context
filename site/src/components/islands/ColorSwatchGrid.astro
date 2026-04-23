@@ -1,0 +1,151 @@
+---
+import { getColorTokens, contrastRatio, type ColorToken } from '~/lib/tokens';
+
+interface Props {
+  group?: 'Dark' | 'Light' | 'Accents' | 'all';
+}
+const { group = 'all' } = Astro.props;
+
+const all = getColorTokens();
+const tokens: ColorToken[] = group === 'all' ? all : all.filter((c) => c.group === group);
+
+const accentRestricted = new Set(['Electric Teal', 'Electric Pink', 'Orange']);
+---
+<div class="swatch-grid">
+  {tokens.map((t) => {
+    const onWhite = contrastRatio(t.hex, '#ffffff');
+    const onBlack = contrastRatio(t.hex, '#000000');
+    const bestOn = onWhite > onBlack ? '#ffffff' : '#000000';
+    const ratio = Math.max(onWhite, onBlack);
+    const aaPass = ratio >= 4.5;
+    return (
+      <button
+        class="swatch"
+        data-hex={t.hex}
+        data-var={t.cssVar}
+        data-name={t.name}
+        style={`--sw: ${t.hex}; --sw-fg: ${bestOn};`}
+        aria-label={`Copy ${t.name}`}
+      >
+        <div class="swatch__chip">
+          {accentRestricted.has(t.name) && (
+            <span class="swatch__flag" title="Restricted — brand approval required">⚠</span>
+          )}
+        </div>
+        <div class="swatch__body">
+          <strong class="swatch__name">{t.name}</strong>
+          <span class="swatch__hex mono">{t.hex.toUpperCase()}</span>
+          <span class="swatch__var mono text-xs">{t.cssVar}</span>
+          <span class={`swatch__aa ${aaPass ? 'ok' : 'warn'}`}>
+            {aaPass ? `AA ${ratio.toFixed(1)}:1` : `Low ${ratio.toFixed(1)}:1`}
+          </span>
+        </div>
+        <span class="swatch__copy">Click to copy</span>
+      </button>
+    );
+  })}
+</div>
+
+<style>
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-5, 20px);
+}
+.swatch {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--border-radius-md, 16px);
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  position: relative;
+}
+.swatch:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22, 2, 49, 0.1);
+  border-color: rgba(79, 0, 181, 0.3);
+}
+.swatch__chip {
+  height: 120px;
+  background: var(--sw);
+  position: relative;
+}
+.swatch__flag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.9);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 11px;
+}
+.swatch__body {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.swatch__name { font-size: 14px; font-weight: 500; color: var(--color-purple-600); }
+.swatch__hex { font-size: 12px; color: var(--color-neutral-600); }
+.swatch__var { color: var(--color-neutral-600); margin-top: 2px; }
+.swatch__aa {
+  margin-top: 6px;
+  display: inline-flex;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.swatch__aa.ok { background: rgba(24,126,123,0.1); color: #187e7b; }
+.swatch__aa.warn { background: rgba(186,54,64,0.1); color: #ba3640; }
+.swatch__copy {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 100px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.swatch:hover .swatch__copy { opacity: 1; }
+.swatch.copied .swatch__copy {
+  opacity: 1;
+  background: #187e7b;
+  content: 'Copied';
+}
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.swatch').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const cssVar = btn.dataset.var;
+      const value = `var(${cssVar})`;
+      try {
+        await navigator.clipboard.writeText(value);
+        const label = btn.querySelector('.swatch__copy');
+        if (label) label.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          if (label) label.textContent = 'Click to copy';
+        }, 1400);
+      } catch {
+        /* clipboard unavailable */
+      }
+    });
+  });
+</script>

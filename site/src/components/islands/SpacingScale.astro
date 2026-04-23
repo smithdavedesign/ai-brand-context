@@ -1,0 +1,39 @@
+---
+import { spacingScale } from '~/lib/tokens';
+---
+<div class="spacing-scale">
+  {spacingScale.map((s) => (
+    <div class="spacing-scale__row">
+      <span class="spacing-scale__label mono text-xs">{s.token}</span>
+      <div class="spacing-scale__bar" style={`width: ${s.value};`}></div>
+      <span class="spacing-scale__val mono text-xs">{s.value}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+.spacing-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--color-neutral-50);
+  border-radius: var(--border-radius-md, 16px);
+  padding: var(--space-5, 20px);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.spacing-scale__row {
+  display: grid;
+  grid-template-columns: 110px 1fr 70px;
+  align-items: center;
+  gap: var(--space-4, 16px);
+  padding: 6px 0;
+}
+.spacing-scale__label { color: var(--color-neutral-600); }
+.spacing-scale__bar {
+  height: 20px;
+  background: linear-gradient(90deg, var(--color-purple-500), var(--color-purple-400));
+  border-radius: 4px;
+  max-width: 100%;
+}
+.spacing-scale__val { color: var(--color-purple-600); font-weight: 500; }
+</style>

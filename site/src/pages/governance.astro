@@ -1,0 +1,194 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionHeader from '~/components/SectionHeader.astro';
+---
+<BaseLayout title="Governance" activeNav="governance">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Governance</span>
+      <h1 class="page-hero__title">How the system evolves.</h1>
+      <p class="page-hero__lede">
+        A design system is a living product. This is how we change it safely, track
+        ownership, and keep Figma and code in sync.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Contribution" title="Propose, review, land." />
+      <ol class="gov-steps">
+        <li>
+          <strong>Open a GitHub issue.</strong>
+          <p class="text-small muted">Describe the use case, show examples, name affected audiences.</p>
+        </li>
+        <li>
+          <strong>Triage with design + eng.</strong>
+          <p class="text-small muted">A weekly review. Decide: new token, new component, or pattern.</p>
+        </li>
+        <li>
+          <strong>Prototype in Figma first.</strong>
+          <p class="text-small muted">New components start in the Figma library. Tokens referenced, not redrawn.</p>
+        </li>
+        <li>
+          <strong>PR to the tokens repo.</strong>
+          <p class="text-small muted">JSON change + build output. ESLint and CI checks must pass.</p>
+        </li>
+        <li>
+          <strong>Version, publish, announce.</strong>
+          <p class="text-small muted">Semver bump, publish to GitHub Packages, changelog entry, team notification.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader eyebrow="Versioning" title="Semantic versioning for tokens." />
+      <table class="table">
+        <thead><tr><th>Change</th><th>Version bump</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Added</strong> — new token, new format</td>
+            <td><span class="badge badge--ok">minor</span></td>
+            <td>New semantic color <code>success</code></td>
+          </tr>
+          <tr>
+            <td><strong>Fixed</strong> — non-breaking correction</td>
+            <td><span class="badge badge--ok">patch</span></td>
+            <td>Typo in token description</td>
+          </tr>
+          <tr>
+            <td><strong>Changed</strong> — value shift without renaming</td>
+            <td><span class="badge badge--warn">minor or major</span></td>
+            <td>Solidigm Purple shade tweak (visual drift)</td>
+          </tr>
+          <tr>
+            <td><strong>Removed / renamed</strong> — breaking</td>
+            <td><span class="badge badge--warn">major</span></td>
+            <td>Rename <code>--color-purple-500</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="Ownership" title="Who maintains what." />
+      <table class="table">
+        <thead><tr><th>Area</th><th>Owner</th><th>Review cadence</th></tr></thead>
+        <tbody>
+          <tr><td>Brand guidelines, voice, logo</td><td>Brand team</td><td>Quarterly</td></tr>
+          <tr><td>Design tokens (JSON source)</td><td>Design systems team</td><td>Continuous</td></tr>
+          <tr><td>UI Toolkit CSS</td><td>Design systems team</td><td>Continuous</td></tr>
+          <tr><td>Figma library</td><td>Product design</td><td>Bi-weekly</td></tr>
+          <tr><td>ESLint plugin</td><td>Frontend platform</td><td>As needed</td></tr>
+          <tr><td>Tailwind preset</td><td>Frontend platform</td><td>As needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Change management"
+        title="Figma → tokens → build → publish → consume."
+        lede="Changes flow in one direction. The JSON source is always the final authority."
+      />
+      <div class="flow">
+        <div class="flow__step"><strong>Figma</strong><span>Design proposal</span></div>
+        <div class="flow__arrow">→</div>
+        <div class="flow__step"><strong>tokens/*.json</strong><span>Source of truth</span></div>
+        <div class="flow__arrow">→</div>
+        <div class="flow__step"><strong>build.js</strong><span>Transform to 6 formats</span></div>
+        <div class="flow__arrow">→</div>
+        <div class="flow__step"><strong>GitHub Packages</strong><span>Publish @1.x.y</span></div>
+        <div class="flow__arrow">→</div>
+        <div class="flow__step"><strong>Consumers</strong><span>npm install, rebuild</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Token drift"
+        title="Transparency beats hidden drift."
+        lede="When Figma and code diverge, we publish the diff before fixing. Visible drift is fixable drift."
+      />
+      <p class="muted">
+        See the current drift report:
+        <a href="https://github.com/solidigm/ai-brand-context/blob/main/docs/figma-token-diff.md">docs/figma-token-diff.md</a>.
+        Drift resolution follows the contribution flow above.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.gov-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 16px);
+}
+.gov-steps li {
+  counter-increment: step;
+  position: relative;
+  padding: var(--space-5, 20px) var(--space-5, 20px) var(--space-5, 20px) 80px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--border-radius-md, 16px);
+}
+.gov-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--color-purple-500);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Sora', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+.gov-steps strong { color: var(--color-purple-600); font-size: 16px; font-weight: 500; }
+.gov-steps p { margin: 4px 0 0; }
+
+.flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: var(--space-6, 24px);
+  border-radius: var(--border-radius-md, 16px);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.flow__step {
+  flex: 1;
+  min-width: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px;
+  background: var(--color-neutral-50);
+  border-radius: var(--border-radius-sm, 8px);
+}
+.flow__step strong { color: var(--color-purple-600); font-size: 14px; font-weight: 500; }
+.flow__step span { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--color-neutral-600); margin-top: 4px; }
+.flow__arrow { color: var(--color-purple-500); font-size: 24px; }
+@media (max-width: 640px) { .flow__arrow { display: none; } }
+</style>

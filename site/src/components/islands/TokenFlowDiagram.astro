@@ -1,0 +1,93 @@
+---
+// A decorative, zero-dependency animated flow: Token → Component → Page → Product
+---
+<div class="token-flow">
+  <div class="token-flow__step" style="--delay: 0s;">
+    <div class="token-flow__dot" style="background: var(--color-purple-500);"></div>
+    <span class="token-flow__label">Token</span>
+    <span class="token-flow__sub mono text-xs">--color-purple-500</span>
+  </div>
+  <div class="token-flow__arrow"></div>
+  <div class="token-flow__step" style="--delay: 0.3s;">
+    <div class="token-flow__dot" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-purple-400));">
+      <span style="color:#fff; font-size:10px; font-weight:600; letter-spacing:1px;">BTN</span>
+    </div>
+    <span class="token-flow__label">Component</span>
+    <span class="token-flow__sub mono text-xs">.tk-btn--primary</span>
+  </div>
+  <div class="token-flow__arrow"></div>
+  <div class="token-flow__step" style="--delay: 0.6s;">
+    <div class="token-flow__dot" style="background: var(--color-neutral-50); border: 1px solid rgba(0,0,0,0.08);">
+      <div style="width:20px; height:3px; background:var(--color-purple-500); border-radius:2px; margin-bottom:3px;"></div>
+      <div style="width:14px; height:2px; background:var(--color-neutral-300); border-radius:2px; margin-bottom:2px;"></div>
+      <div style="width:18px; height:2px; background:var(--color-neutral-300); border-radius:2px;"></div>
+    </div>
+    <span class="token-flow__label">Page</span>
+    <span class="token-flow__sub mono text-xs">Marketing, product, docs</span>
+  </div>
+  <div class="token-flow__arrow"></div>
+  <div class="token-flow__step" style="--delay: 0.9s;">
+    <div class="token-flow__dot" style="background: var(--color-blue-900); color:#fff;">
+      <span style="font-size:20px;">◆</span>
+    </div>
+    <span class="token-flow__label">Product</span>
+    <span class="token-flow__sub mono text-xs">Solidigm experience</span>
+  </div>
+</div>
+
+<style>
+.token-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3, 12px);
+  padding: var(--space-6, 24px);
+  background: #fff;
+  border-radius: var(--border-radius-md, 16px);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 40px rgba(22, 2, 49, 0.06);
+  flex-wrap: wrap;
+}
+.token-flow__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px;
+  flex: 1;
+  animation: flow-in 0.6s var(--delay, 0s) both ease;
+}
+.token-flow__dot {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(22,2,49,0.1);
+}
+.token-flow__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-purple-600);
+}
+.token-flow__sub { color: var(--color-neutral-600); }
+.token-flow__arrow {
+  flex: 0 0 24px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-purple-500), var(--color-purple-400));
+  border-radius: 2px;
+  opacity: 0.4;
+}
+@keyframes flow-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 640px) {
+  .token-flow__arrow { display: none; }
+  .token-flow__step { min-width: 44%; }
+}
+</style>

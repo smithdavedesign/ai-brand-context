@@ -1,0 +1,37 @@
+---
+interface Props {
+  active?: 'home' | 'brand' | 'tokens' | 'toolkit' | 'patterns' | 'usage' | 'governance';
+}
+const { active = 'home' } = Astro.props;
+
+const links = [
+  { href: '/brand', label: 'Brand', key: 'brand' },
+  { href: '/tokens', label: 'Tokens', key: 'tokens' },
+  { href: '/toolkit', label: 'UI Toolkit', key: 'toolkit' },
+  { href: '/patterns', label: 'Patterns', key: 'patterns' },
+  { href: '/usage', label: 'Usage', key: 'usage' },
+  { href: '/governance', label: 'Governance', key: 'governance' },
+];
+---
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__brand" aria-label="Solidigm Design System home">
+      <span class="nav__brand-mark">S</span>
+      <span>Solidigm <span style="color: var(--color-neutral-600); font-weight: 300;">· Design System</span></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class={`nav__link ${active === l.key ? 'nav__link--active' : ''}`}
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+    <a href="https://github.com/solidigm/ai-brand-context" class="btn btn--secondary btn--sm nav__cta">
+      GitHub ↗
+    </a>
+  </div>
+</header>

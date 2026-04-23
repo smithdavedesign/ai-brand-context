@@ -1,0 +1,170 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+
+const groups = [
+  {
+    title: 'Text',
+    items: [
+      { cls: 'u-text-primary', desc: 'Solidigm Purple text' },
+      { cls: 'u-text-secondary', desc: 'Dark Blue text' },
+      { cls: 'u-text-error', desc: 'Semantic error text' },
+      { cls: 'u-text-white', desc: 'White text' },
+      { cls: 'u-text-center', desc: 'Center-align text' },
+      { cls: 'u-text-right', desc: 'Right-align text' },
+      { cls: 'u-uppercase', desc: 'Uppercase transform' },
+      { cls: 'u-lowercase', desc: 'Lowercase transform' },
+      { cls: 'u-no-underline', desc: 'Remove underline' },
+      { cls: 'u-text-xs', desc: '12px text' },
+      { cls: 'u-text-sm', desc: '14px text' },
+      { cls: 'u-text-base', desc: '16px text' },
+      { cls: 'u-text-lg', desc: '18px text' },
+      { cls: 'u-text-xl', desc: '20px text' },
+      { cls: 'u-text-caption', desc: 'Caption — 16px / 20px' },
+      { cls: 'u-font-bold', desc: 'Bold weight' },
+      { cls: 'u-font-medium', desc: 'Medium weight' },
+    ],
+  },
+  {
+    title: 'Background',
+    items: [
+      { cls: 'u-bg-primary', desc: 'Purple background' },
+      { cls: 'u-bg-neutral', desc: 'Light neutral background' },
+      { cls: 'u-bg-error', desc: 'Error background' },
+    ],
+  },
+  {
+    title: 'Layout',
+    items: [
+      { cls: 'u-flex', desc: 'display: flex' },
+      { cls: 'u-inline-flex', desc: 'display: inline-flex' },
+      { cls: 'u-block', desc: 'display: block' },
+      { cls: 'u-inline-block', desc: 'display: inline-block' },
+      { cls: 'u-hidden', desc: 'display: none' },
+      { cls: 'u-relative', desc: 'position: relative' },
+      { cls: 'u-absolute', desc: 'position: absolute' },
+      { cls: 'u-items-center', desc: 'align-items: center' },
+      { cls: 'u-justify-center', desc: 'justify-content: center' },
+      { cls: 'u-justify-between', desc: 'justify-content: space-between' },
+      { cls: 'u-flex-col', desc: 'flex-direction: column' },
+      { cls: 'u-flex-wrap', desc: 'flex-wrap: wrap' },
+      { cls: 'u-w-full', desc: 'width: 100%' },
+      { cls: 'u-h-full', desc: 'height: 100%' },
+      { cls: 'u-max-w-screen', desc: 'max-width: 1920px' },
+    ],
+  },
+  {
+    title: 'Spacing',
+    items: [
+      { cls: 'u-p-4', desc: 'padding: 16px' },
+      { cls: 'u-p-8', desc: 'padding: 32px' },
+      { cls: 'u-p-16', desc: 'padding: 96px' },
+      { cls: 'u-m-4', desc: 'margin: 16px' },
+      { cls: 'u-m-8', desc: 'margin: 32px' },
+      { cls: 'u-m-16', desc: 'margin: 96px' },
+      { cls: 'u-mb-0', desc: 'margin-bottom: 0' },
+      { cls: 'u-mt-0', desc: 'margin-top: 0' },
+      { cls: 'u-mt-auto', desc: 'margin-top: auto' },
+      { cls: 'u-ml-auto', desc: 'margin-left: auto' },
+      { cls: 'u-mr-auto', desc: 'margin-right: auto' },
+      { cls: 'u-mx-auto', desc: 'horizontal auto centering' },
+    ],
+  },
+  {
+    title: 'Radius',
+    items: [
+      { cls: 'u-round-md', desc: 'border-radius: 16px' },
+    ],
+  },
+  {
+    title: 'Responsive',
+    items: [
+      { cls: 'u-hidden-mobile', desc: 'Hidden below 768px' },
+      { cls: 'u-hidden-desktop', desc: 'Hidden at 768px and up' },
+    ],
+  },
+  {
+    title: 'Effects',
+    items: [
+      { cls: 'u-transition', desc: 'Smooth all-property transition' },
+      { cls: 'u-hover-scale', desc: 'Scale 1.02 on hover' },
+    ],
+  },
+];
+---
+<BaseLayout title="Toolkit Utilities" activeNav="toolkit">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--toolkit">UI Toolkit</span>
+      <h1 class="page-hero__title">Utilities.</h1>
+      <p class="page-hero__lede">
+        Single-purpose classes for quick layout, spacing, color, and responsive tweaks.
+        Filter by keyword to find what you need.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Toolkit</h4>
+          <ul>
+            <li><a href="/toolkit">Overview</a></li>
+            <li><a href="/toolkit/foundations">Foundations</a></li>
+            <li><a href="/toolkit/components">Components</a></li>
+            <li><a href="/toolkit/utilities" class="active">Utilities</a></li>
+          </ul>
+          <h4>Groups</h4>
+          <ul>
+            {groups.map((g) => (
+              <li><a href={`#${g.title.toLowerCase()}`}>{g.title}</a></li>
+            ))}
+          </ul>
+        </aside>
+        <div>
+          <input
+            id="utilFilter"
+            type="search"
+            placeholder="Filter utilities… (e.g. flex, bg, text)"
+            style="width:100%; max-width:420px; padding:12px 16px; font:inherit; font-size:14px; border:1px solid rgba(0,0,0,0.12); border-radius:8px; margin-bottom:32px;"
+          />
+          {groups.map((g) => (
+            <section id={g.title.toLowerCase()} data-util-group={g.title} style="margin-bottom: var(--space-8, 32px);">
+              <h2 style="font-family:Sora; font-weight:300; font-size:28px; color:var(--color-purple-600); margin:0 0 12px;">{g.title}</h2>
+              <table class="table">
+                <thead><tr><th>Class</th><th>Effect</th></tr></thead>
+                <tbody>
+                  {g.items.map((i) => (
+                    <tr data-util-row data-util-search={`${i.cls} ${i.desc}`.toLowerCase()}>
+                      <td><code>{i.cls}</code></td>
+                      <td class="muted">{i.desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const input = document.getElementById('utilFilter') as HTMLInputElement | null;
+  if (input) {
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      const rows = document.querySelectorAll<HTMLElement>('[data-util-row]');
+      rows.forEach((r) => {
+        const haystack = r.dataset.utilSearch ?? '';
+        r.hidden = q.length > 0 && !haystack.includes(q);
+      });
+      // Hide group sections if all rows are hidden
+      document.querySelectorAll<HTMLElement>('[data-util-group]').forEach((section) => {
+        const visibleRows = section.querySelectorAll<HTMLElement>('[data-util-row]:not([hidden])');
+        section.hidden = visibleRows.length === 0;
+      });
+    });
+  }
+</script>

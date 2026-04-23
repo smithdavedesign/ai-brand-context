@@ -1,0 +1,120 @@
+---
+import { getTypeTokens } from '~/lib/tokens';
+
+const tokens = getTypeTokens();
+const desktop = tokens.filter((t) => t.scale === 'Desktop');
+const mobile = tokens.filter((t) => t.scale === 'Mobile');
+---
+<div class="type-specimen">
+  <div class="type-specimen__toggle" role="tablist">
+    <button class="type-specimen__tab is-active" data-scale="desktop" role="tab" aria-selected="true">Desktop</button>
+    <button class="type-specimen__tab" data-scale="mobile" role="tab" aria-selected="false">Mobile</button>
+  </div>
+
+  <div class="type-specimen__list" data-scale-list="desktop">
+    {desktop.map((t) => (
+      <div class="type-specimen__row">
+        <div class="type-specimen__meta">
+          <strong>{t.name}</strong>
+          <span class="mono text-xs muted">
+            {t.fontSize} · {t.fontWeight} · {t.lineHeight}
+            {t.textTransform !== 'none' && ` · ${t.textTransform}`}
+          </span>
+        </div>
+        <div
+          class="type-specimen__sample"
+          style={`font-family: Sora, sans-serif; font-size: min(${t.fontSize}, 10vw); font-weight: ${t.fontWeight}; line-height: ${t.lineHeight.endsWith('%') ? t.lineHeight : t.lineHeight}; letter-spacing: ${t.letterSpacing}; text-transform: ${t.textTransform};`}
+        >
+          The quick brown fox
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="type-specimen__list" data-scale-list="mobile" hidden>
+    {mobile.map((t) => (
+      <div class="type-specimen__row">
+        <div class="type-specimen__meta">
+          <strong>{t.name}</strong>
+          <span class="mono text-xs muted">
+            {t.fontSize} · {t.fontWeight} · {t.lineHeight}
+            {t.textTransform !== 'none' && ` · ${t.textTransform}`}
+          </span>
+        </div>
+        <div
+          class="type-specimen__sample"
+          style={`font-family: Sora, sans-serif; font-size: min(${t.fontSize}, 10vw); font-weight: ${t.fontWeight}; line-height: ${t.lineHeight.endsWith('%') ? t.lineHeight : t.lineHeight}; letter-spacing: ${t.letterSpacing}; text-transform: ${t.textTransform};`}
+        >
+          The quick brown fox
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+.type-specimen__toggle {
+  display: inline-flex;
+  background: var(--color-neutral-50);
+  padding: 4px;
+  border-radius: 100px;
+  margin-bottom: var(--space-6, 24px);
+}
+.type-specimen__tab {
+  background: transparent;
+  border: 0;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--color-neutral-600);
+  transition: background 0.15s, color 0.15s;
+}
+.type-specimen__tab.is-active {
+  background: var(--color-purple-500);
+  color: #fff;
+}
+.type-specimen__row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--space-6, 24px);
+  padding: var(--space-5, 20px) 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  align-items: baseline;
+}
+@media (max-width: 767px) {
+  .type-specimen__row { grid-template-columns: 1fr; }
+}
+.type-specimen__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+}
+.type-specimen__sample {
+  color: var(--color-purple-600);
+  overflow-wrap: anywhere;
+}
+</style>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.type-specimen__tab');
+  const lists = document.querySelectorAll<HTMLElement>('[data-scale-list]');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const scale = tab.dataset.scale;
+      tabs.forEach((t) => {
+        const active = t === tab;
+        t.classList.toggle('is-active', active);
+        t.setAttribute('aria-selected', String(active));
+      });
+      lists.forEach((l) => {
+        l.hidden = l.dataset.scaleList !== scale;
+      });
+    });
+  });
+</script>

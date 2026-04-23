@@ -1,0 +1,162 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ComponentPreview from '~/components/islands/ComponentPreview.astro';
+---
+<BaseLayout title="Toolkit Components" activeNav="toolkit">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--toolkit">UI Toolkit</span>
+      <h1 class="page-hero__title">Components.</h1>
+      <p class="page-hero__lede">
+        Pre-built HTML patterns with states and variants, organized by atomic design. Each
+        has a live preview, source code, and usage guidance.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Toolkit</h4>
+          <ul>
+            <li><a href="/toolkit">Overview</a></li>
+            <li><a href="/toolkit/foundations">Foundations</a></li>
+            <li><a href="/toolkit/components" class="active">Components</a></li>
+            <li><a href="/toolkit/utilities">Utilities</a></li>
+          </ul>
+          <h4>Atoms</h4>
+          <ul>
+            <li><a href="#buttons">Buttons</a></li>
+            <li><a href="#headings">Headings</a></li>
+          </ul>
+          <h4>Molecules</h4>
+          <ul>
+            <li><a href="#form-field">Form field</a></li>
+            <li><a href="#card">Card</a></li>
+          </ul>
+          <h4>Organisms</h4>
+          <ul>
+            <li><a href="#hero">Hero section</a></li>
+          </ul>
+        </aside>
+        <div class="stack-lg">
+          <!-- BUTTONS -->
+          <section id="buttons">
+            <span class="eyebrow">Atom</span>
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:8px 0 8px;">Button</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Trigger an action or navigation. Use <em>Primary</em> for
+              the single most important action per view; <em>Secondary</em> for supporting
+              actions.
+            </p>
+            <ComponentPreview
+              title="Primary & Secondary"
+              html={`<button class="tk-btn tk-btn--primary">Primary action</button>
+<button class="tk-btn tk-btn--secondary">Secondary action</button>`}
+            />
+            <h4 style="margin:24px 0 8px; font-size:14px; letter-spacing:1px; text-transform:uppercase; color:var(--color-neutral-600);">Variants</h4>
+            <table class="table">
+              <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>.tk-btn</code></td><td>Base button styling</td></tr>
+                <tr><td><code>.tk-btn--primary</code></td><td>Primary action (purple fill)</td></tr>
+                <tr><td><code>.tk-btn--secondary</code></td><td>Secondary action (outline)</td></tr>
+              </tbody>
+            </table>
+            <div class="dodont" style="margin-top: var(--space-6, 24px);">
+              <div class="dodont__item dodont__item--do">
+                <div class="dodont__preview"><button class="tk-btn tk-btn--primary">Get started</button></div>
+                <div class="dodont__label">Do</div>
+                <div class="dodont__note">One primary button per view — for the most important action.</div>
+              </div>
+              <div class="dodont__item dodont__item--dont">
+                <div class="dodont__preview" style="display:flex; gap:8px;">
+                  <button class="tk-btn tk-btn--primary">Save</button>
+                  <button class="tk-btn tk-btn--primary">Export</button>
+                  <button class="tk-btn tk-btn--primary">Share</button>
+                </div>
+                <div class="dodont__label">Don't</div>
+                <div class="dodont__note">Three primaries compete — the user can't tell what matters most.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- HEADINGS -->
+          <section id="headings">
+            <span class="eyebrow">Atom</span>
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:8px 0 8px;">Headings</h2>
+            <p class="muted" style="max-width:720px;">
+              Use native <code>h1</code>–<code>h6</code>. The toolkit applies fluid sizing,
+              Dark Purple color, and Sora family automatically.
+            </p>
+            <ComponentPreview
+              title="Heading hierarchy"
+              html={`<h1>H1 — Page title</h1>
+<h2>H2 — Section</h2>
+<h3>H3 — Subsection</h3>
+<p>Body text — default paragraph style in the toolkit.</p>`}
+            />
+          </section>
+
+          <!-- FORM FIELD -->
+          <section id="form-field">
+            <span class="eyebrow">Molecule</span>
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:8px 0 8px;">Form field</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Collect structured input. Pair a <code>label</code>,
+              an <code>input</code>, and optional error text.
+            </p>
+            <ComponentPreview
+              title="Text input"
+              html={`<label style="display:flex; flex-direction:column; gap:6px; max-width:320px;">
+  <span style="font-size:12px; letter-spacing:1px; text-transform:uppercase; color:#52514f; font-weight:600;">Email</span>
+  <input type="email" placeholder="you@solidigm.com" style="padding:10px 12px; border:1px solid #a5a29d; border-radius:8px; font:inherit;" />
+  <span class="u-text-error" style="font-size:12px;">Please enter a valid email.</span>
+</label>`}
+            />
+          </section>
+
+          <!-- CARD -->
+          <section id="card">
+            <span class="eyebrow">Molecule</span>
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:8px 0 8px;">Card</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Group related content into a surface. Use
+              <code>.u-round-md</code> with a border and padding.
+            </p>
+            <ComponentPreview
+              title="Content card"
+              html={`<div class="u-p-8 u-round-md" style="background:#fff; border:1px solid rgba(0,0,0,0.08); max-width:320px;">
+  <span style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#4f00b5; font-weight:600;">Feature</span>
+  <h3 style="margin:8px 0; font-size:22px;">Card title</h3>
+  <p style="color:#52514f; font-size:14px; margin:0 0 16px;">Short supporting copy that explains what this card is about.</p>
+  <button class="tk-btn tk-btn--secondary">Learn more</button>
+</div>`}
+            />
+          </section>
+
+          <!-- HERO -->
+          <section id="hero">
+            <span class="eyebrow">Organism</span>
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:8px 0 8px;">Hero section</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Anchor a page. Left-aligned copy, a clear primary
+              action, and one supporting action.
+            </p>
+            <ComponentPreview
+              title="Marketing hero"
+              html={`<section class="u-p-16" style="background:#f5f3f1; border-radius:16px;">
+  <span style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#4f00b5; font-weight:600;">New release</span>
+  <h1 style="max-width:18ch; margin:12px 0;">Paradigm shift, realized.</h1>
+  <p style="max-width:52ch; color:#52514f; margin-bottom:24px;">Solidigm unlocks data's virtually unlimited potential through advancements in storage technology.</p>
+  <button class="tk-btn tk-btn--primary">Explore products</button>
+  <button class="tk-btn tk-btn--secondary" style="margin-left:8px;">Read whitepaper</button>
+</section>`}
+            />
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

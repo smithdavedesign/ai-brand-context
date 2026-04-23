@@ -1,0 +1,127 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SpacingScale from '~/components/islands/SpacingScale.astro';
+import { radiusScale } from '~/lib/tokens';
+---
+<BaseLayout title="Spacing & Radius" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">NPM Package</span>
+      <h1 class="page-hero__title">Spacing & radius.</h1>
+      <p class="page-hero__lede">
+        A 4-pixel base scale that keeps every layout visually rhythmic. Three radius tokens
+        for buttons, cards, and modals.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens">Overview</a></li>
+            <li><a href="/tokens/colors">Colors</a></li>
+            <li><a href="/tokens/typography">Typography</a></li>
+            <li><a href="/tokens/spacing" class="active">Spacing & Radius</a></li>
+            <li><a href="/tokens/usage">Install & usage</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#scale">Spacing scale</a></li>
+            <li><a href="#grid">Grid system</a></li>
+            <li><a href="#radius">Border radius</a></li>
+            <li><a href="#planned">Planned</a></li>
+          </ul>
+        </aside>
+        <div class="stack-lg">
+          <section id="scale">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Spacing scale</h2>
+            <p class="muted" style="max-width:720px;">
+              17 steps from <code>0</code> to <code>96px</code>. Use these tokens for padding,
+              margins, and gaps. Click-and-drag values into any codebase via the CSS
+              custom-property names.
+            </p>
+            <SpacingScale />
+          </section>
+
+          <section id="grid">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Grid system</h2>
+            <p class="muted" style="max-width:720px;">
+              Two canonical viewports. Designers compose in these; engineers match breakpoints.
+            </p>
+            <div class="grid grid--2">
+              <div class="card">
+                <span class="eyebrow">Desktop</span>
+                <h3 style="font-family:Sora; font-weight:300; font-size:24px; margin:8px 0 16px;">1920 × 12 columns</h3>
+                <table class="table">
+                  <tbody>
+                    <tr><td>Viewport</td><td><code>1920px</code></td></tr>
+                    <tr><td>Columns</td><td><code>12</code></td></tr>
+                    <tr><td>Margin</td><td><code>80px</code></td></tr>
+                    <tr><td>Gutter</td><td><code>20px</code></td></tr>
+                    <tr><td>Component padding</td><td><code>150px</code></td></tr>
+                    <tr><td>Text padding</td><td><code>40px</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card">
+                <span class="eyebrow">Mobile</span>
+                <h3 style="font-family:Sora; font-weight:300; font-size:24px; margin:8px 0 16px;">393 × 5 columns</h3>
+                <table class="table">
+                  <tbody>
+                    <tr><td>Viewport</td><td><code>393px</code></td></tr>
+                    <tr><td>Columns</td><td><code>5</code></td></tr>
+                    <tr><td>Margin</td><td><code>20px</code></td></tr>
+                    <tr><td>Gutter</td><td><code>20px</code></td></tr>
+                    <tr><td>Component padding</td><td><code>70px</code></td></tr>
+                    <tr><td>Text padding</td><td><code>30px</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section id="radius">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Border radius</h2>
+            <p class="muted" style="max-width:720px;">
+              Three presets cover every surface in the system today.
+            </p>
+            <div class="grid grid--3">
+              {radiusScale.map((r) => (
+                <div class="card" style="text-align:center;">
+                  <div style={`width:100px; height:100px; background:var(--color-purple-500); border-radius:${r.value}; margin:0 auto;`}></div>
+                  <div class="mono" style="margin-top:12px; color:var(--color-purple-600); font-weight:500;">{r.token}</div>
+                  <div class="text-xs muted">{r.value}</div>
+                  <div class="text-small" style="margin-top:8px;">{r.use}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="planned">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Planned</h2>
+            <div class="grid grid--3">
+              <div class="card">
+                <span class="badge badge--planned">Planned</span>
+                <h4 style="margin:8px 0; font-size:18px;">Elevation</h4>
+                <p class="text-small muted">Shadow scale for raised surfaces, popovers, modals.</p>
+              </div>
+              <div class="card">
+                <span class="badge badge--planned">Planned</span>
+                <h4 style="margin:8px 0; font-size:18px;">Motion</h4>
+                <p class="text-small muted">Duration and easing tokens for consistent motion.</p>
+              </div>
+              <div class="card">
+                <span class="badge badge--planned">Planned</span>
+                <h4 style="margin:8px 0; font-size:18px;">Semantic backgrounds</h4>
+                <p class="text-small muted">Named page treatments (informative, branded, inspirational).</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

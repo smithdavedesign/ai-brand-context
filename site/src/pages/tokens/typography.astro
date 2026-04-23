@@ -1,0 +1,148 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import TypeSpecimen from '~/components/islands/TypeSpecimen.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+
+const drifts = [
+  { token: 'DT Headline 2', property: 'lineHeight', source: '110%', figma: '72px', status: 'warn' },
+  { token: 'DT Accordion', property: 'fontWeight', source: '200', figma: '300', status: 'warn' },
+  { token: 'DT Caption', property: 'fontSize', source: '14px', figma: '16px', status: 'warn' },
+  { token: 'DT Caption', property: 'fontWeight', source: '200', figma: '300', status: 'warn' },
+  { token: 'DT Disclaimer', property: 'fontWeight', source: '200', figma: '300', status: 'warn' },
+];
+---
+<BaseLayout title="Typography Tokens" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">NPM Package</span>
+      <h1 class="page-hero__title">Typography tokens.</h1>
+      <p class="page-hero__lede">
+        28 type styles — 14 desktop, 14 mobile — built on Sora. Each style is a complete
+        composition: size, weight, line-height, letter-spacing, transform.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens">Overview</a></li>
+            <li><a href="/tokens/colors">Colors</a></li>
+            <li><a href="/tokens/typography" class="active">Typography</a></li>
+            <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/usage">Install & usage</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#family">Font family</a></li>
+            <li><a href="#specimen">Type specimen</a></li>
+            <li><a href="#drift">Figma drift</a></li>
+            <li><a href="#source">Source</a></li>
+          </ul>
+        </aside>
+        <div class="stack-lg">
+          <section id="family">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Font family</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Sora</strong> — free from Google Fonts. Used across every digital surface.
+              Weight, not decoration, creates hierarchy.
+            </p>
+            <div class="weight-grid">
+              {[
+                { w: 200, n: 'ExtraLight — headlines' },
+                { w: 300, n: 'Light — body' },
+                { w: 400, n: 'Regular — body' },
+                { w: 600, n: 'SemiBold — labels, buttons' },
+                { w: 700, n: 'Bold — breadcrumbs' },
+              ].map((s) => (
+                <div class="weight-card">
+                  <div style={`font-family:Sora; font-weight:${s.w}; font-size:48px; line-height:1; color:var(--color-purple-600);`}>Aa</div>
+                  <div class="mono text-xs muted" style="margin-top:8px;">{s.w}</div>
+                  <div class="text-xs" style="margin-top:4px; color:var(--color-neutral-600);">{s.n}</div>
+                </div>
+              ))}
+            </div>
+            <p class="text-small muted" style="margin-top: var(--space-4, 16px);">
+              CJK languages: <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a>.
+              MS Office only: Avenir Next LT Pro.
+            </p>
+          </section>
+
+          <section id="specimen">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Type specimen</h2>
+            <p class="muted" style="max-width:720px; margin-bottom: var(--space-5, 20px);">
+              Live rendering of every token. Toggle between desktop and mobile scales.
+            </p>
+            <TypeSpecimen />
+          </section>
+
+          <section id="drift">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">
+              Figma 3.0 drift
+            </h2>
+            <p class="muted" style="max-width:720px;">
+              Transparent record of places where the latest Figma library differs from the
+              source tokens. Resolution requires a design-system decision on which value is
+              authoritative. Full report: <a href="https://github.com/solidigm/ai-brand-context/blob/main/docs/figma-token-diff.md">figma-token-diff.md</a>.
+            </p>
+            <table class="table" style="margin-top: var(--space-4, 16px);">
+              <thead>
+                <tr><th>Token</th><th>Property</th><th>Source JSON</th><th>Figma 3.0</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                {drifts.map((d) => (
+                  <tr>
+                    <td><strong>{d.token}</strong></td>
+                    <td><code>{d.property}</code></td>
+                    <td><code>{d.source}</code></td>
+                    <td><code>{d.figma}</code></td>
+                    <td><span class="badge badge--warn">Mismatch</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="source">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Source</h2>
+            <CodeBlock lang="json" filename="tokens/typography.json (excerpt)" code={`{
+  "Desktop": {
+    "DT Hero": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Sora",
+        "fontSize": "112px",
+        "fontWeight": 200,
+        "letterSpacing": "0px",
+        "lineHeight": "110%",
+        "textTransform": "capitalize",
+        "textDecoration": "none"
+      }
+    }
+  }
+}`} />
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.weight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3, 12px);
+  margin-top: var(--space-4, 16px);
+}
+.weight-card {
+  padding: var(--space-4, 16px);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--border-radius-sm, 8px);
+  text-align: center;
+  background: #fff;
+}
+</style>

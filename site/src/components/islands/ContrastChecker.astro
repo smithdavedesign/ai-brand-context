@@ -1,0 +1,129 @@
+---
+import { getColorTokens, contrastRatio } from '~/lib/tokens';
+const colors = getColorTokens();
+const defaultFg = colors.find((c) => c.name === 'Solidigm Purple')!;
+const defaultBg = colors.find((c) => c.name === 'White')!;
+---
+<div class="contrast-checker" id="contrastChecker">
+  <div class="contrast-checker__controls">
+    <label>
+      <span class="eyebrow">Text</span>
+      <select data-role="fg">
+        {colors.map((c) => (
+          <option value={c.hex} selected={c.name === defaultFg.name}>{c.name} ({c.hex})</option>
+        ))}
+      </select>
+    </label>
+    <label>
+      <span class="eyebrow">Background</span>
+      <select data-role="bg">
+        {colors.map((c) => (
+          <option value={c.hex} selected={c.name === defaultBg.name}>{c.name} ({c.hex})</option>
+        ))}
+      </select>
+    </label>
+  </div>
+  <div class="contrast-checker__preview" data-role="preview" style={`background: ${defaultBg.hex}; color: ${defaultFg.hex};`}>
+    <div style="font-size: 28px; font-weight: 300; margin-bottom: 8px;">The quick brown fox jumps</div>
+    <div style="font-size: 14px;">Body text at 14px — the smaller the text, the higher the ratio needed.</div>
+  </div>
+  <div class="contrast-checker__result" data-role="result">
+    <div class="contrast-checker__ratio" data-role="ratio">—</div>
+    <div class="contrast-checker__badges">
+      <span class="badge" data-role="aa-normal">AA Normal</span>
+      <span class="badge" data-role="aa-large">AA Large</span>
+      <span class="badge" data-role="aaa-normal">AAA Normal</span>
+    </div>
+    <p class="text-small muted">WCAG 2.1 minimums: AA Normal 4.5:1 · AA Large 3:1 · AAA Normal 7:1</p>
+  </div>
+</div>
+
+<style>
+.contrast-checker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5, 20px);
+  background: var(--color-neutral-50);
+  padding: var(--space-6, 24px);
+  border-radius: var(--border-radius-md, 16px);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+@media (max-width: 767px) { .contrast-checker { grid-template-columns: 1fr; } }
+.contrast-checker__controls { display: flex; flex-direction: column; gap: var(--space-4, 16px); grid-column: 1 / -1; }
+.contrast-checker__controls label { display: flex; flex-direction: column; gap: 4px; }
+.contrast-checker__controls select {
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #fff;
+}
+.contrast-checker__preview {
+  padding: var(--space-8, 32px);
+  border-radius: var(--border-radius-md, 16px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 180px;
+}
+.contrast-checker__result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3, 12px);
+}
+.contrast-checker__ratio {
+  font-family: 'Sora', sans-serif;
+  font-size: 48px;
+  font-weight: 200;
+  color: var(--color-purple-600);
+}
+.contrast-checker__badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.contrast-checker__badges .badge--ok { background: rgba(24,126,123,0.12); color: #187e7b; border-color: rgba(24,126,123,0.3); }
+.contrast-checker__badges .badge--fail { background: rgba(186,54,64,0.1); color: #ba3640; border-color: rgba(186,54,64,0.3); }
+</style>
+
+<script>
+  const host = document.getElementById('contrastChecker');
+  if (host) {
+    const fg = host.querySelector<HTMLSelectElement>('[data-role="fg"]')!;
+    const bg = host.querySelector<HTMLSelectElement>('[data-role="bg"]')!;
+    const preview = host.querySelector<HTMLElement>('[data-role="preview"]')!;
+    const ratioEl = host.querySelector<HTMLElement>('[data-role="ratio"]')!;
+    const aaN = host.querySelector<HTMLElement>('[data-role="aa-normal"]')!;
+    const aaL = host.querySelector<HTMLElement>('[data-role="aa-large"]')!;
+    const aaaN = host.querySelector<HTMLElement>('[data-role="aaa-normal"]')!;
+
+    const L = (hex: string) => {
+      const h = hex.replace('#', '');
+      const r = parseInt(h.substring(0, 2), 16) / 255;
+      const g = parseInt(h.substring(2, 4), 16) / 255;
+      const b = parseInt(h.substring(4, 6), 16) / 255;
+      const lin = (c: number) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+      return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+    };
+    const ratio = (a: string, b: string) => {
+      const [la, lb] = [L(a), L(b)].sort((x, y) => y - x);
+      return (la + 0.05) / (lb + 0.05);
+    };
+    const setBadge = (el: HTMLElement, pass: boolean) => {
+      el.classList.toggle('badge--ok', pass);
+      el.classList.toggle('badge--fail', !pass);
+      el.textContent = el.dataset.role!.replace('-', ' ').toUpperCase() + (pass ? ' ✓' : ' ✗');
+    };
+
+    const update = () => {
+      const r = ratio(fg.value, bg.value);
+      preview.style.background = bg.value;
+      preview.style.color = fg.value;
+      ratioEl.textContent = `${r.toFixed(2)}:1`;
+      setBadge(aaN, r >= 4.5);
+      setBadge(aaL, r >= 3);
+      setBadge(aaaN, r >= 7);
+    };
+    fg.addEventListener('change', update);
+    bg.addEventListener('change', update);
+    update();
+  }
+</script>

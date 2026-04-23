@@ -1,0 +1,87 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ComponentPreview from '~/components/islands/ComponentPreview.astro';
+---
+<BaseLayout title="Toolkit Foundations" activeNav="toolkit">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--toolkit">UI Toolkit</span>
+      <h1 class="page-hero__title">Foundations.</h1>
+      <p class="page-hero__lede">
+        The raw ingredients built into the toolkit CSS — fluid typography, color utilities,
+        spacing helpers. All wired to the token system.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Toolkit</h4>
+          <ul>
+            <li><a href="/toolkit">Overview</a></li>
+            <li><a href="/toolkit/foundations" class="active">Foundations</a></li>
+            <li><a href="/toolkit/components">Components</a></li>
+            <li><a href="/toolkit/utilities">Utilities</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#typography">Typography</a></li>
+            <li><a href="#colors">Color utilities</a></li>
+            <li><a href="#spacing">Spacing</a></li>
+          </ul>
+        </aside>
+        <div class="stack-lg">
+          <section id="typography">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Typography</h2>
+            <p class="muted" style="max-width:720px;">
+              Native <code>h1</code>–<code>h6</code> are styled with fluid <code>clamp()</code>
+              sizing — they scale smoothly from mobile to desktop without breakpoints.
+            </p>
+            <ComponentPreview
+              title="Headings (h1–h6)"
+              html={`<h1>Heading 1 — fluid</h1>
+<h2>Heading 2 — fluid</h2>
+<h3>Heading 3 — fluid</h3>
+<h4>Heading 4 — fluid</h4>
+<h5>Heading 5 — fluid</h5>
+<h6>Heading 6 — fluid</h6>`}
+            />
+          </section>
+
+          <section id="colors">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Color utilities</h2>
+            <p class="muted" style="max-width:720px;">
+              Single-purpose classes for foreground and background colors.
+            </p>
+            <ComponentPreview
+              title="Text color"
+              html={`<p class="u-text-primary">Primary purple text</p>
+<p class="u-text-secondary">Dark blue text</p>
+<p class="u-text-error">Error text</p>`}
+            />
+            <ComponentPreview
+              title="Background color"
+              html={`<div class="u-bg-primary u-p-4 u-text-white u-round-md">Primary purple</div>
+<div class="u-bg-neutral u-p-4 u-round-md" style="margin-top:8px;">Light neutral</div>`}
+            />
+          </section>
+
+          <section id="spacing">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Spacing</h2>
+            <p class="muted" style="max-width:720px;">
+              Padding and margin utilities use the token scale.
+            </p>
+            <ComponentPreview
+              title="Padding & margin"
+              html={`<div class="u-p-4 u-bg-primary u-text-white u-round-md">.u-p-4 (16px padding)</div>
+<div class="u-p-8 u-bg-primary u-text-white u-round-md" style="margin-top:8px;">.u-p-8 (32px padding)</div>
+<div class="u-p-16 u-bg-primary u-text-white u-round-md" style="margin-top:8px;">.u-p-16 (96px padding)</div>`}
+            />
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

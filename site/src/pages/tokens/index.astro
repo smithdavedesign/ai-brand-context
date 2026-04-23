@@ -1,0 +1,124 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionHeader from '~/components/SectionHeader.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+import TokenFlowDiagram from '~/components/islands/TokenFlowDiagram.astro';
+
+const tokenJsonExample = `{
+  "Dark": {
+    "Solidigm Purple": {
+      "$type": "color",
+      "$value": "#4f00b5"
+    }
+  }
+}`;
+---
+<BaseLayout title="Design Tokens" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">NPM Package · @solidigm/brand-tokens</span>
+      <h1 class="page-hero__title">Design Tokens.</h1>
+      <p class="page-hero__lede">
+        The smallest reusable pieces of the brand — colors, type, spacing — stored once,
+        used everywhere. Think of them as <em>design DNA</em>: the same token powers your
+        Figma file, your website, your product UI, and your marketing emails.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens" class="active">Overview</a></li>
+            <li><a href="/tokens/colors">Colors</a></li>
+            <li><a href="/tokens/typography">Typography</a></li>
+            <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/usage">Install & usage</a></li>
+          </ul>
+        </aside>
+        <div>
+          <h2 style="font-family:Sora; font-weight:300; font-size:36px; color:var(--color-purple-600); margin:0 0 16px;">
+            What is a design token?
+          </h2>
+          <p style="font-size:18px; line-height:1.6; color:var(--color-neutral-600); max-width:720px;">
+            A design token is a <strong>named value</strong> for a design decision. Instead
+            of writing <code>#4f00b5</code> in 40 places, you name it once —
+            <code>--color-purple-500</code> — and reference the name.
+          </p>
+          <p class="muted" style="max-width:720px;">
+            When the brand evolves, you change one token. Everywhere that used it updates
+            automatically: Figma, code, marketing pages, internal tools. That's why tokens
+            are the foundation of any serious design system.
+          </p>
+
+          <div style="margin-top: var(--space-8, 32px); padding: var(--space-6, 24px); background: var(--color-neutral-50); border-radius: var(--border-radius-md, 16px); border-left: 4px solid var(--color-purple-500);">
+            <strong style="color: var(--color-purple-600);">For non-technical folks:</strong>
+            <p style="margin: 8px 0 0; color: var(--color-neutral-600);">
+              Think of tokens like the <em>ingredient list</em> for the brand. Designers and
+              engineers pick from the same ingredient list — so no matter who cooks,
+              everything tastes like Solidigm.
+            </p>
+          </div>
+
+          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
+            Token flow
+          </h3>
+          <p class="muted" style="max-width: 720px;">
+            Tokens flow from a single JSON source of truth out to every format your team
+            uses. Update the JSON, rebuild, publish — every consumer gets the new value.
+          </p>
+          <TokenFlowDiagram />
+
+          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
+            W3C DTCG format
+          </h3>
+          <p class="muted" style="max-width: 720px;">
+            Tokens follow the
+            <a href="https://tr.designtokens.org/format/">W3C Design Tokens Community Group</a>
+            spec. Every token has a <code>$type</code> and a <code>$value</code>. This is the
+            emerging industry standard.
+          </p>
+          <CodeBlock lang="json" filename="tokens/colors.json" code={tokenJsonExample} />
+
+          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
+            Token categories
+          </h3>
+          <div class="grid grid--2" style="margin-top: var(--space-4, 16px);">
+            <a href="/tokens/colors" class="card">
+              <span class="eyebrow">14 tokens</span>
+              <h4 style="margin:8px 0; font-size:20px;">Colors</h4>
+              <p class="text-small muted">Primary, purple family, neutrals, accents, semantic.</p>
+            </a>
+            <a href="/tokens/typography" class="card">
+              <span class="eyebrow">28 tokens</span>
+              <h4 style="margin:8px 0; font-size:20px;">Typography</h4>
+              <p class="text-small muted">14 desktop + 14 mobile type styles on the Sora family.</p>
+            </a>
+            <a href="/tokens/spacing" class="card">
+              <span class="eyebrow">17 + 3 tokens</span>
+              <h4 style="margin:8px 0; font-size:20px;">Spacing & Radius</h4>
+              <p class="text-small muted">4pt spacing scale (0–96px) and radius presets.</p>
+            </a>
+            <a href="/tokens/usage" class="card">
+              <span class="eyebrow">6 formats</span>
+              <h4 style="margin:8px 0; font-size:20px;">Install & usage</h4>
+              <p class="text-small muted">CSS, SCSS, JS/TS, Tailwind, ESLint, Figma.</p>
+            </a>
+          </div>
+
+          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
+            Planned tokens
+          </h3>
+          <ul style="color: var(--color-neutral-600);">
+            <li><span class="badge badge--planned">Planned</span> Elevation / shadows</li>
+            <li><span class="badge badge--planned">Planned</span> Motion (duration, easing)</li>
+            <li><span class="badge badge--planned">Planned</span> Semantic background tokens</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

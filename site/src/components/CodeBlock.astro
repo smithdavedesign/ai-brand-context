@@ -1,0 +1,70 @@
+---
+interface Props {
+  lang?: string;
+  code: string;
+  filename?: string;
+}
+const { lang = 'bash', code, filename } = Astro.props;
+const id = `code-${Math.random().toString(36).slice(2, 8)}`;
+---
+<div class="codeblock">
+  {filename && <div class="codeblock__head"><span class="codeblock__file">{filename}</span><span class="codeblock__lang">{lang}</span></div>}
+  <pre><code id={id} data-lang={lang}>{code}</code></pre>
+  <button class="codeblock__copy" data-copy-target={id} aria-label="Copy code">Copy</button>
+</div>
+
+<style>
+.codeblock { position: relative; margin: var(--space-5, 20px) 0; }
+.codeblock__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-300);
+  padding: 8px 16px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 12px 12px 0 0;
+}
+.codeblock__head + pre { border-top-left-radius: 0; border-top-right-radius: 0; margin-top: 0; }
+.codeblock__copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.codeblock__copy:hover { background: rgba(255,255,255,0.14); }
+.codeblock__copy.copied { background: #187e7b; border-color: #187e7b; }
+.codeblock:has(.codeblock__head) .codeblock__copy { top: 40px; }
+</style>
+
+<script>
+  document.querySelectorAll('[data-copy-target]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-copy-target');
+      const el = id ? document.getElementById(id) : null;
+      if (!el) return;
+      try {
+        await navigator.clipboard.writeText(el.textContent ?? '');
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1500);
+      } catch {
+        /* noop */
+      }
+    });
+  });
+</script>

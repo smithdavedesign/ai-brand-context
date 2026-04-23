@@ -1,0 +1,51 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <span class="nav__brand-mark" style="background: var(--color-purple-400);">S</span>
+          <strong style="color:#fff; font-weight:500;">Solidigm Design System</strong>
+        </div>
+        <p class="text-small" style="max-width: 42ch; color: var(--color-neutral-0);">
+          One system. Every touchpoint. Consistent, scalable, on-brand — across
+          marketing, product, and internal tools.
+        </p>
+      </div>
+      <div class="footer__col">
+        <h4>NPM Package</h4>
+        <ul>
+          <li><a href="/tokens">Token overview</a></li>
+          <li><a href="/tokens/colors">Colors</a></li>
+          <li><a href="/tokens/typography">Typography</a></li>
+          <li><a href="/tokens/usage">Install & usage</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>UI Toolkit</h4>
+        <ul>
+          <li><a href="/toolkit">Toolkit overview</a></li>
+          <li><a href="/toolkit/foundations">Foundations</a></li>
+          <li><a href="/toolkit/components">Components</a></li>
+          <li><a href="/toolkit/utilities">Utilities</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/brand">Brand guidelines</a></li>
+          <li><a href="/patterns">Patterns</a></li>
+          <li><a href="/governance">Governance</a></li>
+          <li><a href="https://github.com/solidigm/ai-brand-context">GitHub repo</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>© {year} Solidigm™. All rights reserved.</span>
+      <span>Built with the system it documents.</span>
+    </div>
+  </div>
+</footer>

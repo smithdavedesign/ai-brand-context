@@ -1,0 +1,130 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ColorSwatchGrid from '~/components/islands/ColorSwatchGrid.astro';
+import CodeBlock from '~/components/CodeBlock.astro';
+import { semanticColors } from '~/lib/tokens';
+
+const jsonExample = `{
+  "Dark": {
+    "Solidigm Purple": { "$type": "color", "$value": "#4f00b5" },
+    "Dark Purple":     { "$type": "color", "$value": "#2f006b" }
+  },
+  "Light": {
+    "White":       { "$type": "color", "$value": "#ffffff" },
+    "Light Gray":  { "$type": "color", "$value": "#f5f3f1" }
+  }
+}`;
+---
+<BaseLayout title="Color Tokens" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">NPM Package</span>
+      <h1 class="page-hero__title">Color tokens.</h1>
+      <p class="page-hero__lede">
+        14 brand colors + 2 semantic tokens, grouped by intent. Click any swatch to copy its
+        CSS variable. Accent colors (teal, pink, orange) are restricted — use as highlights,
+        never as dominant fills.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens">Overview</a></li>
+            <li><a href="/tokens/colors" class="active">Colors</a></li>
+            <li><a href="/tokens/typography">Typography</a></li>
+            <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/usage">Install & usage</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#dark">Dark palette</a></li>
+            <li><a href="#light">Light palette</a></li>
+            <li><a href="#accents">Accents</a></li>
+            <li><a href="#semantic">Semantic</a></li>
+            <li><a href="#source">Source</a></li>
+          </ul>
+        </aside>
+        <div class="stack-lg">
+          <section id="dark">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Dark palette</h2>
+            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+              The foundation. Solidigm Purple is the lead brand color. Use dark tones for
+              backgrounds, headlines, and primary actions.
+            </p>
+            <ColorSwatchGrid group="Dark" />
+          </section>
+
+          <section id="light">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Light palette</h2>
+            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+              Neutrals for structure, surfaces, and quiet UI. Gray tones should do the
+              invisible work of guiding the eye.
+            </p>
+            <ColorSwatchGrid group="Light" />
+          </section>
+
+          <section id="accents">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">
+              Accents <span style="font-size:12px; background:rgba(255,164,44,0.15); color:#b46a00; padding:4px 10px; border-radius:100px; vertical-align:middle; letter-spacing:1px; text-transform:uppercase; font-weight:600;">Restricted</span>
+            </h2>
+            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+              Accent colors are for highlights, charts, or moments of energy — never as the
+              dominant fill. Using an accent in a hero or large background requires brand
+              approval.
+            </p>
+            <ColorSwatchGrid group="Accents" />
+            <div class="card" style="margin-top: var(--space-5, 20px); border-left: 4px solid #ffa42c;">
+              <strong>Usage rules:</strong>
+              <ul style="margin-top: 8px; color: var(--color-neutral-600); font-size: 14px;">
+                <li><strong>Orange</strong> — everyday use and Microsoft tools, as accent only.</li>
+                <li><strong>Electric Teal & Electric Pink</strong> — creative design only. Brand approval required.</li>
+                <li><strong>Never</strong> use accents as dominant page fills.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section id="semantic">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Semantic colors</h2>
+            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+              Colors with meaning. These are reserved for states — don't repurpose them for
+              decorative use.
+            </p>
+            <table class="table">
+              <thead>
+                <tr><th>Name</th><th>Hex</th><th>CSS variable</th><th>Use</th></tr>
+              </thead>
+              <tbody>
+                {semanticColors.map((c) => (
+                  <tr>
+                    <td>
+                      <span style={`display:inline-block; width:14px; height:14px; border-radius:4px; background:${c.hex}; margin-right:8px; vertical-align:middle; border:1px solid rgba(0,0,0,0.1);`} />
+                      <strong>{c.name}</strong>
+                    </td>
+                    <td><code>{c.hex}</code></td>
+                    <td><code>{c.cssVar}</code></td>
+                    <td class="muted">{c.use}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="source">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Source</h2>
+            <p class="muted" style="max-width:700px;">
+              Colors are stored in <code>tokens/colors.json</code> using the W3C DTCG format.
+              This JSON is the single source of truth — the build pipeline transforms it into
+              CSS, SCSS, JS, Tailwind, and Figma formats.
+            </p>
+            <CodeBlock lang="json" filename="tokens/colors.json (excerpt)" code={jsonExample} />
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
