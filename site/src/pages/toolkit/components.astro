@@ -111,7 +111,7 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
               title="Text input"
               html={`<label style="display:flex; flex-direction:column; gap:6px; max-width:320px;">
   <span style="font-size:12px; letter-spacing:1px; text-transform:uppercase; color:#52514f; font-weight:600;">Email</span>
-  <input type="email" placeholder="you@solidigm.com" style="padding:10px 12px; border:1px solid #a5a29d; border-radius:8px; font:inherit;" />
+  <input type="email" placeholder="you@solidigm.com" style="padding:10px 12px; border:1px solid #a5a29d; border-radius:0; font:inherit;" />
   <span class="u-text-error" style="font-size:12px;">Please enter a valid email.</span>
 </label>`}
             />
@@ -146,7 +146,7 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
             </p>
             <ComponentPreview
               title="Marketing hero"
-              html={`<section class="u-p-16" style="background:#f5f3f1; border-radius:16px;">
+              html={`<section class="u-p-16" style="background:#f5f3f1;">
   <span style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#4f00b5; font-weight:600;">New release</span>
   <h1 style="max-width:18ch; margin:12px 0;">Paradigm shift, realized.</h1>
   <p style="max-width:52ch; color:#52514f; margin-bottom:24px;">Solidigm unlocks data's virtually unlimited potential through advancements in storage technology.</p>

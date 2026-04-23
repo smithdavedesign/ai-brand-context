@@ -70,7 +70,7 @@ const jsonExample = `{
 
           <section id="accents">
             <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">
-              Accents <span style="font-size:12px; background:rgba(255,164,44,0.15); color:#b46a00; padding:4px 10px; border-radius:100px; vertical-align:middle; letter-spacing:1px; text-transform:uppercase; font-weight:600;">Restricted</span>
+              Accents <span style="font-size:12px; background:rgba(141, 89, 207, 0.15); color:var(--color-purple-600); padding:4px 10px; vertical-align:middle; letter-spacing:1px; text-transform:uppercase; font-weight:600;">Restricted</span>
             </h2>
             <p class="muted" style="max-width:700px; margin-bottom:24px;">
               Accent colors are for highlights, charts, or moments of energy — never as the
@@ -94,6 +94,7 @@ const jsonExample = `{
               Colors with meaning. These are reserved for states — don't repurpose them for
               decorative use.
             </p>
+            <!-- brand-audit:exempt -->
             <table class="table">
               <thead>
                 <tr><th>Name</th><th>Hex</th><th>CSS variable</th><th>Use</th></tr>
@@ -102,7 +103,7 @@ const jsonExample = `{
                 {semanticColors.map((c) => (
                   <tr>
                     <td>
-                      <span style={`display:inline-block; width:14px; height:14px; border-radius:4px; background:${c.hex}; margin-right:8px; vertical-align:middle; border:1px solid rgba(0,0,0,0.1);`} />
+                      <span style={`display:inline-block; width:14px; height:14px; background:${c.hex}; margin-right:8px; vertical-align:middle; border:1px solid rgba(0,0,0,0.1);`} />
                       <strong>{c.name}</strong>
                     </td>
                     <td><code>{c.hex}</code></td>
@@ -112,6 +113,7 @@ const jsonExample = `{
                 ))}
               </tbody>
             </table>
+            <!-- /brand-audit:exempt -->
           </section>
 
           <section id="source">

@@ -4,6 +4,41 @@
  * Uses tokens from ../../../tokens/*.json (loaded via CSS custom properties)
  */
 
+/* ---------- Brand Angle rule: square corners everywhere ----------
+ * Solidigm's brand language is built on the 45°/90° Brand Angle.
+ * Circles and rounded corners conflict with it. We override the
+ * toolkit radius tokens to 0 and add a blanket reset so no element
+ * ships with soft corners unless it is explicitly opted in.
+ */
+:root {
+  --border-radius-sm: 0 !important;
+  --border-radius-md: 0 !important;
+  --border-radius-lg: 0 !important;
+}
+
+/* Catch hard-coded radii in components, buttons, inputs, and cards.
+ * Escape hatch: add class `.allow-round` or attribute `data-round` to an element. */
+button,
+input,
+select,
+textarea,
+.tk-btn,
+.tk-input,
+.card,
+.badge,
+.hero__eyebrow,
+.u-round-md,
+pre,
+code,
+img,
+figure,
+.nav__brand-mark,
+.nav__link--active::after,
+.dodont__item,
+.sidebar a {
+  border-radius: 0 !important;
+}
+
 /* ---------- Reset & base (toolkit provides most) ---------- */
 html {
   scroll-behavior: smooth;
@@ -191,14 +226,14 @@ a:hover { color: var(--color-purple-600); }
   border-color: rgba(165, 162, 157, 0.4);
 }
 .badge--ok {
-  background: rgba(24, 126, 123, 0.1);
-  color: #187e7b;
-  border-color: rgba(24, 126, 123, 0.3);
+  background: rgba(141, 89, 207, 0.12);
+  color: var(--color-purple-600);
+  border-color: rgba(141, 89, 207, 0.35);
 }
 .badge--warn {
-  background: rgba(255, 164, 44, 0.12);
-  color: #b46a00;
-  border-color: rgba(255, 164, 44, 0.4);
+  background: rgba(255, 108, 90, 0.12);
+  color: var(--color-neutral-900);
+  border-color: rgba(255, 108, 90, 0.4);
 }
 
 /* ---------- Cards & grids ---------- */

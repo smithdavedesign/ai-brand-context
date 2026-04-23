@@ -22,6 +22,7 @@ import CodeBlock from '~/components/CodeBlock.astro';
         <button class="audience-tab is-active" data-aud="designers" role="tab">For Designers</button>
         <button class="audience-tab" data-aud="engineers" role="tab">For Engineers</button>
         <button class="audience-tab" data-aud="business" role="tab">For Business</button>
+        <button class="audience-tab" data-aud="agents" role="tab">For AI Agents</button>
       </div>
 
       <!-- DESIGNERS -->
@@ -65,11 +66,11 @@ import CodeBlock from '~/components/CodeBlock.astro';
             <p class="text-small muted">One <code>@import</code>. Every token available as a custom property.</p>
           </a>
           <a href="/tokens/usage#scss" class="card">
-            <h3 style="margin:0 0 8px; font-size:18px;">SCSS</h3>
+            <h3 style="margin:0 0 8px; font-size:18px;">Sass / SCSS</h3>
             <p class="text-small muted">Use tokens as Sass variables. Perfect for existing SCSS codebases.</p>
           </a>
           <a href="/tokens/usage#js" class="card">
-            <h3 style="margin:0 0 8px; font-size:18px;">JS / TS</h3>
+            <h3 style="margin:0 0 8px; font-size:18px;">JavaScript / TypeScript</h3>
             <p class="text-small muted">Fully-typed token objects. Great for React, Vue, Svelte, and theming systems.</p>
           </a>
           <a href="/tokens/usage#tailwind" class="card">
@@ -127,6 +128,67 @@ import CodeBlock from '~/components/CodeBlock.astro';
           </div>
         </div>
       </div>
+
+      <!-- AI AGENTS -->
+      <div id="agents" class="audience-panel" data-aud-panel="agents" hidden>
+        <SectionHeader
+          eyebrow="For AI Agents"
+          title="One MCP. Every brand answer."
+          lede="The Solidigm Brand MCP server gives agents (Claude, Cursor, Copilot, ChatGPT with MCP) authoritative access to tokens, guidelines, UI toolkit rules, and the official brand asset library."
+        />
+
+        <div class="grid grid--2">
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">Quick install — VS Code Copilot</h3>
+            <p class="text-small muted">The workspace ships with <code>.vscode/mcp.json</code> pre-wired. Open this repo in VS Code with Copilot enabled and the <strong>solidigm-brand</strong> server is available.</p>
+          </div>
+          <div class="card">
+            <h3 style="margin:0 0 8px; font-size:18px;">Claude Desktop / Cursor</h3>
+            <p class="text-small muted">Add an HTTP MCP entry pointing at the internal server URL. See <a href="https://github.com/solidigm/ai-brand-context/blob/main/brand_mcp/README.md">brand_mcp/README.md</a> for exact JSON.</p>
+          </div>
+        </div>
+
+        <h3 class="text-h5" style="margin-top:32px;">Tools available</h3>
+        <div class="grid grid--2">
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_design_tokens</code></h4>
+            <p class="text-small muted" style="margin:0;">All tokens or filter by <code>colors</code> / <code>typography</code>.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_color</code></h4>
+            <p class="text-small muted" style="margin:0;">Look up a color by name (“Solidigm Purple”, “Electric Teal”).</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_brand_guidelines</code></h4>
+            <p class="text-small muted" style="margin:0;">Full guidelines or a specific topic section.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_ui_toolkit_class</code></h4>
+            <p class="text-small muted" style="margin:0;">Return CSS rules for any <code>.tk-*</code> or <code>.u-*</code> utility class.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>list_assets</code> / <code>get_logo</code></h4>
+            <p class="text-small muted" style="margin:0;">Unified manifest of local + SharePoint brand assets, filterable by category, color, variant, resolution.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>search_brand_source_documents</code></h4>
+            <p class="text-small muted" style="margin:0;">SharePoint-only — recursively search the official Solidigm brand library (requires Entra auth).</p>
+          </div>
+        </div>
+
+        <h3 class="text-h5" style="margin-top:32px;">Resources (<code>read_resource</code>)</h3>
+        <ul class="text-small muted" style="line-height:1.9;">
+          <li><code>brand://tokens/colors</code> — all color tokens, W3C DTCG format</li>
+          <li><code>brand://tokens/typography</code> — all type styles (desktop + mobile)</li>
+          <li><code>brand://guidelines/main</code> — full brand guidelines markdown</li>
+          <li><code>brand://toolkit/css</code> — the UI toolkit CSS source</li>
+          <li><code>brand://assets/manifest</code> — JSON manifest of every local asset</li>
+        </ul>
+
+        <p class="text-small muted" style="margin-top:24px;">
+          See the <a href="/governance#mcp">governance page</a> for MCP contribution rules, and <a href="https://github.com/solidigm/ai-brand-context/blob/main/docs/architecture.md">docs/architecture.md</a> for the system diagram.
+        </p>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -169,7 +231,7 @@ import CodeBlock from '~/components/CodeBlock.astro';
       p.hidden = p.dataset.audPanel !== aud;
     });
   };
-  if (hash && ['designers', 'engineers', 'business'].includes(hash)) activate(hash);
+  if (hash && ['designers', 'engineers', 'business', 'agents'].includes(hash)) activate(hash);
   tabs.forEach((t) => {
     t.addEventListener('click', () => {
       if (t.dataset.aud) {
