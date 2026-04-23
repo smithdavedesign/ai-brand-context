@@ -1,0 +1,151 @@
+{
+  "primary": {
+    "Solidigm Purple": {
+      "hex": "#4f00b5",
+      "rgb": [79, 0, 181],
+      "usage": "Primary brand color — lead with this in all contexts",
+      "group": "purple",
+      "wcag_on_white": true
+    },
+    "Dark Blue": {
+      "hex": "#00083f",
+      "rgb": [0, 8, 63],
+      "usage": "Primary; background elements and overlays",
+      "group": "blue",
+      "wcag_on_white": true
+    },
+    "Dark Gray": {
+      "hex": "#21201f",
+      "rgb": [33, 32, 31],
+      "usage": "Primary; dark UI elements",
+      "group": "gray",
+      "wcag_on_white": true
+    }
+  },
+  "purple_family": {
+    "Ultra Dark Purple": {
+      "hex": "#160231",
+      "rgb": [22, 2, 49],
+      "usage": "Background elements, deep overlays",
+      "group": "purple",
+      "wcag_on_white": true
+    },
+    "Dark Purple": {
+      "hex": "#2f006b",
+      "rgb": [47, 0, 107],
+      "usage": "Background elements",
+      "group": "purple",
+      "wcag_on_white": true
+    },
+    "Solidigm Purple": {
+      "hex": "#4f00b5",
+      "rgb": [79, 0, 181],
+      "usage": "Primary brand color",
+      "group": "purple",
+      "wcag_on_white": true
+    },
+    "Light Purple": {
+      "hex": "#8d59cf",
+      "rgb": [141, 89, 207],
+      "usage": "Supporting purple; do not use as text on white",
+      "group": "purple",
+      "wcag_on_white": false
+    }
+  },
+  "gray_family": {
+    "Black": {
+      "hex": "#000000",
+      "rgb": [0, 0, 0],
+      "usage": "Text, high-contrast elements",
+      "group": "gray",
+      "wcag_on_white": true
+    },
+    "Dark Gray": {
+      "hex": "#21201f",
+      "rgb": [33, 32, 31],
+      "usage": "Dark UI elements, text",
+      "group": "gray",
+      "wcag_on_white": true
+    },
+    "Medium Gray": {
+      "hex": "#52514f",
+      "rgb": [82, 81, 79],
+      "usage": "Secondary text, borders",
+      "group": "gray",
+      "wcag_on_white": true
+    },
+    "Gray": {
+      "hex": "#a5a29d",
+      "rgb": [165, 162, 157],
+      "usage": "Dividers, disabled states",
+      "group": "gray",
+      "wcag_on_white": false
+    },
+    "Light Gray": {
+      "hex": "#f5f3f1",
+      "rgb": [245, 243, 241],
+      "usage": "Backgrounds, surface elements",
+      "group": "gray",
+      "wcag_on_white": false
+    },
+    "White": {
+      "hex": "#ffffff",
+      "rgb": [255, 255, 255],
+      "usage": "Backgrounds, text on dark surfaces",
+      "group": "gray",
+      "wcag_on_white": false
+    }
+  },
+  "accents": {
+    "Electric Teal": {
+      "hex": "#00ffec",
+      "rgb": [0, 255, 236],
+      "usage": "Creative design only — seek brand approval before use",
+      "group": "accent",
+      "restricted": true,
+      "wcag_on_white": false
+    },
+    "Electric Pink": {
+      "hex": "#ea11bc",
+      "rgb": [234, 17, 188],
+      "usage": "Creative design only — seek brand approval before use",
+      "group": "accent",
+      "restricted": true,
+      "wcag_on_white": true
+    },
+    "Orange": {
+      "hex": "#ffa42c",
+      "rgb": [255, 164, 44],
+      "usage": "Everyday/Microsoft use as accent only — never dominant",
+      "group": "accent",
+      "restricted": false,
+      "wcag_on_white": false
+    },
+    "Teal (MS/Everyday)": {
+      "hex": "#97f2e9",
+      "rgb": [151, 242, 233],
+      "usage": "Microsoft tools and everyday use only — accent highlights",
+      "group": "accent",
+      "restricted": false,
+      "wcag_on_white": false
+    }
+  },
+  "chart_only": {
+    "Medium Blue": {
+      "hex": "#475ada",
+      "rgb": [71, 90, 218],
+      "usage": "Charts and graphs ONLY — do not use elsewhere",
+      "group": "chart",
+      "restricted": true,
+      "wcag_on_white": true
+    },
+    "Dark Teal": {
+      "hex": "#187e7b",
+      "rgb": [24, 126, 123],
+      "usage": "Charts and graphs ONLY — do not use elsewhere",
+      "group": "chart",
+      "restricted": true,
+      "wcag_on_white": true
+    }
+  }
+}

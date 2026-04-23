@@ -1,6 +1,165 @@
-# @solidigm/brand-tokens
+# Solidigm Brand Context
 
-Solidigm brand design tokens — colors, typography, and ESLint enforcement rules for consistent brand implementation across all projects.
+One system. Every touchpoint. This repository is the **canonical source of truth** for the Solidigm design system — brand tokens, UI toolkit, brand assets, guidelines, a public documentation site, and an **MCP server** that unifies all of the above for AI agents and internal tools.
+
+See [`docs/architecture.md`](docs/architecture.md) for the full system architecture and flow diagram.
+
+## What's in this repo
+
+| Path | Description |
+|------|-------------|
+| `brand/` | **Canonical brand content** — topic markdown files, `colors.json`, `quality-gates.yaml`, platform overrides |
+| `tokens/` | Source design tokens (W3C DTCG format) |
+| `site/` | Astro documentation site |
+| `brand_mcp/` | Python FastMCP server — unified backend for agents & site |
+| `assets/` | Raw brand-asset dumps (gitignored; organized copy lives under `site/public/assets/`) |
+| `tailwind/` | Tailwind CSS preset |
+| `eslint/` | ESLint brand enforcement plugin |
+| `figma/` | Figma Token Studio JSON |
+| `docs/` | Brand guidelines, audit reports, and architecture diagrams |
+| `.github/copilot-instructions.md` | Always-on Copilot rules for this repo |
+| `.github/instructions/` | Scoped file-instruction rules (applied via `applyTo` globs) |
+| `.github/prompts/` | Reusable Copilot prompts (e.g. `/brand-check`) |
+| `.github/skills/` | Multi-step Copilot Skills (e.g. `brand-compliance` site audit) |
+| `.vscode/mcp.json` | VS Code Copilot MCP server registration |
+
+---
+
+## MCP Server (`brand_mcp/`)
+
+The Solidigm Brand MCP server exposes the entire design system to AI agents (Claude, Cursor, VS Code Copilot, ChatGPT with MCP support, etc.) and is consumed by the Astro site's `/assets` page.
+
+### Quickstart
+
+```bash
+cd brand_mcp
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+# …fill in M365_* and BRAND_SHAREPOINT_* values in .env…
+python -m brand_mcp.server
+# → http://localhost:8080
+```
+
+### Use it
+
+- **VS Code Copilot** — `.vscode/mcp.json` is already wired up; pick either the HTTP or stdio server entry.
+- **Claude Desktop / Cursor** — add the HTTP URL to your client's MCP config (see [`brand_mcp/README.md`](brand_mcp/README.md)).
+- **Astro site** — the `/assets` page calls the MCP server's `/api/assets` endpoint at runtime.
+
+### What it exposes (10 tools)
+
+| Tool | Purpose |
+|------|---------|
+| `get_design_tokens` | Full W3C DTCG tokens (colors + typography) |
+| `get_color` | Fuzzy-match a named color (`solidigm-purple`, `Electric Teal`, etc.) |
+| `get_brand_guidelines` | Narrative guidance by topic (voice, logo, typography…) |
+| `get_ui_toolkit_class` | Look up a `tk-*` CSS utility class |
+| `list_assets` | Unified manifest of local + SharePoint brand assets |
+| `get_logo` | Resolve a specific logo variant/color/format |
+| `search_brand_source_documents` | Search the SharePoint brand library (when configured) |
+| `get_brand_context` | Task/platform-scoped brand context (for AI prompt assembly) |
+| `get_brand_system_prompt` | Drop-in system prompt for brand-aware LLM calls |
+| `validate_brand_output` | Pass/fail AI-generated content against 16 quality gates |
+
+**Resources:** `brand://tokens/colors`, `brand://tokens/typography`, `brand://guidelines/main`, `brand://toolkit/css`, `brand://assets/manifest`.
+
+**HTTP routes:** `/api/assets` (Astro site), `/api/validate` (brand-compliance Skill), `/api/health`.
+
+Full details in [`brand_mcp/README.md`](brand_mcp/README.md).
+
+---
+
+## VS Code Copilot Skill Layer
+
+Copilot is pre-configured in this repo to enforce brand rules and call the MCP server automatically.
+
+| Primitive | File | What it does |
+|-----------|------|--------------|
+| Workspace instructions | [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | Always-on: "call `solidigm-brand` tools first; never hallucinate hex/fonts/trademarks" |
+| File instructions | [`.github/instructions/solidigm-brand.instructions.md`](.github/instructions/solidigm-brand.instructions.md) | Enforced rules on `.astro/.tsx/.css/.md` files — palette, typography, trademark, do-nots |
+| Prompt | [`.github/prompts/brand-check.prompt.md`](.github/prompts/brand-check.prompt.md) | `/brand-check <target>` — validates any file/URL/snippet |
+| Skill | [`.github/skills/brand-compliance/SKILL.md`](.github/skills/brand-compliance/SKILL.md) | Full multi-page audit of the built Astro site, emits `docs/brand-audit-<date>.md` |
+
+### Run the site audit
+
+```bash
+# 1. Start the MCP server (if not already running)
+cd brand_mcp && source .venv/bin/activate && python -m brand_mcp.server &
+
+# 2. Build the site
+cd site && npm run build && cd ..
+
+# 3. Run the audit
+node .github/skills/brand-compliance/scripts/audit-pages.mjs site/dist
+# → docs/brand-audit-YYYY-MM-DD.md
+```
+
+The Skill is report-only; it does not gate CI.
+
+---
+
+## Documentation Site (`site/`)
+
+A self-consuming static site that documents the entire design system. It imports tokens and the UI toolkit directly from this repo (dogfooding).
+
+### Run locally
+
+```bash
+cd site
+npm install
+npm run dev
+# → http://localhost:4321
+```
+
+### Build
+
+```bash
+cd site
+npm run build
+# Output → site/dist/
+```
+
+### Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | Homepage — system overview and dual-track CTAs |
+| `/brand` | Brand foundation — voice, color philosophy, logo rules |
+| `/tokens` | Token overview and category index |
+| `/tokens/colors` | Live color swatches with WCAG badges |
+| `/tokens/typography` | Interactive type specimen (Desktop/Mobile) |
+| `/tokens/spacing` | Spacing scale and grid specs |
+| `/tokens/usage` | Install and integration guide |
+| `/toolkit` | UI toolkit overview |
+| `/toolkit/foundations` | Typography, color, and spacing utilities |
+| `/toolkit/components` | Atomic design component library |
+| `/toolkit/utilities` | Searchable utility class reference |
+| `/assets` | Browsable brand asset library (powered by MCP server) |
+| `/patterns` | Layout patterns and UX best practices |
+| `/usage` | Audience-tabbed guide (Designers/Engineers/Business) |
+| `/governance` | Contribution, versioning, and ownership |
+| `/showcase` | Before/after proof the site eats its own dog food |
+
+### Brand Assets
+
+Organized under `site/public/assets/` and served at `/assets/`:
+
+```
+assets/
+  logo/
+    s-mark/       {black, purple, blue, white}
+    standard/     {black, purple, blue, white}  ← includes SVG
+    stacked/      {black, purple, blue, white}
+    wordmark/     {black, blue, white}
+  illustrations/  19 component illustration PNGs
+  docs/           Brand guidelines PDF, trademark PDF, PPT icons
+```
+
+---
+
+## NPM Token Package (`@solidigm/brand-tokens`)
 
 ## Setup
 
@@ -216,12 +375,24 @@ All typography tokens use **Sora** as the font family.
 
 ## Development
 
+### Token package
+
 ```bash
 # Regenerate all dist files from source tokens
 node build.js
 ```
 
-Source tokens live in `resources/color.styles.tokens.json` and `resources/text.styles.tokens.json`. All generated files are committed to the repo — consumers install the package directly without needing to run a build step.
+Source tokens live in `tokens/colors.json` and `tokens/typography.json`. All generated files are committed — consumers install the package directly without running a build step.
+
+### Documentation site
+
+```bash
+cd site
+npm run dev      # local dev server → http://localhost:4321
+npm run build    # static build → site/dist/
+```
+
+The prebuild script (`site/scripts/sync-toolkit.mjs`) automatically copies `docs/ui-toolkit.min.css` into `site/public/` before each build. All `npm` commands for the site must be run from the `site/` directory.
 
 ## License
 

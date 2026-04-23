@@ -1,0 +1,88 @@
+# Solidigm Brand Quality Gates
+# Used by brand_mcp/composer/validation.py to validate AI-generated content.
+# Each gate has an id, severity (error|warning), a description, and check type.
+
+gates:
+
+  # ── Color ──────────────────────────────────────────────────────
+  - id: color-on-brand
+    severity: error
+    description: "All hex colors must be from the approved Solidigm palette"
+    check: hex_in_palette
+
+  - id: color-contrast
+    severity: error
+    description: "Foreground/background pairs must meet WCAG 2.1 AA (4.5:1 minimum)"
+    check: wcag_aa
+
+  - id: accent-not-dominant
+    severity: error
+    description: "Accent colors (Electric Teal, Pink, Orange) must not be used as dominant/primary elements"
+    check: accent_usage
+
+  - id: chart-colors-restricted
+    severity: error
+    description: "Medium Blue (#475ada) and Dark Teal (#187e7b) may only appear in charts/graphs"
+    check: chart_color_context
+
+  # ── Typography ─────────────────────────────────────────────────
+  - id: font-family
+    severity: error
+    description: "Only Sora, Noto Sans (CJK), or Avenir Next LT Pro (Office) are permitted"
+    check: font_allowlist
+    allowed: ["Sora", "Noto Sans", "Noto Sans SC", "Noto Sans TC", "Noto Sans JP", "Noto Sans KR", "Avenir Next LT Pro"]
+
+  - id: no-uppercase-headlines
+    severity: error
+    description: "Headlines and subheads must not be set in all uppercase"
+    check: no_uppercase_headings
+
+  - id: no-bold-mid-sentence
+    severity: warning
+    description: "Do not use bold weight mid-sentence to emphasize individual words"
+    check: no_inline_bold
+
+  # ── Trademark ──────────────────────────────────────────────────
+  - id: trademark-symbol
+    severity: error
+    description: "Use ™ (not ® or ©) on first/prominent mention of Solidigm"
+    check: trademark_mark
+
+  - id: no-registered-mark
+    severity: error
+    description: "Never use ® for Solidigm — not yet registered"
+    check: no_registered
+
+  - id: product-name-exact
+    severity: warning
+    description: "Product names must appear exactly as written (full series + model)"
+    check: product_name_format
+
+  # ── Logo ───────────────────────────────────────────────────────
+  - id: no-generated-logo
+    severity: error
+    description: "AI must never generate, alter, or recreate the Solidigm logo"
+    check: no_logo_generation
+
+  # ── Generative AI ──────────────────────────────────────────────
+  - id: ai-disclaimer
+    severity: error
+    description: "All AI-generated imagery must include an 'AI-generated' disclaimer"
+    check: ai_disclaimer
+
+  - id: no-ai-humans
+    severity: warning
+    description: "Avoid AI-generated humans or animals"
+    check: no_ai_people
+
+  # ── General ────────────────────────────────────────────────────
+  - id: brand-voice
+    severity: warning
+    description: "Content should reflect brand voice: optimistic, analytical, passionate, genuine, ambitious"
+    check: tone_alignment
+    tone: ["optimistic", "analytical", "passionate", "genuine", "ambitious"]
+
+  - id: no-purple-wash
+    severity: error
+    description: "Never 'purple wash' photography or use obviously colorized results"
+    check: no_purple_wash

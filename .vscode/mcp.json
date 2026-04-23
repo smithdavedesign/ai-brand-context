@@ -1,0 +1,21 @@
+{
+  "// note": "VS Code Copilot MCP config. Pick ONE server entry below (HTTP for a shared deployment, stdio for local-only).",
+  "servers": {
+    "solidigm-brand": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp",
+      "// description": "Solidigm brand tokens, assets, guidelines, UI toolkit, and SharePoint brand library."
+    },
+    "solidigm-brand-local": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "brand_mcp.server"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "MCP_HOST": "127.0.0.1",
+        "MCP_PORT": "8080"
+      },
+      "// description": "Run the MCP server locally as a subprocess (requires mcp/.venv activated or system python with requirements installed)."
+    }
+  }
+}

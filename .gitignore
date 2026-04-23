@@ -1,1 +1,31 @@
 node_modules/
+
+# Secrets & env
+.env
+.env.local
+.env.*.local
+# Handoff docs — may contain live credentials, never commit
+Sharepoint-mcp-handoff.md
+sharepoint-mcp-handoff/
+*handoff*
+
+# Raw brand-asset OneDrive dumps (organized copy lives under site/public/assets/)
+assets/brand-assets/
+
+# Python (MCP server)
+brand_mcp/.venv/
+brand_mcp/venv/
+**/__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Build output
+dist/
+site/dist/
+.DS_Store
+
+# IDE
+.idea/
+*.swp
+

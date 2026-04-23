@@ -1,0 +1,131 @@
+name: MCP smoke test
+
+on:
+  pull_request:
+    paths:
+      - 'brand_mcp/**'
+      - 'brand/**'
+      - 'tokens/**'
+      - 'docs/brand-guidelines.md'
+      - '.github/workflows/mcp-smoke-test.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'brand_mcp/**'
+      - 'brand/**'
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+          cache-dependency-path: 'brand_mcp/requirements.txt'
+
+      - name: Install MCP dependencies
+        run: |
+          cd brand_mcp
+          pip install -r requirements.txt
+
+      - name: Syntax check
+        run: |
+          python -m py_compile \
+            brand_mcp/server.py \
+            brand_mcp/config.py \
+            brand_mcp/composer/assets.py \
+            brand_mcp/composer/cache.py \
+            brand_mcp/composer/colors.py \
+            brand_mcp/composer/context.py \
+            brand_mcp/composer/prompts.py \
+            brand_mcp/composer/validation.py \
+            brand_mcp/tools/brand.py \
+            brand_mcp/utils/m365_oauth.py \
+            brand_mcp/scripts/smoke_test.py
+
+      - name: Import + local-only tool test
+        # SharePoint tests require tenant secrets; CI verifies local paths only.
+        run: |
+          python -c "
+          from brand_mcp.config import config
+          from brand_mcp.composer import assets
+          from brand_mcp.tools import brand
+
+          # Tokens
+          toks = brand.get_design_tokens()
+          assert toks['status'] == 'ok', toks
+          assert 'colors' in toks['tokens']
+
+          # Color lookup (fuzzy)
+          c = brand.get_color('solidigm-purple')
+          assert c['status'] == 'ok', c
+          assert c['hex'].lower() == '#4f00b5'
+
+          # Guidelines
+          g = brand.get_brand_guidelines('colors')
+          assert g['status'] == 'ok', g
+
+          # UI toolkit
+          t = brand.get_ui_toolkit_class('tk-btn')
+          assert t['status'] == 'ok', t
+
+          # Local asset walk
+          la = assets.list_local_assets()
+          assert len(la) > 10, f'expected >10 local assets, got {len(la)}'
+
+          # Logo resolution
+          logo = brand.get_logo('standard', 'purple', fmt='svg')
+          assert logo['status'] == 'ok', logo
+
+          print(f'OK: {len(la)} local assets, all tools green')
+
+          # --- New composer / tool tests ---
+          # Brand context
+          ctx = brand.get_brand_context(platform='web-nextjs', task='ui')
+          assert ctx['status'] == 'ok', ctx
+          assert ctx['section_count'] > 0, ctx
+
+          # System prompt
+          sp = brand.get_brand_system_prompt(platform='marketing')
+          assert sp['status'] == 'ok', sp
+          assert sp['token_estimate'] > 0, sp
+
+          # Validation — passing
+          v = brand.validate_brand_output('Use Solidigm™ Purple #4f00b5')
+          assert v['status'] == 'pass', v
+
+          # Validation — failing
+          v = brand.validate_brand_output('Use Solidigm® and #ff0000')
+          assert v['status'] == 'fail', v
+          assert v['error_count'] > 0, v
+
+          print(f'OK: composer + validation tools green')
+          "
+
+      - name: Start server + probe /api/health
+        run: |
+          python -m brand_mcp.server &
+          SERVER_PID=$!
+          # Give the server up to 10s to start
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            sleep 1
+            if curl -sf http://localhost:8080/api/health > /dev/null; then
+              break
+            fi
+          done
+          curl -sf http://localhost:8080/api/health | tee health.json
+          curl -sf http://localhost:8080/api/assets | python -c "
+          import json, sys
+          d = json.load(sys.stdin)
+          assert d['status'] == 'ok', d
+          assert d['local_count'] > 10, d
+          print(f\"assets endpoint: {d['local_count']} local, {d['sharepoint_count']} SharePoint\")
+          "
+          kill $SERVER_PID

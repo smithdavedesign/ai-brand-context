@@ -1,6 +1,6 @@
 ---
 interface Props {
-  active?: 'home' | 'brand' | 'tokens' | 'toolkit' | 'patterns' | 'usage' | 'governance';
+  active?: 'home' | 'brand' | 'tokens' | 'toolkit' | 'assets' | 'patterns' | 'usage' | 'governance';
 }
 const { active = 'home' } = Astro.props;
 
@@ -8,6 +8,7 @@ const links = [
   { href: '/brand', label: 'Brand', key: 'brand' },
   { href: '/tokens', label: 'Tokens', key: 'tokens' },
   { href: '/toolkit', label: 'UI Toolkit', key: 'toolkit' },
+  { href: '/assets', label: 'Assets', key: 'assets' },
   { href: '/patterns', label: 'Patterns', key: 'patterns' },
   { href: '/usage', label: 'Usage', key: 'usage' },
   { href: '/governance', label: 'Governance', key: 'governance' },

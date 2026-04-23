@@ -1,0 +1,478 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionHeader from '~/components/SectionHeader.astro';
+
+// Default MCP server URL can be overridden at build time via PUBLIC_MCP_URL.
+const mcpUrl = import.meta.env.PUBLIC_MCP_URL || 'http://localhost:8080';
+---
+
+<BaseLayout
+  title="Brand Assets"
+  description="Browse, filter, and download official Solidigm brand assets — logos, illustrations, and brand guideline documents."
+  activeNav="assets"
+>
+  <section class="section section--narrow">
+    <SectionHeader
+      eyebrow="Assets"
+      title="Brand asset library"
+      lede="Every official Solidigm logo, illustration, and guideline document in one searchable place. Local assets load instantly; SharePoint assets require Solidigm authentication."
+    />
+
+    <div class="asset-controls" role="toolbar" aria-label="Asset filters">
+      <label class="asset-field">
+        <span>Category</span>
+        <select id="assetCategory">
+          <option value="">All</option>
+          <option value="logo">Logos</option>
+          <option value="illustration">Illustrations</option>
+          <option value="doc">Documents</option>
+        </select>
+      </label>
+
+      <label class="asset-field" id="colorField" hidden>
+        <span>Color</span>
+        <select id="assetColor">
+          <option value="">Any</option>
+          <option value="purple">Purple</option>
+          <option value="black">Black</option>
+          <option value="blue">Blue</option>
+          <option value="white">White</option>
+        </select>
+      </label>
+
+      <label class="asset-field" id="variantField" hidden>
+        <span>Variant</span>
+        <select id="assetVariant">
+          <option value="">Any</option>
+          <option value="standard">Standard</option>
+          <option value="stacked">Stacked</option>
+          <option value="wordmark">Wordmark</option>
+          <option value="s-mark">S Mark</option>
+        </select>
+      </label>
+
+      <label class="asset-field asset-field--grow">
+        <span>Search</span>
+        <input id="assetSearch" type="search" placeholder="Filter by filename…" />
+      </label>
+    </div>
+
+    <div class="asset-status" id="assetStatus" aria-live="polite">Loading…</div>
+
+    <div class="asset-grid" id="assetGrid"></div>
+
+    <nav class="asset-pagination" id="assetPagination" aria-label="Asset pagination" hidden>
+      <button type="button" class="btn btn--sm btn--secondary" id="assetPrev">← Prev</button>
+      <span class="asset-pagination__info" id="assetPageInfo"></span>
+      <button type="button" class="btn btn--sm btn--secondary" id="assetNext">Next →</button>
+    </nav>
+  </section>
+
+  <!-- Asset preview modal -->
+  <div class="asset-modal" id="assetModal" role="dialog" aria-modal="true" aria-labelledby="assetModalTitle" hidden>
+    <div class="asset-modal__backdrop" data-modal-close></div>
+    <div class="asset-modal__panel" role="document">
+      <button type="button" class="asset-modal__close" data-modal-close aria-label="Close preview">×</button>
+      <div class="asset-modal__preview" id="assetModalPreview"></div>
+      <div class="asset-modal__body">
+        <h2 class="asset-modal__title" id="assetModalTitle"></h2>
+        <dl class="asset-modal__meta" id="assetModalMeta"></dl>
+        <div class="asset-modal__actions">
+          <button type="button" class="btn btn--sm btn--secondary" id="assetCopyUrl">Copy URL</button>
+          <a class="btn btn--sm btn--primary" id="assetDownload" href="#">Download</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script define:vars={{ mcpUrl }}>
+    const API = `${mcpUrl}/api/assets`;
+    const PAGE_SIZE = 24;
+    const grid = document.getElementById('assetGrid');
+    const statusEl = document.getElementById('assetStatus');
+    const categoryEl = document.getElementById('assetCategory');
+    const colorEl = document.getElementById('assetColor');
+    const variantEl = document.getElementById('assetVariant');
+    const searchEl = document.getElementById('assetSearch');
+    const colorField = document.getElementById('colorField');
+    const variantField = document.getElementById('variantField');
+    const pagination = document.getElementById('assetPagination');
+    const prevBtn = document.getElementById('assetPrev');
+    const nextBtn = document.getElementById('assetNext');
+    const pageInfoEl = document.getElementById('assetPageInfo');
+    const modal = document.getElementById('assetModal');
+    const modalPreview = document.getElementById('assetModalPreview');
+    const modalTitle = document.getElementById('assetModalTitle');
+    const modalMeta = document.getElementById('assetModalMeta');
+    const modalCopy = document.getElementById('assetCopyUrl');
+    const modalDownload = document.getElementById('assetDownload');
+
+    let cache = [];
+    let currentPage = 1;
+    let filteredCache = [];
+
+    async function load() {
+      statusEl.textContent = 'Loading…';
+      try {
+        const res = await fetch(API);
+        if (!res.ok) throw new Error(`MCP returned ${res.status}`);
+        const data = await res.json();
+        cache = data.items || [];
+        statusEl.textContent = `${data.local_count ?? 0} local · ${data.sharepoint_count ?? 0} SharePoint · ${cache.length} total`;
+        render();
+      } catch (err) {
+        statusEl.innerHTML = `
+          <strong>MCP server unreachable.</strong>
+          Start it with <code>cd brand_mcp &amp;&amp; python -m brand_mcp.server</code> or
+          set <code>PUBLIC_MCP_URL</code> at build time.<br/>
+          <span class="muted">Error: ${err.message}</span>
+        `;
+      }
+    }
+
+    function render() {
+      const cat = categoryEl.value;
+      const color = colorEl.value;
+      const variant = variantEl.value;
+      const q = searchEl.value.trim().toLowerCase();
+
+      colorField.hidden = cat !== 'logo';
+      variantField.hidden = cat !== 'logo';
+
+      filteredCache = cache.filter((a) => {
+        if (cat && a.category !== cat) return false;
+        if (cat === 'logo' && color && a.color !== color) return false;
+        if (cat === 'logo' && variant && a.variant !== variant) return false;
+        if (q && !(a.name || '').toLowerCase().includes(q)) return false;
+        return true;
+      });
+
+      currentPage = 1;
+      renderPage();
+    }
+
+    function renderPage() {
+      if (filteredCache.length === 0) {
+        grid.innerHTML = '<p class="muted">No assets match your filters.</p>';
+        pagination.hidden = true;
+        return;
+      }
+
+      const totalPages = Math.max(1, Math.ceil(filteredCache.length / PAGE_SIZE));
+      if (currentPage > totalPages) currentPage = totalPages;
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const page = filteredCache.slice(start, start + PAGE_SIZE);
+
+      grid.innerHTML = page
+        .map((a, i) => {
+          const idx = start + i;
+          const isImage = a.source === 'local' && /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(a.name || '');
+          const thumb = isImage
+            ? `<img src="${a.url}" alt="" loading="lazy" />`
+            : `<div class="asset-card__placeholder">${(a.format || a.category || '?').toUpperCase()}</div>`;
+          const meta = [
+            a.source === 'sharepoint' ? 'SharePoint' : 'Local',
+            a.category,
+            a.variant,
+            a.color,
+            a.resolution,
+            a.format,
+          ]
+            .filter(Boolean)
+            .join(' · ');
+          const downloadUrl = a.download_url || a.url;
+          return `
+            <article class="asset-card" data-idx="${idx}" tabindex="0" role="button" aria-label="Preview ${a.name}">
+              <div class="asset-card__thumb">${thumb}</div>
+              <div class="asset-card__body">
+                <h3 class="asset-card__name" title="${a.name}">${a.name}</h3>
+                <p class="asset-card__meta">${meta}</p>
+                <a class="btn btn--sm btn--secondary" href="${downloadUrl}" data-stop="1" ${
+                  a.source === 'local' ? `download="${a.name}"` : 'target="_blank" rel="noopener"'
+                }>
+                  ${a.source === 'local' ? 'Download' : 'Open ↗'}
+                </a>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+
+      pagination.hidden = totalPages <= 1;
+      pageInfoEl.textContent = `Page ${currentPage} of ${totalPages} · ${filteredCache.length} assets`;
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+    }
+
+    // Preview modal
+    function openModal(asset) {
+      const isImage = asset.source === 'local' && /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(asset.name || '');
+      modalPreview.innerHTML = isImage
+        ? `<img src="${asset.url}" alt="${asset.name}" />`
+        : `<div class="asset-modal__placeholder">${(asset.format || asset.category || '?').toUpperCase()}</div>`;
+      modalTitle.textContent = asset.name;
+
+      const fields = [
+        ['Source', asset.source === 'sharepoint' ? 'SharePoint' : 'Local'],
+        ['Category', asset.category],
+        ['Variant', asset.variant],
+        ['Color', asset.color],
+        ['Resolution', asset.resolution],
+        ['Format', asset.format],
+        ['Size', asset.size_bytes ? `${(asset.size_bytes / 1024).toFixed(1)} KB` : null],
+        ['Path', asset.rel_path || asset.path],
+      ].filter(([, v]) => v);
+      modalMeta.innerHTML = fields
+        .map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`)
+        .join('');
+
+      const downloadUrl = asset.download_url || asset.url;
+      modalDownload.href = downloadUrl;
+      if (asset.source === 'local') {
+        modalDownload.setAttribute('download', asset.name);
+        modalDownload.removeAttribute('target');
+        modalDownload.textContent = 'Download';
+      } else {
+        modalDownload.removeAttribute('download');
+        modalDownload.setAttribute('target', '_blank');
+        modalDownload.setAttribute('rel', 'noopener');
+        modalDownload.textContent = 'Open in SharePoint ↗';
+      }
+
+      modalCopy.onclick = async () => {
+        const absolute = downloadUrl.startsWith('http') ? downloadUrl : `${location.origin}${downloadUrl}`;
+        try {
+          await navigator.clipboard.writeText(absolute);
+          const original = modalCopy.textContent;
+          modalCopy.textContent = 'Copied!';
+          setTimeout(() => { modalCopy.textContent = original; }, 1200);
+        } catch (_) {
+          modalCopy.textContent = 'Copy failed';
+        }
+      };
+
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    }
+
+    grid.addEventListener('click', (e) => {
+      const card = e.target.closest('.asset-card');
+      if (!card) return;
+      // Don't hijack the direct Download link
+      if (e.target.closest('[data-stop]')) return;
+      const idx = parseInt(card.dataset.idx, 10);
+      const asset = filteredCache[idx];
+      if (asset) openModal(asset);
+    });
+    grid.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const card = e.target.closest('.asset-card');
+      if (!card) return;
+      e.preventDefault();
+      const idx = parseInt(card.dataset.idx, 10);
+      const asset = filteredCache[idx];
+      if (asset) openModal(asset);
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target.closest('[data-modal-close]')) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) { currentPage--; renderPage(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    });
+    nextBtn.addEventListener('click', () => {
+      currentPage++; renderPage(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    [categoryEl, colorEl, variantEl, searchEl].forEach((el) =>
+      el.addEventListener('input', render)
+    );
+
+    load();
+  </script>
+
+  <style>
+    .asset-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-3, 12px);
+      margin: var(--space-6, 24px) 0 var(--space-4, 16px);
+      padding: var(--space-4, 16px);
+      background: var(--color-neutral-50);
+      border-radius: 12px;
+    }
+    .asset-field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--color-neutral-700); }
+    .asset-field select,
+    .asset-field input {
+      padding: 8px 10px;
+      border: 1px solid var(--color-neutral-300);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      background: #fff;
+    }
+    .asset-field--grow { grid-column: span 2; }
+
+    .asset-status {
+      font-size: 13px;
+      color: var(--color-neutral-700);
+      margin-bottom: var(--space-4, 16px);
+    }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--space-4, 16px);
+    }
+
+    .asset-card {
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid var(--color-neutral-200);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .asset-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(79, 0, 181, 0.12);
+    }
+    .asset-card__thumb {
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-neutral-50);
+      padding: 16px;
+    }
+    .asset-card__thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .asset-card__placeholder {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--color-neutral-500);
+    }
+    .asset-card__body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; }
+    .asset-card__name {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .asset-card__meta {
+      margin: 0;
+      font-size: 11px;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      color: var(--color-neutral-600);
+    }
+
+    .asset-pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-4, 16px);
+      margin-top: var(--space-6, 24px);
+    }
+    .asset-pagination__info {
+      font-size: 13px;
+      color: var(--color-neutral-700);
+    }
+
+    .asset-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .asset-modal[hidden] { display: none; }
+    .asset-modal__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(22, 2, 49, 0.7);
+      backdrop-filter: blur(4px);
+    }
+    .asset-modal__panel {
+      position: relative;
+      background: #fff;
+      border-radius: 16px;
+      max-width: 880px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+    @media (min-width: 720px) {
+      .asset-modal__panel { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+    }
+    .asset-modal__close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 2;
+    }
+    .asset-modal__preview {
+      background: var(--color-neutral-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      min-height: 240px;
+    }
+    .asset-modal__preview img { max-width: 100%; max-height: 60vh; object-fit: contain; }
+    .asset-modal__placeholder {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--color-neutral-500);
+    }
+    .asset-modal__body { padding: 24px 28px; display: flex; flex-direction: column; gap: 16px; }
+    .asset-modal__title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      word-break: break-all;
+    }
+    .asset-modal__meta {
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    .asset-modal__meta > div { display: grid; grid-template-columns: 90px 1fr; gap: 8px; font-size: 13px; }
+    .asset-modal__meta dt { margin: 0; font-weight: 600; color: var(--color-neutral-700); }
+    .asset-modal__meta dd { margin: 0; word-break: break-all; color: var(--color-neutral-900); }
+    .asset-modal__actions {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+  </style>
+</BaseLayout>
