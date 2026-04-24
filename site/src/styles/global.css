@@ -641,6 +641,48 @@ pre code {
   align-self: start;
   font-size: 14px;
 }
+
+/* --- Sidebar mobile toggle --- */
+.sidebar-toggle {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background: var(--dark-grey);
+  color: var(--color-neutral-0);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family-primary);
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-4);
+}
+.sidebar-toggle__chevron {
+  transition: transform var(--dur-base) var(--ease-standard);
+  flex-shrink: 0;
+}
+.sidebar-toggle[aria-expanded="true"] .sidebar-toggle__chevron {
+  transform: rotate(180deg);
+}
+.sidebar-toggle:hover { background: var(--dark-purple); }
+.sidebar-toggle__active-page {
+  opacity: 0.65;
+  margin-left: var(--space-2);
+  font-weight: var(--font-weight-regular);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+@media (max-width: 899px) {
+  .sidebar-toggle { display: flex; }
+  .sidebar { display: none; position: static; }
+  .sidebar.is-open { display: block; margin-bottom: var(--space-6); }
+}
 .sidebar h4 {
   font-size: 10px;
   text-transform: uppercase;
