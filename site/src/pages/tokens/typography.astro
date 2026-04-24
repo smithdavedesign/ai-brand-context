@@ -45,7 +45,7 @@ const drifts = [
         </aside>
         <div class="stack-lg">
           <section id="family">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Font family</h2>
+            <h2 class="doc-h2">Font family</h2>
             <p class="muted" style="max-width:720px;">
               <strong>Sora</strong> — free from Google Fonts. Used across every digital surface.
               Weight, not decoration, creates hierarchy.
@@ -59,36 +59,34 @@ const drifts = [
                 { w: 700, n: 'Bold — breadcrumbs' },
               ].map((s) => (
                 <div class="weight-card">
-                  <div style={`font-family:Sora; font-weight:${s.w}; font-size:48px; line-height:1; color:var(--color-purple-600);`}>Aa</div>
-                  <div class="mono text-xs muted" style="margin-top:8px;">{s.w}</div>
-                  <div class="text-xs" style="margin-top:4px; color:var(--color-neutral-600);">{s.n}</div>
+                  <div class="weight-card__sample" style={`font-weight:${s.w};`}>Aa</div>
+                  <div class="mono text-xs muted" style="margin-top:var(--space-2);">{s.w}</div>
+                  <div class="text-xs muted" style="margin-top:var(--space-1);">{s.n}</div>
                 </div>
               ))}
             </div>
-            <p class="text-small muted" style="margin-top: var(--space-4, 16px);">
+            <p class="text-small muted" style="margin-top: var(--space-4);">
               CJK languages: <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a>.
               MS Office only: Avenir Next LT Pro.
             </p>
           </section>
 
           <section id="specimen">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Type specimen</h2>
-            <p class="muted" style="max-width:720px; margin-bottom: var(--space-5, 20px);">
+            <h2 class="doc-h2">Type specimen</h2>
+            <p class="muted" style="max-width:720px; margin-bottom: var(--space-5);">
               Live rendering of every token. Toggle between desktop and mobile scales.
             </p>
             <TypeSpecimen />
           </section>
 
           <section id="drift">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">
-              Figma 3.0 drift
-            </h2>
+            <h2 class="doc-h2">Figma 3.0 drift</h2>
             <p class="muted" style="max-width:720px;">
               Transparent record of places where the latest Figma library differs from the
               source tokens. Resolution requires a design-system decision on which value is
               authoritative. Full report: <a href="https://github.com/solidigm/ai-brand-context/blob/main/docs/figma-token-diff.md">figma-token-diff.md</a>.
             </p>
-            <table class="table" style="margin-top: var(--space-4, 16px);">
+            <table class="table" style="margin-top: var(--space-4);">
               <thead>
                 <tr><th>Token</th><th>Property</th><th>Source JSON</th><th>Figma 3.0</th><th>Status</th></tr>
               </thead>
@@ -107,7 +105,7 @@ const drifts = [
           </section>
 
           <section id="source">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Source</h2>
+            <h2 class="doc-h2">Source</h2>
             <CodeBlock lang="json" filename="tokens/typography.json (excerpt)" code={`{
   "Desktop": {
     "DT Hero": {
@@ -132,17 +130,29 @@ const drifts = [
 </BaseLayout>
 
 <style>
+.doc-h2 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--fluid-h3);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-2);
+}
 .weight-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--space-3, 12px);
-  margin-top: var(--space-4, 16px);
+  gap: var(--space-3);
+  margin-top: var(--space-4);
 }
 .weight-card {
-  padding: var(--space-4, 16px);
+  padding: var(--space-4);
   border: 1px solid rgba(0,0,0,0.08);
-  border-radius: var(--border-radius-sm, 8px);
   text-align: center;
-  background: #fff;
+  background: var(--color-neutral-0);
+}
+.weight-card__sample {
+  font-family: var(--font-family-primary);
+  font-size: 48px;
+  line-height: 1;
+  color: var(--ultra-dark-purple);
 }
 </style>

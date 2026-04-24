@@ -29,9 +29,7 @@ import CodeBlock from '~/components/CodeBlock.astro';
         </aside>
         <div class="stack-lg">
           <div>
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">
-              Toolkit vs Tokens
-            </h2>
+            <h2 class="doc-h2">Toolkit vs Tokens</h2>
             <p class="muted" style="max-width:720px;">
               Two separate deliverables. They share a source of truth but serve different needs.
             </p>
@@ -70,7 +68,7 @@ import CodeBlock from '~/components/CodeBlock.astro';
           </div>
 
           <div>
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Install</h2>
+            <h2 class="doc-h2">Install</h2>
             <p class="muted" style="max-width:720px;">
               Reference the file from CDN or copy it into your project's static assets. Sora
               is loaded automatically via Google Fonts.
@@ -88,21 +86,21 @@ import CodeBlock from '~/components/CodeBlock.astro';
           </div>
 
           <div>
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">What's inside</h2>
+            <h2 class="doc-h2">What's inside</h2>
             <div class="grid grid--3">
               <a href="/toolkit/foundations" class="card">
                 <span class="eyebrow">Foundations</span>
-                <h4 style="margin:8px 0; font-size:20px;">Typography & utilities</h4>
+                <h4 class="toolkit-card-h4">Typography & utilities</h4>
                 <p class="text-small muted">Fluid heading classes, color utilities, spacing helpers.</p>
               </a>
               <a href="/toolkit/components" class="card">
                 <span class="eyebrow">Components</span>
-                <h4 style="margin:8px 0; font-size:20px;">Buttons, cards, forms</h4>
+                <h4 class="toolkit-card-h4">Buttons, cards, forms</h4>
                 <p class="text-small muted">Pre-built HTML patterns with hover/focus states.</p>
               </a>
               <a href="/toolkit/utilities" class="card">
                 <span class="eyebrow">Utilities</span>
-                <h4 style="margin:8px 0; font-size:20px;">Layout helpers</h4>
+                <h4 class="toolkit-card-h4">Layout helpers</h4>
                 <p class="text-small muted">Flex, spacing, responsive visibility, effects.</p>
               </a>
             </div>
@@ -112,3 +110,18 @@ import CodeBlock from '~/components/CodeBlock.astro';
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.doc-h2 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--fluid-h3);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-2);
+}
+.toolkit-card-h4 {
+  margin: var(--space-2) 0;
+  font-size: var(--fluid-h5);
+  font-weight: var(--font-weight-regular);
+}
+</style>

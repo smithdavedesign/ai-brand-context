@@ -34,7 +34,7 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
         </aside>
         <div class="stack-lg">
           <section id="typography">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Typography</h2>
+            <h2 class="doc-h2">Typography</h2>
             <p class="muted" style="max-width:720px;">
               Native <code>h1</code>–<code>h6</code> are styled with fluid <code>clamp()</code>
               sizing — they scale smoothly from mobile to desktop without breakpoints.
@@ -51,7 +51,7 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
           </section>
 
           <section id="colors">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Color utilities</h2>
+            <h2 class="doc-h2">Color utilities</h2>
             <p class="muted" style="max-width:720px;">
               Single-purpose classes for foreground and background colors.
             </p>
@@ -63,21 +63,21 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
             />
             <ComponentPreview
               title="Background color"
-              html={`<div class="u-bg-primary u-p-4 u-text-white u-round-md">Primary purple</div>
-<div class="u-bg-neutral u-p-4 u-round-md" style="margin-top:8px;">Light neutral</div>`}
+              html={`<div class="u-bg-primary u-p-4 u-text-white">Primary purple</div>
+<div class="u-bg-neutral u-p-4" style="margin-top:var(--space-2);">Light neutral</div>`}
             />
           </section>
 
           <section id="spacing">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Spacing</h2>
+            <h2 class="doc-h2">Spacing</h2>
             <p class="muted" style="max-width:720px;">
               Padding and margin utilities use the token scale.
             </p>
             <ComponentPreview
               title="Padding & margin"
-              html={`<div class="u-p-4 u-bg-primary u-text-white u-round-md">.u-p-4 (16px padding)</div>
-<div class="u-p-8 u-bg-primary u-text-white u-round-md" style="margin-top:8px;">.u-p-8 (32px padding)</div>
-<div class="u-p-16 u-bg-primary u-text-white u-round-md" style="margin-top:8px;">.u-p-16 (96px padding)</div>`}
+              html={`<div class="u-p-4 u-bg-primary u-text-white">.u-p-4 (16px padding)</div>
+<div class="u-p-8 u-bg-primary u-text-white" style="margin-top:var(--space-2);">.u-p-8 (32px padding)</div>
+<div class="u-p-16 u-bg-primary u-text-white" style="margin-top:var(--space-2);">.u-p-16 (96px padding)</div>`}
             />
           </section>
         </div>
@@ -85,3 +85,13 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.doc-h2 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--fluid-h3);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-2);
+}
+</style>

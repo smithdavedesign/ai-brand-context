@@ -23,18 +23,18 @@ import SectionHeader from '~/components/SectionHeader.astro';
       />
       <div class="grid grid--2">
         <div class="card">
-          <h3 style="margin:0 0 8px; font-size:20px;">What you see</h3>
-          <ul class="text-small muted" style="padding-left:18px;">
+          <h3 style="margin:0 0 var(--space-2); font-size:var(--fluid-h5);">What you see</h3>
+          <ul class="text-small muted" style="padding-left:var(--space-4);">
             <li>Hero typography: <code>DT Hero</code>, <code>DT Headline 1</code></li>
-            <li>All purples: <code>--color-purple-*</code> tokens</li>
+            <li>All purples: <code>--solidigm-purple</code>, <code>--ultra-dark-purple</code></li>
             <li>Spacing: <code>--space-*</code> 4pt scale</li>
             <li>Buttons: <code>.btn--primary</code>, <code>.tk-btn</code> from the toolkit</li>
-            <li>Radius: <code>--border-radius-sm</code>, <code>--border-radius-md</code></li>
+            <li>Corners: <code>--border-radius-sm: 0</code> — always square</li>
           </ul>
         </div>
         <div class="card">
-          <h3 style="margin:0 0 8px; font-size:20px;">What you don't see</h3>
-          <ul class="text-small muted" style="padding-left:18px;">
+          <h3 style="margin:0 0 var(--space-2); font-size:var(--fluid-h5);">What you don't see</h3>
+          <ul class="text-small muted" style="padding-left:var(--space-4);">
             <li>Any hardcoded hex values</li>
             <li>Any magic numbers for spacing</li>
             <li>Any font beyond Sora</li>
@@ -63,12 +63,13 @@ import SectionHeader from '~/components/SectionHeader.astro';
           </div>
         </div>
         <!-- /brand-audit:exempt -->
+
         <div class="ba-mock ba-mock--after">
           <div class="ba-mock__header">After — on-system</div>
-          <div style="padding:24px;">
-            <div style="font-family:Sora; font-weight:200; font-size:32px; color:var(--color-purple-600); line-height:1.1;">Storage, done right.</div>
-            <div style="font-family:Sora; font-weight:300; font-size:14px; color:var(--color-neutral-600); margin-top:12px; line-height:1.5;">Unlock data's virtually unlimited potential through Solidigm storage.</div>
-            <button class="tk-btn tk-btn--primary" style="margin-top:16px;">Explore products</button>
+          <div style="padding:var(--space-6);">
+            <div style="font-weight:var(--font-weight-extralight); font-size:var(--fluid-h3); color:var(--ultra-dark-purple); line-height:1.1;">Storage, done right.</div>
+            <div style="font-weight:var(--font-weight-light); color:var(--medium-gray); margin-top:var(--space-3); line-height:1.5;">Unlock data's virtually unlimited potential through Solidigm storage.</div>
+            <button class="tk-btn tk-btn--primary" style="margin-top:var(--space-4);">Explore products</button>
           </div>
         </div>
       </div>
@@ -81,10 +82,10 @@ import SectionHeader from '~/components/SectionHeader.astro';
       <p class="section-lede" style="margin: 0 auto var(--space-8, 32px);">
         The system is live, documented, and enforced. Your turn.
       </p>
-      <div style="display:inline-flex; gap:16px; flex-wrap:wrap; justify-content:center;">
-        <a href="/tokens/usage" class="btn btn--primary" style="background:#fff; color:var(--color-purple-500);">Install the tokens</a>
-        <a href="/toolkit" class="btn btn--secondary" style="color:#fff; border-color:#fff;">Use the toolkit</a>
-        <a href="https://github.com/solidigm/ai-brand-context" class="btn btn--ghost" style="color:#fff;">View the source ↗</a>
+      <div style="display:inline-flex; gap:var(--space-4); flex-wrap:wrap; justify-content:center;">
+        <a href="/tokens/usage" class="btn btn--on-dark">Install the tokens</a>
+        <a href="/toolkit" class="btn btn--ghost">Use the toolkit</a>
+        <a href="https://github.com/solidigm/ai-brand-context" class="btn btn--ghost">View the source ↗</a>
       </div>
     </div>
   </section>
@@ -94,23 +95,22 @@ import SectionHeader from '~/components/SectionHeader.astro';
 .ba-showcase {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-5, 20px);
+  gap: var(--space-5);
 }
 @media (max-width: 767px) { .ba-showcase { grid-template-columns: 1fr; } }
 .ba-mock {
-  border-radius: var(--border-radius-md, 16px);
   overflow: hidden;
   border: 1px solid rgba(0,0,0,0.08);
-  background: #fff;
+  background: var(--color-neutral-0);
 }
 .ba-mock__header {
-  padding: 8px 16px;
-  font-size: 11px;
-  letter-spacing: 1.5px;
+  padding: var(--space-2) var(--space-4);
+  font-size: 10px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  font-weight: 600;
-  color: #fff;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-0);
 }
-.ba-mock--before .ba-mock__header { background: #ba3640; }
+.ba-mock--before .ba-mock__header { background: var(--color-semantic-error); }
 .ba-mock--after .ba-mock__header { background: #187e7b; }
 </style>
