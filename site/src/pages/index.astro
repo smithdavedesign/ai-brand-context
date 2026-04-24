@@ -4,9 +4,9 @@ import TokenFlowDiagram from '~/components/islands/TokenFlowDiagram.astro';
 import SectionHeader from '~/components/SectionHeader.astro';
 ---
 <BaseLayout title="Solidigm Design System" activeNav="home">
-  <!-- HERO -->
+  <!-- HERO — Inspirational / dark per brand page-type spec -->
   <section class="hero">
-    <div class="container">
+    <div class="container" style="position: relative; z-index: 2;">
       <span class="hero__eyebrow">● Solidigm Design System v1.0</span>
       <h1 class="hero__title">One system. <em>Every touchpoint.</em></h1>
       <p class="hero__lede">
@@ -14,10 +14,10 @@ import SectionHeader from '~/components/SectionHeader.astro';
         internal teams ship on-brand faster, with less rework.
       </p>
       <div class="hero__ctas">
-        <a href="/toolkit" class="btn btn--primary">
+        <a href="/toolkit" class="btn btn--on-dark">
           Explore UI Toolkit <span aria-hidden="true">→</span>
         </a>
-        <a href="/tokens" class="btn btn--secondary">
+        <a href="/tokens" class="btn btn--ghost">
           Get Token Package <span aria-hidden="true">→</span>
         </a>
       </div>
@@ -46,6 +46,13 @@ import SectionHeader from '~/components/SectionHeader.astro';
         </div>
       </div>
     </div>
+    <!-- S Mark brand angle watermark -->
+    <img
+      class="hero__smark"
+      src="/assets/logo/s-mark/white/s-mark-white-tm-1920x1080.png"
+      alt=""
+      aria-hidden="true"
+    />
   </section>
 
   <!-- TWO TRACKS -->
@@ -210,14 +217,25 @@ import SectionHeader from '~/components/SectionHeader.astro';
         Start with the toolkit, install the tokens, and ship with confidence.
       </p>
       <div style="display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
-        <a href="/tokens/usage" class="btn btn--primary" style="background: #fff; color: var(--color-purple-500);">Install the package</a>
-        <a href="/toolkit/components" class="btn btn--secondary" style="color: #fff; border-color: #fff;">Browse components</a>
+        <a href="/tokens/usage" class="btn btn--on-dark">Install the package</a>
+        <a href="/toolkit/components" class="btn btn--ghost">Browse components</a>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+/* S Mark watermark */
+.hero__smark {
+  position: absolute;
+  right: -40px;
+  bottom: -60px;
+  width: 480px;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .metrics {
   display: flex;
   gap: var(--space-8, 32px);
@@ -233,14 +251,14 @@ import SectionHeader from '~/components/SectionHeader.astro';
   font-family: 'Sora', sans-serif;
   font-size: 28px;
   font-weight: 200;
-  color: var(--color-purple-600);
+  color: #fff;
   line-height: 1;
 }
 .metrics__item span {
   font-size: 12px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-neutral-600);
+  color: rgba(255, 255, 255, 0.55);
   margin-top: 4px;
 }
 
@@ -250,21 +268,19 @@ import SectionHeader from '~/components/SectionHeader.astro';
   gap: var(--space-3, 12px);
   padding: var(--space-8, 32px);
   background: #fff;
-  border-radius: var(--border-radius-md, 16px);
+  border-radius: 0;
   border: 1px solid rgba(0,0,0,0.08);
-  color: var(--color-neutral-800);
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  color: var(--dark-grey);
+  transition: border-color var(--dur-base) var(--ease-standard);
 }
 .track-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(22, 2, 49, 0.1);
-  border-color: rgba(79, 0, 181, 0.3);
+  border-color: rgba(79, 0, 181, 0.35);
 }
 .track-card h3 {
   font-family: 'Sora', sans-serif;
-  font-weight: 400;
+  font-weight: 200;
   font-size: 28px;
-  color: var(--color-purple-600);
+  color: var(--ultra-dark-purple);
   margin: 0;
 }
 .track-card__list {
@@ -277,7 +293,7 @@ import SectionHeader from '~/components/SectionHeader.astro';
 }
 .track-card__list li {
   font-size: 14px;
-  color: var(--color-neutral-600);
+  color: var(--medium-gray);
   padding-left: 20px;
   position: relative;
 }
@@ -285,14 +301,16 @@ import SectionHeader from '~/components/SectionHeader.astro';
   content: '→';
   position: absolute;
   left: 0;
-  color: var(--color-purple-500);
+  color: var(--solidigm-purple);
 }
 .track-card__cta {
   margin-top: auto;
   padding-top: var(--space-5, 20px);
-  color: var(--color-purple-500);
-  font-weight: 500;
-  font-size: 14px;
+  color: var(--solidigm-purple);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .why-icon {
@@ -314,7 +332,7 @@ import SectionHeader from '~/components/SectionHeader.astro';
 @media (max-width: 767px) { .ba-grid { grid-template-columns: 1fr; } }
 .ba {
   padding: var(--space-6, 24px);
-  border-radius: var(--border-radius-md, 16px);
+  border-radius: 0;
   background: #fff;
   border: 1px solid rgba(0,0,0,0.08);
 }
@@ -348,23 +366,25 @@ import SectionHeader from '~/components/SectionHeader.astro';
   padding: var(--space-6, 24px);
   background: #fff;
   border: 1px solid rgba(0,0,0,0.08);
-  border-radius: var(--border-radius-md, 16px);
-  color: var(--color-neutral-800);
-  transition: transform 0.2s, border-color 0.2s;
+  border-radius: 0;
+  color: var(--dark-grey);
+  transition: border-color var(--dur-base) var(--ease-standard);
 }
-.aud-card:hover { transform: translateY(-2px); border-color: var(--color-purple-500); }
+.aud-card:hover { border-color: var(--solidigm-purple); }
 .aud-card h3 {
   font-family: 'Sora', sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   font-size: 22px;
-  color: var(--color-purple-600);
+  color: var(--ultra-dark-purple);
   margin: 0;
 }
 .aud-card__cta {
   margin-top: auto;
   padding-top: var(--space-4, 16px);
-  color: var(--color-purple-500);
-  font-weight: 500;
-  font-size: 14px;
+  color: var(--solidigm-purple);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 </style>
