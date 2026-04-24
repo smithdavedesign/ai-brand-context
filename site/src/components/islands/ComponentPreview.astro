@@ -2,8 +2,9 @@
 interface Props {
   title?: string;
   html: string;
+  layout?: 'flex' | 'stack';
 }
-const { title, html } = Astro.props;
+const { title, html, layout = 'flex' } = Astro.props;
 const id = `cp-${Math.random().toString(36).slice(2, 8)}`;
 ---
 <div class="component-preview">
@@ -13,7 +14,7 @@ const id = `cp-${Math.random().toString(36).slice(2, 8)}`;
     <button class="component-preview__tab" data-tab="code" data-target={id}>HTML</button>
   </div>
   <div class="component-preview__panel" data-panel="preview" data-id={id}>
-    <div class="component-preview__stage" set:html={html} />
+    <div class={`component-preview__stage${layout === 'stack' ? ' component-preview__stage--stack' : ''}`} set:html={html} />
   </div>
   <div class="component-preview__panel" data-panel="code" data-id={id} hidden>
     <pre><code>{html}</code></pre>
@@ -74,6 +75,10 @@ const id = `cp-${Math.random().toString(36).slice(2, 8)}`;
   min-height: 120px;
   flex-wrap: wrap;
   gap: 16px;
+}
+.component-preview__stage--stack {
+  display: block;
+  text-align: left;
 }
 .component-preview__panel pre { margin: 0; border-radius: 0; }
 </style>

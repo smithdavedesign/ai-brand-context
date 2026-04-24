@@ -117,6 +117,7 @@ Status key: `[x]` complete · `[~]` in progress · `[ ]` not started · `[!]` ne
 
 ## 🚧 Deferred / nice-to-have
 
+- [ ] **Generate `ui-toolkit.min.css` from `build.js`** — currently `docs/ui-toolkit.min.css` is a manually-maintained file copied into `site/public/` at build time. Extend `build.js` to compile it from `tokens/` so the full toolkit CSS is source-driven and `docs/ui-toolkit.min.css` can be removed. This closes the last manually-edited CSS gap in the pipeline.
 - [ ] Write-capable SharePoint tools (upload assets from agents)
 - [ ] Redis-backed token store for production multi-instance deploys
 - [ ] Figma MCP integration so the tokens → figma sync is bi-directional
