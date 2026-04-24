@@ -83,8 +83,24 @@ async def list_assets(
     category: str | None = None,
     include_sharepoint: bool = True,
 ) -> Dict[str, Any]:
-    """List brand assets. Optional ``category`` ∈ {logo, illustration, doc}."""
+    """List brand assets. Optional ``category`` ∈ {logo, illustration, icon, image, template, product-render, doc}."""
     return await brand_tools.list_assets(category, include_sharepoint)
+
+
+@mcp.tool()
+async def get_asset(
+    name: str | None = None,
+    path: str | None = None,
+    category: str | None = None,
+) -> Dict[str, Any]:
+    """Retrieve a single brand asset by name or exact path.
+
+    Use ``name`` for a substring match (e.g. 'purple ppt icons', 'product render P5336').
+    Use ``path`` for the exact ``rel_path`` returned by ``list_assets``.
+    Optionally narrow with ``category`` ∈ {logo, illustration, icon, image, template, product-render, doc}.
+    Returns ``download_url`` (SharePoint, ~1 hr) or ``url`` (local public path).
+    """
+    return await brand_tools.get_asset(name, path, category)
 
 
 @mcp.tool()

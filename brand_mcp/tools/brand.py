@@ -141,13 +141,29 @@ async def list_assets(
     category: Optional[str] = None,
     include_sharepoint: bool = True,
 ) -> Dict[str, Any]:
-    """List all brand assets (logos / illustrations / docs).
+    """List all brand assets.
 
     Merges local repo assets with SharePoint results when configured.
+    ``category`` ∈ {logo, illustration, icon, image, template, product-render, doc} or omit for all.
     """
     return await assets_mod.list_all_assets(
         category=category, include_sharepoint=include_sharepoint
     )
+
+
+async def get_asset(
+    name: Optional[str] = None,
+    path: Optional[str] = None,
+    category: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Retrieve a single brand asset by name or path.
+
+    Pass ``name`` (substring) to fuzzy-match, or ``path`` (exact rel_path from
+    ``list_assets``) for a precise lookup.  Optionally narrow with ``category``.
+    Returns the asset record including ``download_url`` (SharePoint pre-auth,
+    ~1 hr TTL) or ``url`` (local public path).
+    """
+    return await assets_mod.get_asset(name=name, path=path, category=category)
 
 
 def get_logo(

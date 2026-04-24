@@ -36,6 +36,30 @@ _ASSET_FOLDER_HINTS: Dict[str, List[str]] = {
     "doc": ["guideline", "trademark", "brand guideline"],
 }
 
+# SharePoint folder-name prefix → category (matched against any path segment, lowercase)
+_SP_FOLDER_CATEGORIES: Dict[str, str] = {
+    "02 - logos":                    "logo",
+    "04 - presentation template":    "template",
+    "05 - word doc template":        "template",
+    "06 - email signature":          "template",
+    "07 - teams backgrounds":        "template",
+    "08 - excel template":           "template",
+    "09 - icons":                    "icon",
+    "10 - email header templates":   "template",
+    "11 - images":                   "image",
+    "12 - product renders":          "product-render",
+    "01 - brand guidelines":         "doc",
+}
+
+
+def _infer_sp_category(rel_path: str) -> str:
+    """Return a category string by matching any path segment against _SP_FOLDER_CATEGORIES."""
+    lower = rel_path.lower()
+    for folder_key, cat in _SP_FOLDER_CATEGORIES.items():
+        if folder_key in lower:
+            return cat
+    return "other"
+
 _cache = Cache(ttl_seconds=config.BRAND_SHAREPOINT_CACHE_TTL)
 
 # ---------------------------------------------------------------------------
@@ -196,11 +220,13 @@ async def _list_drive_items_recursive(
             if "folder" in it:
                 subfolders.append(f"{path}/{it['name']}" if path else it["name"])
             else:
+                rel = f"{path}/{it.get('name')}" if path else it.get("name", "")
                 results.append(
                     {
                         "source": "sharepoint",
+                        "category": _infer_sp_category(rel),
                         "name": it.get("name"),
-                        "rel_path": f"{path}/{it.get('name')}" if path else it.get("name"),
+                        "rel_path": rel,
                         "url": it.get("webUrl"),
                         "download_url": it.get("@microsoft.graph.downloadUrl"),
                         "size_bytes": it.get("size"),
@@ -238,6 +264,45 @@ async def list_sharepoint_assets(
 # ---------------------------------------------------------------------------
 # Unified manifest
 # ---------------------------------------------------------------------------
+async def get_asset(
+    *,
+    name: Optional[str] = None,
+    path: Optional[str] = None,
+    category: Optional[str] = None,
+    user_id: Optional[str] = None,
+) -> Dict[str, Any]:
+    """Return a single asset by name substring or exact rel_path.
+
+    Searches the unified manifest (local + SharePoint).  The first matching
+    item is returned together with its ``download_url`` (SharePoint pre-auth,
+    valid ~1 hr) or ``url`` (local public path).
+    """
+    if not name and not path:
+        return {"status": "error", "error": "Provide 'name' or 'path'"}
+
+    manifest = await list_all_assets(category=category, user_id=user_id)
+    items = manifest["items"]
+
+    if path:
+        needle_path = path.lower()
+        matches = [a for a in items if (a.get("rel_path") or "").lower() == needle_path]
+    else:
+        needle_name = (name or "").lower()
+        matches = [a for a in items if needle_name in (a.get("name") or "").lower()]
+
+    if not matches:
+        return {"status": "not_found", "query": {"name": name, "path": path, "category": category}}
+
+    # Return the best match + total count of alternatives
+    best = matches[0]
+    return {
+        "status": "ok",
+        "asset": best,
+        "alternatives": len(matches) - 1,
+        "all_matches": matches if len(matches) > 1 else None,
+    }
+
+
 async def list_all_assets(
     *,
     category: Optional[str] = None,
