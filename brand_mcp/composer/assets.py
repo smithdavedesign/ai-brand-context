@@ -206,7 +206,7 @@ async def _list_drive_items_recursive(
     folder_path: str,
     *,
     user_id: Optional[str] = None,
-    max_depth: int = 4,
+    max_depth: int = 8,
 ) -> List[Dict[str, Any]]:
     """Recursively list files under a folder, capped at ``max_depth``."""
     results: List[Dict[str, Any]] = []
