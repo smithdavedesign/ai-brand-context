@@ -8,7 +8,10 @@
     "url": "https://github.com/solidigm/ai-brand-context.git"
   },
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "test": "playwright test",
+    "test:api": "playwright test --grep 'MCP /api'",
+    "test:ui": "playwright test --grep 'Assets page'"
   },
   "exports": {
     ".": {
@@ -51,5 +54,8 @@
     "tailwind",
     "figma",
     "eslint-plugin"
-  ]
+  ],
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  }
 }

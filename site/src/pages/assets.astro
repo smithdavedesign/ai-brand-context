@@ -92,46 +92,146 @@ const quickDownloads = [
     </div>
 
     <div class="asset-controls" role="toolbar" aria-label="Asset filters">
-      <label class="asset-field">
-        <span>Category</span>
-        <select id="assetCategory">
-          <option value="">All</option>
-          <option value="logo">Logos</option>
-          <option value="illustration">Illustrations</option>
-          <option value="icon">Icons</option>
-          <option value="image">Images</option>
-          <option value="template">Templates</option>
-          <option value="product-render">Product Renders</option>
-          <option value="doc">Documents</option>
-        </select>
-      </label>
+      <!-- Always-visible row -->
+      <div class="asset-controls__primary">
+        <label class="asset-field">
+          <span>Category</span>
+          <select id="assetCategory">
+            <option value="">All</option>
+            <option value="logo">Logos</option>
+            <option value="illustration">Illustrations</option>
+            <option value="icon">Icons</option>
+            <option value="image">Images</option>
+            <option value="template">Templates</option>
+            <option value="product-render">Product Renders</option>
+            <option value="doc">Documents</option>
+          </select>
+        </label>
 
-      <label class="asset-field" id="colorField" hidden>
-        <span>Color</span>
-        <select id="assetColor">
-          <option value="">Any</option>
-          <option value="purple">Purple</option>
-          <option value="black">Black</option>
-          <option value="blue">Blue</option>
-          <option value="white">White</option>
-        </select>
-      </label>
+        <label class="asset-field asset-field--grow">
+          <span>Search</span>
+          <input id="assetSearch" type="search" placeholder="Filter by filename…" />
+        </label>
 
-      <label class="asset-field" id="variantField" hidden>
-        <span>Variant</span>
-        <select id="assetVariant">
-          <option value="">Any</option>
-          <option value="standard">Standard</option>
-          <option value="stacked">Stacked</option>
-          <option value="wordmark">Wordmark</option>
-          <option value="s-mark">S Mark</option>
-        </select>
-      </label>
+        <button type="button" class="asset-reset" id="assetReset" hidden aria-label="Clear filters">Reset</button>
+      </div>
 
-      <label class="asset-field asset-field--grow">
-        <span>Search</span>
-        <input id="assetSearch" type="search" placeholder="Filter by filename…" />
-      </label>
+      <!-- Sub-filters row — shown only when a specific category is active -->
+      <div class="asset-controls__subfilters" id="assetSubfilters" hidden>
+
+        <!-- Logo filters -->
+        <label class="asset-field" id="colorField" hidden>
+          <span>Color</span>
+          <select id="assetColor">
+            <option value="">Any</option>
+            <option value="purple">Purple</option>
+            <option value="black">Black</option>
+            <option value="blue">Blue</option>
+            <option value="white">White</option>
+          </select>
+        </label>
+
+        <label class="asset-field" id="variantField" hidden>
+          <span>Variant</span>
+          <select id="assetVariant">
+            <option value="">Any</option>
+            <option value="standard">Standard</option>
+            <option value="stacked">Stacked</option>
+            <option value="wordmark">Wordmark</option>
+            <option value="s-mark">S Mark</option>
+          </select>
+        </label>
+
+        <label class="asset-field" id="logoFormatField" hidden>
+          <span>Format</span>
+          <select id="assetLogoFormat">
+            <option value="">Any</option>
+            <option value="png">PNG</option>
+            <option value="svg">SVG</option>
+            <option value="eps">EPS</option>
+          </select>
+        </label>
+
+        <!-- Image filters -->
+        <label class="asset-field" id="imageSubcatField" hidden>
+          <span>Subject</span>
+          <select id="assetImageSubcat">
+            <option value="">Any</option>
+            <option value="01. People_Partnerships_Groups">People / Partnerships</option>
+            <option value="02. Techs Impact">Tech’s Impact</option>
+            <option value="03. People_Industries">People / Industries</option>
+            <option value="04. People_Problem Solvers">Problem Solvers</option>
+            <option value="05. Tech in Use">Tech in Use</option>
+            <option value="06. Data Center_People">Data Center / People</option>
+            <option value="07. Data Center">Data Center</option>
+            <option value="08. Texture">Texture</option>
+            <option value="09 - Abstract">Abstract</option>
+          </select>
+        </label>
+
+        <!-- Product render filters -->
+        <label class="asset-field" id="skuField" hidden>
+          <span>SKU</span>
+          <select id="assetSku">
+            <option value="">Any</option>
+            <option value="D7-P5520">D7-P5520</option>
+            <option value="D7-PS1010">D7-PS1010</option>
+            <option value="D7-PS1030">D7-PS1030</option>
+          </select>
+        </label>
+
+        <label class="asset-field" id="formFactorField" hidden>
+          <span>Form Factor</span>
+          <select id="assetFormFactor">
+            <option value="">Any</option>
+            <option value="E1.L">E1.L</option>
+            <option value="E1.S - 9.5mm">E1.S / 9.5mm</option>
+            <option value="E3.S">E3.S</option>
+            <option value="U.2">U.2</option>
+          </select>
+        </label>
+
+        <label class="asset-field" id="labelField" hidden>
+          <span>Label</span>
+          <select id="assetLabel">
+            <option value="">Any</option>
+            <option value="With Label">With Label</option>
+            <option value="Without Label">Without Label</option>
+          </select>
+        </label>
+
+        <label class="asset-field" id="imageFormatField" hidden>
+          <span>Format</span>
+          <select id="assetImageFormat">
+            <option value="">Any</option>
+            <option value="JPG">JPG</option>
+            <option value="PNG">PNG</option>
+          </select>
+        </label>
+
+        <label class="asset-field" id="shadowField" hidden>
+          <span>Shadow</span>
+          <select id="assetShadow">
+            <option value="">Any</option>
+            <option value="With Shadow">With Shadow</option>
+            <option value="Without Shadow">Without Shadow</option>
+          </select>
+        </label>
+
+        <!-- Template filters -->
+        <label class="asset-field" id="templateTypeField" hidden>
+          <span>Type</span>
+          <select id="assetTemplateType">
+            <option value="">Any</option>
+            <option value="presentation">Presentation</option>
+            <option value="word">Word</option>
+            <option value="excel">Excel</option>
+            <option value="email">Email / Signature</option>
+            <option value="teams">Teams Background</option>
+          </select>
+        </label>
+
+      </div><!-- /.asset-controls__subfilters -->
     </div>
 
     <div class="asset-status" id="assetStatus" aria-live="polite">Loading…</div>
@@ -174,6 +274,24 @@ const quickDownloads = [
     const searchEl = document.getElementById('assetSearch');
     const colorField = document.getElementById('colorField');
     const variantField = document.getElementById('variantField');
+    const skuField = document.getElementById('skuField');
+    const formFactorField = document.getElementById('formFactorField');
+    const labelField = document.getElementById('labelField');
+    const imageFormatField = document.getElementById('imageFormatField');
+    const shadowField = document.getElementById('shadowField');
+    const templateTypeField = document.getElementById('templateTypeField');
+    const logoFormatField = document.getElementById('logoFormatField');
+    const imageSubcatField = document.getElementById('imageSubcatField');
+    const logoFormatEl = document.getElementById('assetLogoFormat');
+    const imageSubcatEl = document.getElementById('assetImageSubcat');
+    const skuEl = document.getElementById('assetSku');
+    const formFactorEl = document.getElementById('assetFormFactor');
+    const labelEl = document.getElementById('assetLabel');
+    const imageFormatEl = document.getElementById('assetImageFormat');
+    const shadowEl = document.getElementById('assetShadow');
+    const templateTypeEl = document.getElementById('assetTemplateType');
+    const subfiltersRow = document.getElementById('assetSubfilters');
+    const resetBtn = document.getElementById('assetReset');
     const pagination = document.getElementById('assetPagination');
     const prevBtn = document.getElementById('assetPrev');
     const nextBtn = document.getElementById('assetNext');
@@ -208,19 +326,113 @@ const quickDownloads = [
       }
     }
 
+    function parseImageSubcat(a) {
+      const p = a.rel_path || '';
+      const subs = [
+        '01. People_Partnerships_Groups',
+        '02. Techs Impact',
+        '03. People_Industries',
+        '04. People_Problem Solvers',
+        '05. Tech in Use',
+        '06. Data Center_People',
+        '07. Data Center',
+        '08. Texture',
+        '09 - Abstract',
+      ];
+      return subs.find(s => p.includes(s)) || '';
+    }
+
+    function parseProductRender(a) {
+      if (!a.rel_path) return {};
+      const parts = a.rel_path.replace(/\\/g, '/').split('/');
+      const idx = parts.findIndex(p => /product.?render/i.test(p));
+      if (idx < 0) return {};
+      return {
+        sku: (parts[idx + 1] || '').trim(),
+        formFactor: (parts[idx + 2] || '').trim(),
+        label: (parts[idx + 3] || '').trim(),
+        imageFormat: (parts[idx + 4] || '').trim(),
+        shadow: (parts[idx + 5] || '').trim(),
+      };
+    }
+
+    function parseTemplateType(a) {
+      const name = (a.name || '').toLowerCase();
+      const path = (a.rel_path || '').toLowerCase();
+      // Teams backgrounds first (they are JPGs with 'TeamsBG' in name)
+      if (/teamsbg|teams.?bg|teams.?background/.test(name)) return 'teams';
+      // Excel
+      if (/\.xlsx?$/.test(name) || /\bexcel\b/.test(name)) return 'excel';
+      // Email signature (check folder path too)
+      if (/email.?sig|signature/.test(name) || /email.?sig|email signature/i.test(path)) return 'email';
+      // Word / letterhead (.docx / .dotx)
+      if (/\.(docx?|dotx?)$/.test(name) || /letterhead/.test(name)) return 'word';
+      // PowerPoint presentations
+      if (/\.pptx?$/.test(name) || /presentation|powerpoint/.test(name)) return 'presentation';
+      return '';
+    }
+
+    function updateFilterVisibility(cat) {
+      const hasSub = cat && cat !== '';
+      // Show/hide the sub-filter row
+      subfiltersRow.hidden = !hasSub;
+
+      // Logo
+      colorField.hidden        = cat !== 'logo';
+      variantField.hidden      = cat !== 'logo';
+      logoFormatField.hidden   = cat !== 'logo';
+      // Image
+      imageSubcatField.hidden  = cat !== 'image';
+      // Product render
+      skuField.hidden          = cat !== 'product-render';
+      formFactorField.hidden   = cat !== 'product-render';
+      labelField.hidden        = cat !== 'product-render';
+      imageFormatField.hidden  = cat !== 'product-render';
+      shadowField.hidden       = cat !== 'product-render';
+      // Template
+      templateTypeField.hidden = cat !== 'template';
+    }
+
     function render() {
       const cat = categoryEl.value;
       const color = colorEl.value;
       const variant = variantEl.value;
+      const logoFormat = logoFormatEl.value;
+      const imageSubcat = imageSubcatEl.value;
+      const sku = skuEl.value;
+      const formFactor = formFactorEl.value;
+      const label = labelEl.value;
+      const imageFormat = imageFormatEl.value;
+      const shadow = shadowEl.value;
+      const templateType = templateTypeEl.value;
       const q = searchEl.value.trim().toLowerCase();
 
-      colorField.hidden = cat !== 'logo';
-      variantField.hidden = cat !== 'logo';
+      updateFilterVisibility(cat);
+
+      // Show reset if any filter is active
+      const anyActive = cat || q || color || variant || logoFormat || imageSubcat ||
+        sku || formFactor || label || imageFormat || shadow || templateType;
+      resetBtn.hidden = !anyActive;
 
       filteredCache = cache.filter((a) => {
         if (cat && a.category !== cat) return false;
+        // Logo sub-filters
         if (cat === 'logo' && color && a.color !== color) return false;
         if (cat === 'logo' && variant && a.variant !== variant) return false;
+        if (cat === 'logo' && logoFormat && a.format !== logoFormat) return false;
+        // Image sub-filters
+        if (cat === 'image' && imageSubcat && parseImageSubcat(a) !== imageSubcat) return false;
+        // Product render sub-filters
+        if (cat === 'product-render') {
+          const pr = parseProductRender(a);
+          if (sku && pr.sku !== sku) return false;
+          if (formFactor && pr.formFactor !== formFactor) return false;
+          if (label && pr.label !== label) return false;
+          if (imageFormat && pr.imageFormat !== imageFormat) return false;
+          if (shadow && pr.shadow !== shadow) return false;
+        }
+        // Template sub-filters
+        if (cat === 'template' && templateType && parseTemplateType(a) !== templateType) return false;
         if (q && !(a.name || '').toLowerCase().includes(q)) return false;
         return true;
       });
@@ -244,9 +456,22 @@ const quickDownloads = [
       grid.innerHTML = page
         .map((a, i) => {
           const idx = start + i;
-          const isImage = a.source === 'local' && /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(a.name || '');
-          const thumb = isImage
-            ? `<img src="${a.url}" alt="" loading="lazy" />`
+          const isImage = /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(a.name || '');
+          // Prefer the CDN thumbnail URL returned by $expand=thumbnails (fast, no proxy needed).
+          // Fall back to the proxy for assets that don't have a Graph thumbnail
+          // (e.g. EPS, ZIP, PDF) or for local assets.
+          let thumbSrc = null;
+          if (isImage) {
+            if (a.thumbnail_url) {
+              thumbSrc = a.thumbnail_url; // direct Microsoft CDN — fastest path
+            } else if (a.source === 'sharepoint' && (a.download_url || a.url)) {
+              thumbSrc = `http://localhost:8080/api/thumb?url=${encodeURIComponent(a.download_url || a.url)}`;
+            } else {
+              thumbSrc = a.url;
+            }
+          }
+          const thumb = thumbSrc
+            ? `<img src="${thumbSrc}" alt="" loading="lazy" />`
             : `<div class="asset-card__placeholder">${(a.format || a.category || '?').toUpperCase()}</div>`;
           const meta = [
             a.source === 'sharepoint' ? 'SharePoint' : 'Local',
@@ -284,9 +509,10 @@ const quickDownloads = [
 
     // Preview modal
     function openModal(asset) {
-      const isImage = asset.source === 'local' && /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(asset.name || '');
+      const isImage = /\.(png|jpg|jpeg|svg|webp|gif)$/i.test(asset.name || '');
+      const previewSrc = asset.download_url || asset.url;
       modalPreview.innerHTML = isImage
-        ? `<img src="${asset.url}" alt="${asset.name}" />`
+        ? `<img src="${previewSrc}" alt="${asset.name}" />`
         : `<div class="asset-modal__placeholder">${(asset.format || asset.category || '?').toUpperCase()}</div>`;
       modalTitle.textContent = asset.name;
 
@@ -370,9 +596,25 @@ const quickDownloads = [
       currentPage++; renderPage(); window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    [categoryEl, colorEl, variantEl, searchEl].forEach((el) =>
+    [categoryEl, colorEl, variantEl, logoFormatEl, imageSubcatEl, skuEl, formFactorEl, labelEl, imageFormatEl, shadowEl, templateTypeEl, searchEl].forEach((el) =>
       el.addEventListener('input', render)
     );
+
+    resetBtn.addEventListener('click', () => {
+      categoryEl.value = '';
+      colorEl.value = '';
+      variantEl.value = '';
+      logoFormatEl.value = '';
+      imageSubcatEl.value = '';
+      skuEl.value = '';
+      formFactorEl.value = '';
+      labelEl.value = '';
+      imageFormatEl.value = '';
+      shadowEl.value = '';
+      templateTypeEl.value = '';
+      searchEl.value = '';
+      render();
+    });
 
     load();
   </script>
@@ -478,15 +720,31 @@ const quickDownloads = [
 
     /* ---------- Asset controls ---------- */
     .asset-controls {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: var(--space-3, 12px);
       margin: var(--space-6, 24px) 0 var(--space-4, 16px);
       padding: var(--space-4, 16px);
       background: var(--color-neutral-50);
       border-radius: 12px;
     }
+    .asset-controls__primary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: var(--space-3, 12px);
+    }
+    .asset-controls__subfilters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: var(--space-3, 12px);
+      padding-top: var(--space-3, 12px);
+      border-top: 1px solid var(--color-neutral-200);
+    }
+    .asset-controls__subfilters[hidden] { display: none !important; }
     .asset-field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--color-neutral-700); }
+    .asset-field[hidden] { display: none !important; }
     .asset-field select,
     .asset-field input {
       padding: 8px 10px;
@@ -497,7 +755,26 @@ const quickDownloads = [
       font-weight: 400;
       background: #fff;
     }
-    .asset-field--grow { grid-column: span 2; }
+    .asset-field--grow { flex: 1 1 220px; min-width: 160px; }
+    .asset-reset {
+      align-self: flex-end;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--color-neutral-300);
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      color: var(--color-neutral-700);
+      white-space: nowrap;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .asset-reset[hidden] { display: none !important; }
+    .asset-reset:hover {
+      border-color: var(--color-purple-500, #4f00b5);
+      color: var(--color-purple-600, #3d0099);
+      background: var(--color-purple-50, #f3eeff);
+    }
 
     .asset-status {
       font-size: 13px;

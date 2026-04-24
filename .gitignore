@@ -25,6 +25,10 @@ dist/
 site/dist/
 .DS_Store
 
+# Playwright
+playwright-report/
+test-results/
+
 # IDE
 .idea/
 *.swp

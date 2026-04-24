@@ -256,6 +256,39 @@ async def api_health(_request):  # type: ignore[no-untyped-def]
     )
 
 
+@mcp.custom_route("/api/thumb", methods=["GET"])
+async def api_thumb(request):  # type: ignore[no-untyped-def]
+    """Proxy a SharePoint pre-signed image URL to avoid browser CORS restrictions.
+
+    Usage: GET /api/thumb?url=<encoded-sharepoint-download-url>
+    """
+    import urllib.parse
+    from starlette.responses import Response
+
+    raw = request.query_params.get("url", "")
+    if not raw:
+        return Response("missing url", status_code=400)
+
+    # Safety: only proxy *.sharepoint.com URLs
+    parsed = urllib.parse.urlparse(raw)
+    if not parsed.hostname or not parsed.hostname.endswith(".sharepoint.com"):
+        return Response("forbidden", status_code=403)
+
+    try:
+        import httpx  # type: ignore[import]
+        async with httpx.AsyncClient(follow_redirects=True, timeout=15) as client:
+            resp = await client.get(raw)
+            content_type = resp.headers.get("content-type", "image/jpeg")
+            return Response(
+                content=resp.content,
+                media_type=content_type,
+                headers={"Access-Control-Allow-Origin": "*", "Cache-Control": "public, max-age=3600"},
+            )
+    except Exception as exc:  # noqa: BLE001
+        log.warning("thumb proxy failed: %s", exc)
+        return Response("proxy error", status_code=502)
+
+
 @mcp.custom_route("/api/validate", methods=["POST", "OPTIONS"])
 async def api_validate(request):  # type: ignore[no-untyped-def]
     """HTTP endpoint consumed by the brand-compliance Skill audit script.
@@ -296,7 +329,20 @@ async def api_validate(request):  # type: ignore[no-untyped-def]
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
+async def _prewarm_cache() -> None:
+    """Populate the SharePoint asset cache so the first user request is fast."""
+    try:
+        log.info("Pre-warming SharePoint asset cache…")
+        await assets_mod.list_sharepoint_assets()
+        log.info("SharePoint asset cache warm.")
+    except Exception as exc:  # noqa: BLE001
+        log.warning("Cache pre-warm failed (will retry on first request): %s", exc)
+
+
 def main() -> None:
+    import asyncio
+    import threading
+
     m365_oauth.init_store()
     log.info(
         "Starting Solidigm Brand MCP on %s:%d (sharepoint=%s)",
@@ -304,6 +350,13 @@ def main() -> None:
         config.MCP_PORT,
         config.is_brand_sharepoint_configured,
     )
+
+    # Kick off cache pre-warm in a background thread so it doesn't block startup.
+    if config.is_brand_sharepoint_configured:
+        def _run_prewarm() -> None:
+            asyncio.run(_prewarm_cache())
+        threading.Thread(target=_run_prewarm, daemon=True, name="cache-prewarm").start()
+
     mcp.run(transport="http", host=config.MCP_HOST, port=config.MCP_PORT)
 
 

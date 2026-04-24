@@ -178,7 +178,9 @@ async def _list_drive_items(
         endpoint = f"/drives/{config.BRAND_SHAREPOINT_DRIVE_ID}/root/children"
 
     all_items: List[Dict[str, Any]] = []
-    params: Optional[Dict[str, Any]] = {"$top": 200}
+    # $expand=thumbnails asks Graph to embed CDN thumbnail URLs in one call —
+    # the browser can then load them directly without any proxy.
+    params: Optional[Dict[str, Any]] = {"$top": 200, "$expand": "thumbnails"}
     next_url: Optional[str] = None
 
     while True:
@@ -220,15 +222,31 @@ async def _list_drive_items_recursive(
             if "folder" in it:
                 subfolders.append(f"{path}/{it['name']}" if path else it["name"])
             else:
-                rel = f"{path}/{it.get('name')}" if path else it.get("name", "")
+                name = it.get("name", "")
+                # Skip hidden/system files that have no brand value
+                if name.startswith(".") or name.lower() in {"thumbs.db", "desktop.ini"}:
+                    continue
+                rel = f"{path}/{name}" if path else name
+                # Extract the medium CDN thumbnail URL returned by $expand=thumbnails.
+                # These are pre-signed CDN URLs the browser can load directly (no CORS).
+                thumbs = it.get("thumbnails") or []
+                thumbnail_url: Optional[str] = None
+                if thumbs:
+                    sizes = thumbs[0]  # first thumbnail set
+                    thumbnail_url = (
+                        (sizes.get("medium") or {}).get("url")
+                        or (sizes.get("large") or {}).get("url")
+                        or (sizes.get("small") or {}).get("url")
+                    )
                 results.append(
                     {
                         "source": "sharepoint",
                         "category": _infer_sp_category(rel),
-                        "name": it.get("name"),
+                        "name": name,
                         "rel_path": rel,
                         "url": it.get("webUrl"),
                         "download_url": it.get("@microsoft.graph.downloadUrl"),
+                        "thumbnail_url": thumbnail_url,
                         "size_bytes": it.get("size"),
                     }
                 )
