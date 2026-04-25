@@ -42,3 +42,31 @@ const {
     <Footer />
   </body>
 </html>
+
+<script>
+  // Inject a collapse toggle before every .sidebar on mobile.
+  // Reads the active link label to show context ("On this page · Colors").
+  document.querySelectorAll<HTMLElement>('.sidebar').forEach((sidebar) => {
+    const activeLink = sidebar.querySelector<HTMLElement>('a.active');
+    const activeLabel = activeLink?.textContent?.trim() ?? '';
+
+    const btn = document.createElement('button');
+    btn.className = 'sidebar-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'sidebar-nav');
+    sidebar.id = 'sidebar-nav';
+    btn.innerHTML = `
+      <span>On this page${activeLabel ? `<span class="sidebar-toggle__active-page"> · ${activeLabel}</span>` : ''}</span>
+      <svg class="sidebar-toggle__chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2 4.5L7 9.5L12 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+      </svg>
+    `;
+
+    btn.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+
+    sidebar.parentElement?.insertBefore(btn, sidebar);
+  });
+</script>

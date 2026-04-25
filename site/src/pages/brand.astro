@@ -50,14 +50,14 @@ const logoRules = [
       <div class="grid grid--2">
         <div class="card">
           <span class="eyebrow">Mission</span>
-          <p style="font-size: 20px; font-weight: 300; color: var(--color-purple-600); margin-top: 8px;">
+          <p class="brand-mission">
             Unlock data's virtually unlimited potential through advancements in storage technology.
           </p>
-          <p class="text-small muted" style="margin-top: 12px;">Goal: become the #1 NAND business by 2030.</p>
+          <p class="text-small muted" style="margin-top: var(--space-3);">Goal: become the #1 NAND business by 2030.</p>
         </div>
         <div class="card">
           <span class="eyebrow">Values</span>
-          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top: 12px;">
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-2); margin-top: var(--space-3);">
             {values.map((v) => (
               <span class="badge badge--npm">{v}</span>
             ))}
@@ -77,12 +77,12 @@ const logoRules = [
       <div class="grid grid--3">
         {voice.map((v) => (
           <div class="card">
-            <h3 style="font-family: Sora; font-weight: 200; font-size: 32px; color: var(--color-purple-600); margin: 0 0 8px;">{v.word}</h3>
+            <h3 class="voice-word">{v.word}</h3>
             <p class="text-small muted" style="margin:0;">{v.detail}</p>
           </div>
         ))}
       </div>
-      <p class="text-small muted" style="margin-top: var(--space-6, 24px); max-width: 680px;">
+      <p class="text-small muted" style="margin-top: var(--space-6); max-width: 680px;">
         <strong>Never:</strong> arrogant, condescending, overly technical, or corporate-cold.
         Write like a thoughtful expert who genuinely cares about the reader's problem.
       </p>
@@ -99,34 +99,37 @@ const logoRules = [
       <div class="logo-demo">
         <div class="logo-demo__stage logo-demo__stage--light">
           <div class="logo-demo__mark">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true">
-              <polygon fill="#4F00B5" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
-              <polygon fill="#4F00B5" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+            <!-- Purple logo on light — fill controlled via CSS class -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg logo-svg--purple">
+              <polygon points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+              <polygon points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
             </svg>
           </div>
           <span class="logo-demo__caption">On light · Purple</span>
         </div>
         <div class="logo-demo__stage logo-demo__stage--dark">
           <div class="logo-demo__mark">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true">
-              <polygon fill="#FFFFFF" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
-              <polygon fill="#FFFFFF" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+            <!-- White logo on dark — fill controlled via CSS class -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg logo-svg--white">
+              <polygon points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+              <polygon points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
             </svg>
           </div>
           <span class="logo-demo__caption">On dark · White</span>
         </div>
         <div class="logo-demo__stage logo-demo__stage--gray">
           <div class="logo-demo__mark">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true">
-              <polygon fill="#1A1A1A" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
-              <polygon fill="#1A1A1A" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+            <!-- Dark logo on neutral — fill controlled via CSS class -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg logo-svg--dark">
+              <polygon points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+              <polygon points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
             </svg>
           </div>
           <span class="logo-demo__caption">On medium · Black</span>
         </div>
       </div>
 
-      <div class="dodont" style="margin-top: var(--space-8, 32px);">
+      <div class="dodont" style="margin-top: var(--space-8);">
         {logoRules.map((r) => (
           <>
             <div class="dodont__item dodont__item--do">
@@ -151,11 +154,11 @@ const logoRules = [
         lede="Purple is Solidigm. Dark backgrounds frame depth. Grays do the quiet work. Accent colors (teal, pink, orange) are reserved — never dominant."
       />
       <div class="grid grid--4">
-        <div class="phil-chip" style="background: var(--color-purple-500); color: #fff;">
+        <div class="phil-chip" style="background: var(--solidigm-purple); color: var(--color-neutral-0);">
           <strong>Purple</strong>
           <span>Lead color</span>
         </div>
-        <div class="phil-chip" style="background: var(--color-blue-900); color: #fff;">
+        <div class="phil-chip" style="background: var(--dark-blue); color: var(--color-neutral-0);">
           <strong>Dark Blue</strong>
           <span>Depth, overlays</span>
         </div>
@@ -168,7 +171,7 @@ const logoRules = [
           <span>Highlights only ⚠</span>
         </div>
       </div>
-      <p class="text-small muted" style="margin-top: var(--space-5, 20px); max-width: 680px;">
+      <p class="text-small muted" style="margin-top: var(--space-5); max-width: 680px;">
         Accent colors (Electric Teal, Electric Pink, Orange) require brand approval for any
         dominant use. See <a href="/tokens/colors">all tokens</a>.
       </p>
@@ -183,7 +186,7 @@ const logoRules = [
         lede="We use Sora (Google Fonts, free) across every surface. Thin (200) for headlines, not size alone. Weight is how we create emphasis — not bold-inside-sentences."
       />
       <div class="type-philosophy">
-        <div class="type-philosophy__sample" style="font-family:Sora; font-weight:200; font-size: clamp(40px, 6vw, 88px); line-height: 1; color: var(--color-purple-600);">
+        <div class="type-philosophy__sample">
           Paradigm shift.
         </div>
         <div class="type-philosophy__note">
@@ -193,7 +196,7 @@ const logoRules = [
           <p><strong>Emphasis:</strong> Use color or custom frames. <em>Never bold inside a sentence.</em></p>
         </div>
       </div>
-      <p class="text-small muted" style="margin-top: var(--space-6, 24px);">
+      <p class="text-small muted" style="margin-top: var(--space-6);">
         CJK languages use <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a>.
         Microsoft Office documents use Avenir Next LT Pro.
       </p>
@@ -213,65 +216,103 @@ const logoRules = [
 </BaseLayout>
 
 <style>
+/* Mission statement pull-quote style */
+.brand-mission {
+  font-size: var(--fluid-h5);
+  font-weight: var(--font-weight-light);
+  color: var(--ultra-dark-purple);
+  margin-top: var(--space-2);
+}
+
+/* Voice pillar word */
+.voice-word {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: var(--fluid-h3);
+  color: var(--solidigm-purple);
+  margin: 0 0 var(--space-2);
+}
+
+/* Logo demo grid */
 .logo-demo {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-5, 20px);
+  gap: var(--space-5);
 }
 .logo-demo__stage {
-  padding: var(--space-10, 48px) var(--space-6, 24px);
-  border-radius: var(--border-radius-md, 16px);
+  padding: var(--space-10) var(--space-6);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
   border: 1px solid rgba(0,0,0,0.06);
 }
 .logo-demo__stage--light { background: var(--color-neutral-50); }
-.logo-demo__stage--dark { background: var(--color-blue-900); color: #fff; }
-.logo-demo__stage--gray { background: var(--color-neutral-600); color: #fff; }
+.logo-demo__stage--dark  { background: var(--dark-blue); color: var(--color-neutral-0); }
+.logo-demo__stage--gray  { background: var(--color-neutral-600); color: var(--color-neutral-0); }
 .logo-demo__mark {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-4, 16px) 0;
+  padding: var(--space-4) 0;
 }
 .logo-demo__mark svg {
   width: 120px;
   height: auto;
   display: block;
 }
+/* SVG fill via CSS — no hardcoded hex in markup */
+.logo-svg--purple polygon { fill: var(--solidigm-purple); }
+.logo-svg--white  polygon { fill: var(--color-neutral-0); }
+.logo-svg--dark   polygon { fill: var(--color-neutral-900); }
+
 .logo-demo__caption {
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
+/* Color philosophy chips */
 .phil-chip {
-  padding: var(--space-6, 24px);
-  border-radius: var(--border-radius-md, 16px);
+  padding: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
   min-height: 140px;
   justify-content: flex-end;
 }
-.phil-chip strong { font-size: 20px; font-weight: 500; }
-.phil-chip span { font-size: 12px; opacity: 0.85; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+.phil-chip strong {
+  font-size: var(--fluid-h5);
+  font-weight: var(--font-weight-medium);
+}
+.phil-chip span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  opacity: 0.85;
+}
 
+/* Typography philosophy */
 .type-philosophy {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-8, 32px);
+  gap: var(--space-8);
   align-items: center;
 }
 @media (max-width: 767px) { .type-philosophy { grid-template-columns: 1fr; } }
+.type-philosophy__sample {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: clamp(40px, 6vw, 88px);
+  line-height: 1;
+  color: var(--ultra-dark-purple);
+}
 .type-philosophy__note p {
-  margin: 0 0 12px;
-  font-size: 14px;
-  color: var(--color-neutral-600);
+  margin: 0 0 var(--space-3);
+  color: var(--medium-gray);
   line-height: 1.6;
 }
-.type-philosophy__note p strong { color: var(--color-purple-600); font-weight: 600; }
+.type-philosophy__note p strong { color: var(--ultra-dark-purple); font-weight: var(--font-weight-semibold); }
 </style>

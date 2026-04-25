@@ -1,7 +1,7 @@
 ---
 name: brand-compliance
-description: "Audit the Solidigm Astro site (or any built HTML directory) against the Solidigm brand quality gates. Use when verifying a site pre-release, running a full brand sweep, or producing a compliance report for stakeholders. Calls the solidigm-brand MCP server's /api/validate endpoint and emits a markdown report."
-argument-hint: "[site dir, default: site/dist] [--report path]"
+description: "Audit the Solidigm Astro site (or any built HTML directory) against the Solidigm brand quality gates. Use when verifying a site pre-release, running a full brand sweep, or producing a compliance report for stakeholders. Calls the solidigm-brand MCP server's /api/validate endpoint and emits a markdown report. Supports --fix (preview patch) and --apply (apply auto-fixes)."
+argument-hint: "[site dir, default: site/dist] [--report path] [--fix] [--apply]"
 ---
 
 # Brand Compliance Audit
@@ -61,7 +61,32 @@ Multi-step workflow that verifies every HTML page in a built site against the 16
 
 ## Scripts and resources
 
-- [audit-pages.mjs](./scripts/audit-pages.mjs) — walks HTML, extracts text/styles, calls `/api/validate`, writes the report
+- [audit-pages.mjs](./scripts/audit-pages.mjs) — walks HTML, extracts text/styles, calls `/api/validate`, writes the report. Also supports `--fix` and `--apply` for the auto-fix pass over source files.
+
+## Auto-fix mode (N5)
+
+The audit script can also propose and apply mechanical fixes against the **source** tree (default `site/src/`).
+
+```bash
+# Preview only — write a patch and a markdown summary, no edits
+node .github/skills/brand-compliance/scripts/audit-pages.mjs --fix
+
+# Apply auto-fixes (the safe ones); suggestions stay in the patch for review
+node .github/skills/brand-compliance/scripts/audit-pages.mjs --apply
+```
+
+Outputs:
+
+- `docs/brand-fixes-YYYY-MM-DD.patch` — unified-diff-style patch with annotated severity
+- `docs/brand-fixes-YYYY-MM-DD.md` — human-readable summary
+
+Three rules:
+
+1. **AUTO** — `Solidigm®` → `Solidigm™` (mechanical, applied with `--apply`)
+2. **SUGGEST** — off-palette hex → nearest palette match within ΔE ≤ 60 (commented in patch only; never auto-applied)
+3. **SUGGEST** — `<h*>ALL CAPS</h*>` → Title Case (commented in patch only)
+
+Source-file scope can be overridden with `--fix-src <dir>`. The fix pass respects the same `<!-- brand-audit:exempt -->` blocks as the audit pass.
 
 ## Notes
 

@@ -24,22 +24,22 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
       <div class="grid grid--2">
         <div class="card">
           <span class="eyebrow">Marketing</span>
-          <h3 style="font-family:Sora; font-weight:300; font-size:24px; margin:8px 0;">Hero + feature grid</h3>
+          <h3 class="pattern-card-title">Hero + feature grid</h3>
           <p class="text-small muted">Title, lede, primary CTA, three feature cards below.</p>
         </div>
         <div class="card">
           <span class="eyebrow">Forms</span>
-          <h3 style="font-family:Sora; font-weight:300; font-size:24px; margin:8px 0;">Stacked field layout</h3>
+          <h3 class="pattern-card-title">Stacked field layout</h3>
           <p class="text-small muted">Labels above inputs, single column, inline validation.</p>
         </div>
         <div class="card">
           <span class="eyebrow">Product</span>
-          <h3 style="font-family:Sora; font-weight:300; font-size:24px; margin:8px 0;">Dashboard shell</h3>
+          <h3 class="pattern-card-title">Dashboard shell</h3>
           <p class="text-small muted">Left nav, top bar, content area with card grid.</p>
         </div>
         <div class="card">
           <span class="eyebrow">Content</span>
-          <h3 style="font-family:Sora; font-weight:300; font-size:24px; margin:8px 0;">Article page</h3>
+          <h3 class="pattern-card-title">Article page</h3>
           <p class="text-small muted">Breadcrumb, H1, lede, long-form body with sidebar TOC.</p>
         </div>
       </div>
@@ -54,19 +54,19 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
       />
       <div class="grid grid--2">
         <div class="card">
-          <h3 style="font-family:Sora; font-weight:400; font-size:18px; color:var(--color-purple-600); margin:0 0 8px;">Left-aligned body, always</h3>
+          <h3 class="ux-rule-title">Left-aligned body, always</h3>
           <p class="text-small muted">Never center-align blocks of paragraph text. Only short lead-ins, titles, or CTAs may center.</p>
         </div>
         <div class="card">
-          <h3 style="font-family:Sora; font-weight:400; font-size:18px; color:var(--color-purple-600); margin:0 0 8px;">Weight over decoration</h3>
+          <h3 class="ux-rule-title">Weight over decoration</h3>
           <p class="text-small muted">Emphasize with color or weight change — never bold inside a running sentence.</p>
         </div>
         <div class="card">
-          <h3 style="font-family:Sora; font-weight:400; font-size:18px; color:var(--color-purple-600); margin:0 0 8px;">One primary action</h3>
+          <h3 class="ux-rule-title">One primary action</h3>
           <p class="text-small muted">Each view has exactly one primary button. Everything else is secondary or ghost.</p>
         </div>
         <div class="card">
-          <h3 style="font-family:Sora; font-weight:400; font-size:18px; color:var(--color-purple-600); margin:0 0 8px;">Title case for headlines</h3>
+          <h3 class="ux-rule-title">Title case for headlines</h3>
           <p class="text-small muted">Capitalize significant words. Never all-caps for headlines. Uppercase reserved for labels &amp; buttons.</p>
         </div>
       </div>
@@ -82,11 +82,12 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
       />
       <ComponentPreview
         title="Fluid hero"
-        html={`<section class="u-p-16" style="background:linear-gradient(135deg, #f5f3f1, #fff);">
-  <span style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#4f00b5; font-weight:600;">Case study</span>
-  <h1 style="max-width:16ch; margin:12px 0;">AI-ready storage at hyperscale.</h1>
-  <p style="max-width:52ch; color:#52514f;">Power your most demanding workloads without compromise.</p>
-  <div style="margin-top:24px; display:flex; gap:8px; flex-wrap:wrap;">
+        layout="stack"
+        html={`<section class="u-p-16" style="background:var(--light-gray);">
+  <span style="font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--solidigm-purple); font-weight:var(--font-weight-semibold);">Case study</span>
+  <h1 style="max-width:16ch; margin:var(--space-3) 0;">AI-ready storage at hyperscale.</h1>
+  <p style="max-width:52ch; color:var(--medium-gray);">Power your most demanding workloads without compromise.</p>
+  <div style="margin-top:var(--space-6); display:flex; gap:var(--space-2); flex-wrap:wrap;">
     <button class="tk-btn tk-btn--primary">Request access</button>
     <button class="tk-btn tk-btn--secondary">Read the paper</button>
   </div>
@@ -95,3 +96,19 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.pattern-card-title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--fluid-h4);
+  margin: var(--space-2) 0;
+}
+.ux-rule-title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--fluid-h5);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-2);
+}
+</style>

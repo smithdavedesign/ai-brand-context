@@ -2,7 +2,11 @@
 
 One system. Every touchpoint. This repository is the **canonical source of truth** for the Solidigm design system — brand tokens, UI toolkit, brand assets, guidelines, a public documentation site, and an **MCP server** that unifies all of the above for AI agents and internal tools.
 
-See [`docs/architecture.md`](docs/architecture.md) for the full system architecture and flow diagram.
+> **AI agents:** read [`AGENTS.md`](AGENTS.md) first — it's the cross-vendor
+> contract (tools, hard rules, validation flow). For Copilot specifically,
+> see [`.github/copilot-instructions.md`](.github/copilot-instructions.md).
+
+See [`docs/architecture.md`](docs/architecture.md) for the full system architecture and flow diagram. See [`docs/INDEX.md`](docs/INDEX.md) for the doc map.
 
 ## What's in this repo
 

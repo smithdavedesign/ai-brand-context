@@ -51,8 +51,8 @@ const jsonExample = `{
         </aside>
         <div class="stack-lg">
           <section id="dark">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Dark palette</h2>
-            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+            <h2 class="doc-h2">Dark palette</h2>
+            <p class="muted" style="max-width:700px; margin-bottom:var(--space-6);">
               The foundation. Solidigm Purple is the lead brand color. Use dark tones for
               backgrounds, headlines, and primary actions.
             </p>
@@ -60,8 +60,8 @@ const jsonExample = `{
           </section>
 
           <section id="light">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Light palette</h2>
-            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+            <h2 class="doc-h2">Light palette</h2>
+            <p class="muted" style="max-width:700px; margin-bottom:var(--space-6);">
               Neutrals for structure, surfaces, and quiet UI. Gray tones should do the
               invisible work of guiding the eye.
             </p>
@@ -69,18 +69,18 @@ const jsonExample = `{
           </section>
 
           <section id="accents">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">
-              Accents <span style="font-size:12px; background:rgba(141, 89, 207, 0.15); color:var(--color-purple-600); padding:4px 10px; vertical-align:middle; letter-spacing:1px; text-transform:uppercase; font-weight:600;">Restricted</span>
+            <h2 class="doc-h2">
+              Accents <span class="restricted-badge">Restricted</span>
             </h2>
-            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+            <p class="muted" style="max-width:700px; margin-bottom:var(--space-6);">
               Accent colors are for highlights, charts, or moments of energy — never as the
               dominant fill. Using an accent in a hero or large background requires brand
               approval.
             </p>
             <ColorSwatchGrid group="Accents" />
-            <div class="card" style="margin-top: var(--space-5, 20px); border-left: 4px solid #ffa42c;">
+            <div class="card" style="margin-top: var(--space-5); border-left: 4px solid var(--color-accent-orange);">
               <strong>Usage rules:</strong>
-              <ul style="margin-top: 8px; color: var(--color-neutral-600); font-size: 14px;">
+              <ul style="margin-top: var(--space-2); color: var(--medium-gray);">
                 <li><strong>Orange</strong> — everyday use and Microsoft tools, as accent only.</li>
                 <li><strong>Electric Teal & Electric Pink</strong> — creative design only. Brand approval required.</li>
                 <li><strong>Never</strong> use accents as dominant page fills.</li>
@@ -89,8 +89,8 @@ const jsonExample = `{
           </section>
 
           <section id="semantic">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Semantic colors</h2>
-            <p class="muted" style="max-width:700px; margin-bottom:24px;">
+            <h2 class="doc-h2">Semantic colors</h2>
+            <p class="muted" style="max-width:700px; margin-bottom:var(--space-6);">
               Colors with meaning. These are reserved for states — don't repurpose them for
               decorative use.
             </p>
@@ -103,7 +103,7 @@ const jsonExample = `{
                 {semanticColors.map((c) => (
                   <tr>
                     <td>
-                      <span style={`display:inline-block; width:14px; height:14px; background:${c.hex}; margin-right:8px; vertical-align:middle; border:1px solid rgba(0,0,0,0.1);`} />
+                      <span class="color-swatch" style={`background:${c.hex};`} />
                       <strong>{c.name}</strong>
                     </td>
                     <td><code>{c.hex}</code></td>
@@ -117,7 +117,7 @@ const jsonExample = `{
           </section>
 
           <section id="source">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Source</h2>
+            <h2 class="doc-h2">Source</h2>
             <p class="muted" style="max-width:700px;">
               Colors are stored in <code>tokens/colors.json</code> using the W3C DTCG format.
               This JSON is the single source of truth — the build pipeline transforms it into
@@ -130,3 +130,31 @@ const jsonExample = `{
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.doc-h2 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--fluid-h3);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-2);
+}
+.restricted-badge {
+  font-size: 10px;
+  background: rgba(141, 89, 207, 0.15);
+  color: var(--dark-purple);
+  padding: var(--space-1) var(--space-2);
+  vertical-align: middle;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+}
+.color-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: var(--space-2);
+  vertical-align: middle;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+</style>
