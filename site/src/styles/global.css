@@ -427,6 +427,33 @@ a:hover { color: var(--dark-purple); }
   gap: var(--space-4, 16px);
 }
 
+/* Metrics strip — must live in global.css so it isn't lost to Astro scoping */
+.metrics {
+  display: flex;
+  gap: var(--space-8);
+  margin-top: var(--space-10);
+  flex-wrap: wrap;
+}
+.metrics__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.metrics__item strong {
+  font-family: var(--font-family-primary);
+  font-size: 28px;
+  font-weight: var(--font-weight-extralight);
+  color: var(--color-neutral-0);
+  line-height: 1;
+}
+.metrics__item span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: var(--space-1);
+}
+
 /* ---------- Buttons (extend toolkit) ---------- */
 .btn {
   display: inline-flex;

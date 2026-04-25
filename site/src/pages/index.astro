@@ -46,13 +46,17 @@ import SectionHeader from '~/components/SectionHeader.astro';
         </div>
       </div>
     </div>
-    <!-- S Mark brand angle watermark -->
-    <img
+    <!-- S Mark brand angle watermark — inline SVG so position is pixel-accurate -->
+    <svg
       class="hero__smark"
-      src="/assets/logo/s-mark/white/s-mark-white-tm-1920x1080.png"
-      alt=""
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="30 358 406 366"
       aria-hidden="true"
-    />
+      focusable="false"
+    >
+      <polygon fill="currentColor" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+      <polygon fill="currentColor" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+    </svg>
   </section>
 
   <!-- TWO TRACKS -->
@@ -228,10 +232,11 @@ import SectionHeader from '~/components/SectionHeader.astro';
 /* S Mark watermark */
 .hero__smark {
   position: absolute;
-  right: -40px;
-  bottom: -60px;
-  width: 480px;
-  opacity: 0.05;
+  right: -60px;
+  bottom: -80px;
+  width: 420px;
+  color: #fff;
+  opacity: 0.07;
   pointer-events: none;
   z-index: 1;
 }
@@ -247,20 +252,7 @@ import SectionHeader from '~/components/SectionHeader.astro';
   flex-direction: column;
   gap: 2px;
 }
-.metrics__item strong {
-  font-family: 'Sora', sans-serif;
-  font-size: 28px;
-  font-weight: 200;
-  color: #fff;
-  line-height: 1;
-}
-.metrics__item span {
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  margin-top: 4px;
-}
+/* Metrics colors live in global.css to avoid Astro scope specificity issues */
 
 .track-card {
   display: flex;
