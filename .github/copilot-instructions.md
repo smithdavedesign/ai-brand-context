@@ -2,6 +2,9 @@
 
 This repo is the canonical source of truth for the Solidigm design system: tokens, UI toolkit, brand assets, guidelines, an Astro documentation site, and an MCP server that unifies all of the above for AI agents.
 
+> **Cross-vendor agents:** see [`AGENTS.md`](../AGENTS.md) at the repo root for
+> the same contract in agent-tool-agnostic form (Claude, Cursor, Aider, etc.).
+
 ## Ground rules for ALL brand content
 
 Whenever a task involves Solidigm colors, typography, logos, trademarks, voice/tone, illustrations, or brand-compliant copy:

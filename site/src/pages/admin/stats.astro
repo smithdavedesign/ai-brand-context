@@ -1,0 +1,127 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+const mcpUrl = import.meta.env.PUBLIC_MCP_URL || "http://localhost:8080";
+---
+
+<BaseLayout title="MCP Telemetry — Solidigm Brand">
+  <main class="container">
+    <header>
+      <h1>MCP Telemetry</h1>
+      <p class="lead">
+        Aggregated tool usage from <code>brand_mcp</code>. Telemetry is opt-in
+        via <code>BRAND_MCP_TELEMETRY_ENABLED=1</code>. Data is read from the
+        local <code>/api/stats</code> endpoint and never leaves the host.
+      </p>
+    </header>
+
+    <section class="status" id="status">
+      <p>Loading…</p>
+    </section>
+
+    <section class="grid">
+      <article>
+        <h2>Top tools (last 30 days)</h2>
+        <table id="tools-table">
+          <thead>
+            <tr><th>Tool</th><th>Calls</th><th>Errors</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+
+      <article>
+        <h2>Top colors looked up</h2>
+        <table id="colors-table">
+          <thead>
+            <tr><th>Color</th><th>Calls</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </article>
+    </section>
+
+    <p class="footer-note">
+      Source: <code>{mcpUrl}/api/stats?days=30</code>
+    </p>
+  </main>
+
+  <script is:inline define:vars={{ mcpUrl }}>
+    (async () => {
+      const status = document.getElementById("status");
+      const toolsBody = document.querySelector("#tools-table tbody");
+      const colorsBody = document.querySelector("#colors-table tbody");
+
+      try {
+        const res = await fetch(`${mcpUrl}/api/stats?days=30`, { mode: "cors" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        if (!data.enabled) {
+          status.innerHTML =
+            "<p><strong>Telemetry is disabled.</strong> " +
+            "Set <code>BRAND_MCP_TELEMETRY_ENABLED=1</code> in <code>brand_mcp/.env</code> " +
+            "and restart the server to begin recording events.</p>";
+          return;
+        }
+
+        status.innerHTML =
+          `<dl class="stats">` +
+          `<div><dt>Total calls</dt><dd>${data.total_calls}</dd></div>` +
+          `<div><dt>Errors</dt><dd>${data.error_count}</dd></div>` +
+          `<div><dt>Error rate</dt><dd>${(data.error_rate * 100).toFixed(2)}%</dd></div>` +
+          `<div><dt>Avg latency</dt><dd>${data.avg_latency_ms} ms</dd></div>` +
+          `<div><dt>Window</dt><dd>${data.window_days} days</dd></div>` +
+          `</dl>`;
+
+        for (const row of data.top_tools || []) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td><code>${row.name}</code></td><td>${row.calls}</td><td>${row.errors}</td>`;
+          toolsBody.appendChild(tr);
+        }
+
+        for (const row of data.top_colors || []) {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${row.name}</td><td>${row.calls}</td>`;
+          colorsBody.appendChild(tr);
+        }
+
+        if (!data.top_tools?.length) {
+          toolsBody.innerHTML = `<tr><td colspan="3"><em>No events recorded yet.</em></td></tr>`;
+        }
+        if (!data.top_colors?.length) {
+          colorsBody.innerHTML = `<tr><td colspan="2"><em>No color lookups recorded yet.</em></td></tr>`;
+        }
+      } catch (err) {
+        status.innerHTML = `<p class="error">Failed to load stats: ${err.message}. Is the MCP server running at <code>${mcpUrl}</code>?</p>`;
+      }
+    })();
+  </script>
+
+  <style>
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .lead { color: #555; max-width: 60ch; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+    article {
+      background: #fff;
+      border: 1px solid #e5e5ea;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid #f0f0f3; }
+    th { color: #777; font-weight: 600; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0 0;
+    }
+    .stats > div { background: #faf9fb; border: 1px solid #efeef2; border-radius: 8px; padding: 0.75rem 1rem; }
+    .stats dt { font-size: 0.85rem; color: #777; }
+    .stats dd { margin: 0.25rem 0 0; font-size: 1.4rem; font-weight: 600; color: #2a1a4a; }
+    .error { color: #b00020; }
+    .footer-note { margin-top: 2rem; color: #888; font-size: 0.85rem; }
+  </style>
+</BaseLayout>

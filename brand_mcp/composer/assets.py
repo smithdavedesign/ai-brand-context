@@ -15,6 +15,7 @@ asset, regardless of source.
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import os
 from typing import Any, Dict, List, Optional
@@ -28,6 +29,32 @@ log = logging.getLogger(__name__)
 
 # SharePoint root folder inside the drive (override in .env if needed)
 _SHAREPOINT_BRAND_ROOT = "Files/Brand/Core Brand Assets/Updated Jan 2026"
+
+
+def _load_asset_code_path_index() -> Dict[str, List[str]]:
+    """Load brand/asset-index.json (built by scripts/build-asset-index.mjs).
+
+    Returns a mapping of ``rel_path`` (forward-slash, relative to
+    ``site/public/assets``) → list of ``"file:line"`` references.
+    Empty dict if the index file doesn't exist.
+    """
+    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    path = os.path.join(repo_root, "brand", "asset-index.json")
+    if not os.path.isfile(path):
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("index", {}) or {}
+    except Exception as exc:  # noqa: BLE001
+        log.warning("Failed to load asset code-path index: %s", exc)
+        return {}
+
+
+def _code_paths_for(rel_path: str, index: Dict[str, List[str]]) -> List[str]:
+    """Look up ``code_paths`` for an asset by rel_path (forward-slash form)."""
+    key = rel_path.replace(os.sep, "/")
+    return list(index.get(key, []))
 
 # Asset category → folder-name hints (substring match, case-insensitive)
 _ASSET_FOLDER_HINTS: Dict[str, List[str]] = {
@@ -114,6 +141,8 @@ def list_local_assets() -> List[Dict[str, Any]]:
         log.warning("Local assets dir missing: %s", root)
         return assets
 
+    code_index = _load_asset_code_path_index()
+
     for dirpath, _dirnames, filenames in os.walk(root):
         for name in filenames:
             if name.startswith("."):
@@ -129,6 +158,7 @@ def list_local_assets() -> List[Dict[str, Any]]:
                 # Public URL when served by the Astro site
                 "url": f"/assets/{rel_path.replace(os.sep, '/')}",
                 "size_bytes": os.path.getsize(abs_path),
+                "code_paths": _code_paths_for(rel_path, code_index),
             }
             if category == "logo":
                 record.update(_parse_logo_meta(rel_path))

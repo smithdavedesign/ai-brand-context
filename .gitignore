@@ -33,3 +33,6 @@ test-results/
 .idea/
 *.swp
 
+
+# Telemetry (N3) — opt-in JSONL logs
+brand_mcp/telemetry/

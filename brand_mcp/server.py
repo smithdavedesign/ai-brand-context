@@ -31,7 +31,7 @@ from fastmcp import FastMCP
 from .composer import assets as assets_mod
 from .config import config
 from .tools import brand as brand_tools
-from .utils import m365_oauth
+from .utils import m365_oauth, telemetry
 
 logging.basicConfig(
     level=logging.INFO,
@@ -57,24 +57,28 @@ mcp = FastMCP(
 @mcp.tool()
 def get_design_tokens(category: str | None = None) -> Dict[str, Any]:
     """Return Solidigm design tokens. ``category`` ∈ {colors, typography} or omit for all."""
+    telemetry.record("tool_call", "get_design_tokens", meta={"category": category} if category else None)
     return brand_tools.get_design_tokens(category)
 
 
 @mcp.tool()
 def get_color(name: str) -> Dict[str, Any]:
     """Look up a Solidigm brand color by name (e.g. 'Solidigm Purple', 'Electric Teal')."""
+    telemetry.record("tool_call", "get_color", meta={"name": name[:64]})
     return brand_tools.get_color(name)
 
 
 @mcp.tool()
 def get_brand_guidelines(topic: str | None = None) -> Dict[str, Any]:
     """Return Solidigm brand guidelines. Pass a ``topic`` to extract a specific section."""
+    telemetry.record("tool_call", "get_brand_guidelines", meta={"topic": topic} if topic else None)
     return brand_tools.get_brand_guidelines(topic)
 
 
 @mcp.tool()
 def get_ui_toolkit_class(name: str) -> Dict[str, Any]:
     """Return the CSS rules for a Solidigm UI toolkit class (e.g. 'tk-btn--primary')."""
+    telemetry.record("tool_call", "get_ui_toolkit_class", meta={"name": name[:64]})
     return brand_tools.get_ui_toolkit_class(name)
 
 
@@ -84,6 +88,7 @@ async def list_assets(
     include_sharepoint: bool = True,
 ) -> Dict[str, Any]:
     """List brand assets. Optional ``category`` ∈ {logo, illustration, icon, image, template, product-render, doc}."""
+    telemetry.record("tool_call", "list_assets", meta={"category": category, "sp": include_sharepoint})
     return await brand_tools.list_assets(category, include_sharepoint)
 
 
@@ -100,6 +105,7 @@ async def get_asset(
     Optionally narrow with ``category`` ∈ {logo, illustration, icon, image, template, product-render, doc}.
     Returns ``download_url`` (SharePoint, ~1 hr) or ``url`` (local public path).
     """
+    telemetry.record("tool_call", "get_asset", meta={"name": (name or "")[:64], "category": category})
     return await brand_tools.get_asset(name, path, category)
 
 
@@ -115,6 +121,7 @@ def get_logo(
     variant ∈ {s-mark, standard, stacked, wordmark}, color ∈ {black, purple, blue, white},
     resolution e.g. '1920x1080' (omit for svg/eps), fmt ∈ {png, svg, eps}.
     """
+    telemetry.record("tool_call", "get_logo", meta={"variant": variant, "color": color, "fmt": fmt})
     return brand_tools.get_logo(variant, color, resolution, fmt)
 
 
@@ -128,6 +135,7 @@ def get_brand_context(
     platform ∈ {marketing, web-nextjs, web-react}, task ∈ {ui, copy, design, review, chart}.
     Omit both for full brand context.
     """
+    telemetry.record("tool_call", "get_brand_context", meta={"platform": platform, "task": task})
     return brand_tools.get_brand_context(platform, task)
 
 
@@ -140,7 +148,14 @@ def validate_brand_output(
 
     Returns pass/fail with specific errors and warnings.
     """
-    return brand_tools.validate_brand_output(content, platform)
+    result = brand_tools.validate_brand_output(content, platform)
+    telemetry.record(
+        "tool_call",
+        "validate_brand_output",
+        ok=bool(result.get("passed", True)),
+        meta={"platform": platform, "len": len(content)},
+    )
+    return result
 
 
 @mcp.tool()
@@ -152,6 +167,7 @@ def get_brand_system_prompt(
 
     Inject into system messages to ensure brand-compliant AI output.
     """
+    telemetry.record("tool_call", "get_brand_system_prompt", meta={"platform": platform})
     return brand_tools.get_brand_system_prompt(platform, include_design_rules)
 
 
@@ -166,6 +182,7 @@ if config.is_brand_sharepoint_configured:
 
         Returns per-file ``web_url`` and a temporary ``download_url``.
         """
+        telemetry.record("tool_call", "search_brand_source_documents", meta={"folder": folder, "filter": name_filter[:64]})
         return await brand_tools.search_brand_source_documents(folder, name_filter)
 
 
@@ -200,6 +217,107 @@ def _resource_toolkit() -> str:
 @mcp.resource("brand://assets/manifest")
 def _resource_manifest() -> str:
     return json.dumps(assets_mod.list_local_assets(), indent=2)
+
+
+# ---------------------------------------------------------------------------
+# MCP prompts — canonical workflows agents can invoke by name (N1)
+# ---------------------------------------------------------------------------
+@mcp.prompt(
+    name="brand_check",
+    description=(
+        "Run the Solidigm brand quality gates against a piece of content "
+        "(copy, HTML, or markup) and return a pass/fail report with specific "
+        "findings. Use this whenever you've drafted brand-facing output."
+    ),
+    tags={"brand", "validation"},
+)
+def prompt_brand_check(content: str, platform: str | None = None) -> str:
+    """Pre-built prompt for validating content against brand rules."""
+    plat = f" (platform: {platform})" if platform else ""
+    return (
+        f"Validate the following Solidigm brand-facing content{plat} by calling "
+        "the `validate_brand_output` MCP tool. If it fails, fix each finding and "
+        "re-validate. Do not present the content until it passes.\n\n"
+        f"---CONTENT---\n{content}\n---END CONTENT---"
+    )
+
+
+@mcp.prompt(
+    name="generate_brand_compliant_copy",
+    description=(
+        "End-to-end workflow for producing Solidigm brand-compliant copy: "
+        "load scoped brand context → draft → validate → repair. Use when "
+        "creating new marketing/UI copy from a brief."
+    ),
+    tags={"brand", "copy", "composer"},
+)
+def prompt_generate_brand_compliant_copy(
+    brief: str,
+    platform: str = "marketing",
+    task: str = "copy",
+) -> str:
+    """Pre-built prompt for the full brand-compliant copy workflow."""
+    return (
+        "Produce Solidigm brand-compliant copy in three steps:\n\n"
+        f"1. Call `get_brand_context(platform='{platform}', task='{task}')` "
+        "to load the scoped voice/tone/vocabulary rules.\n"
+        "2. Draft the copy that satisfies the brief below, applying every rule "
+        "from step 1.\n"
+        "3. Call `validate_brand_output(content=<your draft>, "
+        f"platform='{platform}')`. If it fails, repair and re-validate. Only "
+        "return content that passes.\n\n"
+        f"---BRIEF---\n{brief}\n---END BRIEF---"
+    )
+
+
+@mcp.prompt(
+    name="audit_built_site",
+    description=(
+        "Run a full Solidigm brand-compliance audit over a built HTML directory "
+        "(e.g. site/dist) using the brand-compliance Skill. Produces a dated "
+        "report under docs/."
+    ),
+    tags={"brand", "audit"},
+)
+def prompt_audit_built_site(target_dir: str = "site/dist") -> str:
+    """Pre-built prompt for kicking off a full-site audit."""
+    return (
+        "Perform a full Solidigm brand-compliance audit:\n\n"
+        f"1. Build the site if needed (`cd site && npm run build`).\n"
+        f"2. Run `node .github/skills/brand-compliance/scripts/audit-pages.mjs "
+        f"--dir {target_dir}` — this walks every HTML file and POSTs each to "
+        "`/api/validate` on the local MCP server.\n"
+        "3. Read the dated report written to `docs/brand-audit-YYYY-MM-DD.md` "
+        "and summarize the grade, any failing pages, and the top recurring "
+        "errors.\n"
+        "4. If the run included `--fix`, review the patch in "
+        "`docs/brand-fixes-YYYY-MM-DD.patch` before applying."
+    )
+
+
+@mcp.prompt(
+    name="propose_color",
+    description=(
+        "Resolve a fuzzy color description to the canonical Solidigm palette "
+        "entry, with disambiguation when the match is ambiguous."
+    ),
+    tags={"brand", "tokens", "color"},
+)
+def prompt_propose_color(description: str) -> str:
+    """Pre-built prompt for fuzzy color lookup."""
+    return (
+        "Resolve the color description below to a canonical Solidigm palette "
+        "entry:\n\n"
+        f"1. Call `get_color(name='{description}')`.\n"
+        "2. If the result is a single match, return its hex, RGB, usage notes, "
+        "and any restrictions.\n"
+        "3. If the result is ambiguous, list every candidate with hex + usage "
+        "and ask the user to pick.\n"
+        "4. If there is no match, fall back to "
+        "`get_design_tokens(category='colors')` and suggest the nearest entry "
+        "with reasoning.\n\n"
+        f"---DESCRIPTION---\n{description}\n---END DESCRIPTION---"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -254,6 +372,27 @@ async def api_health(_request):  # type: ignore[no-untyped-def]
             "sharepoint_configured": config.is_brand_sharepoint_configured,
         }
     )
+
+
+@mcp.custom_route("/api/stats", methods=["GET"])
+async def api_stats(request):  # type: ignore[no-untyped-def]
+    """Aggregated telemetry for the admin dashboard. Last 30 days by default."""
+    from starlette.responses import JSONResponse
+
+    try:
+        days = int(request.query_params.get("days", "30"))
+    except ValueError:
+        days = 30
+    days = max(1, min(days, 365))
+
+    events = telemetry.load_recent_events(days=days)
+    payload = telemetry.aggregate(events)
+    payload["window_days"] = days
+    payload["event_count"] = len(events)
+    response = JSONResponse(payload)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Cache-Control"] = "no-cache"
+    return response
 
 
 @mcp.custom_route("/api/thumb", methods=["GET"])

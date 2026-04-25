@@ -115,6 +115,75 @@ Status key: `[x]` complete · `[~]` in progress · `[ ]` not started · `[!]` ne
 
 ---
 
+## 🚧 Phase 9 — Now plays from the strategic report
+
+Tracks the **N1–N5** moves identified in
+[`strategic-report.md`](./strategic-report.md) §5. Greenlit for execution.
+
+### N1 — MCP Prompts (canonical workflows)
+
+Expose pre-built workflows as first-class MCP `Prompts` (in addition to the
+existing `Tools` and `Resources`). Lets agents discover the *right* tool chain
+without re-deriving it.
+
+- [ ] Add `@mcp.prompt()` decorators to `brand_mcp/server.py`:
+  - [ ] `brand_check` — wraps `validate_brand_output` with usage example
+  - [ ] `generate_brand_compliant_copy` — composer flow (context → prompt → validate)
+  - [ ] `audit_built_site` — invokes the brand-compliance Skill
+  - [ ] `propose_color` — fuzzy color lookup with disambiguation
+- [ ] Verify `prompts/list` is advertised in the MCP capabilities handshake
+- [ ] Update `.github/copilot-instructions.md` to mention the new prompts
+- [ ] Smoke-test from Claude Desktop + VS Code Copilot
+
+### N2 — Asset code-path index
+
+Each asset record gets a `code_paths` array — every place in the repo that
+references it. Foundation for Figma Code Connect later.
+
+- [ ] `scripts/build-asset-index.mjs` — greps `site/`, `docs/`, `tailwind/` for
+      asset references; writes `brand/asset-index.json`
+- [ ] `package.json` script: `"index:assets": "node scripts/build-asset-index.mjs"`
+- [ ] Extend `brand_mcp/composer/assets.py`:
+  - [ ] Load `brand/asset-index.json` once at startup
+  - [ ] Merge `code_paths: string[]` into each asset record
+- [ ] CI: run `npm run index:assets` and fail if `brand/asset-index.json` is stale
+- [ ] `site/src/pages/assets.astro` — show `code_paths` in the preview modal
+
+### N3 — Telemetry-driven prioritization
+
+JSONL telemetry behind an env flag, surfaced in an admin dashboard. Tells us
+which tools/colors/components are actually used.
+
+- [ ] `brand_mcp/utils/telemetry.py` — JSONL logger with daily rotation
+- [ ] Env flag: `BRAND_MCP_TELEMETRY_ENABLED=1` (default off — privacy)
+- [ ] Instrument all 10 tools at registration time
+- [ ] `GET /api/stats` route — aggregates last 30 days
+- [ ] `site/src/pages/admin/stats.astro` — canvas charts (top tools, top colors, error rate)
+- [ ] Document the data model + retention in `brand_mcp/README.md`
+
+### N4 — `AGENTS.md` at repo root
+
+Adopt the cross-vendor `AGENTS.md` convention (Anthropic, OpenAI, OSS). Single
+file at the root that any agent reads first.
+
+- [ ] Create `/AGENTS.md` — identity, MCP tool table, no-go zones, validation flow, PR checklist
+- [ ] Cross-link from `.github/copilot-instructions.md`
+- [ ] Reference from root `README.md`
+
+### N5 — Audit auto-fix mode
+
+Extend the brand-compliance audit script with a preview/apply workflow for the
+3 mechanical fixes (trademark, off-palette hex → nearest, headline case).
+
+- [ ] `--fix` mode: writes `docs/brand-fixes-YYYY-MM-DD.patch` (no edits)
+- [ ] `--apply` mode: writes the patch and applies it
+- [ ] Auto-fix: `Solidigm®` → `Solidigm™`
+- [ ] Suggest-fix: off-palette hex → nearest palette hex (commented in patch)
+- [ ] Suggest-fix: ALL-CAPS headline → Title Case
+- [ ] Update `.github/skills/brand-compliance/SKILL.md` with the new flags
+
+---
+
 ## 🚧 Deferred / nice-to-have
 
 - [ ] **Generate `ui-toolkit.min.css` from `build.js`** — currently `docs/ui-toolkit.min.css` is a manually-maintained file copied into `site/public/` at build time. Extend `build.js` to compile it from `tokens/` so the full toolkit CSS is source-driven and `docs/ui-toolkit.min.css` can be removed. This closes the last manually-edited CSS gap in the pipeline.
