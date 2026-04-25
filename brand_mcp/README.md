@@ -156,7 +156,7 @@ claude mcp add --transport http solidigm-brand http://brand-mcp.internal.solidig
 ```
 brand_mcp/
 ├── __init__.py
-├── server.py              ← FastMCP app, tool + resource + HTTP routes
+├── server.py              ← FastMCP app, tool + resource + prompt + HTTP routes
 ├── config.py              ← env-backed Config
 ├── requirements.txt
 ├── .env.example
@@ -164,15 +164,83 @@ brand_mcp/
 │   └── smoke_test.py
 ├── utils/
 │   ├── __init__.py
-│   └── m365_oauth.py      ← Graph API + OAuth (PKCE + client credentials)
+│   ├── m365_oauth.py      ← Graph API + OAuth (PKCE + client credentials)
+│   └── telemetry.py       ← Opt-in JSONL tool-call telemetry (N3)
 ├── composer/
 │   ├── __init__.py
 │   ├── cache.py
 │   └── assets.py          ← local + SharePoint asset discovery
+├── telemetry/             ← (gitignored) JSONL files written when enabled
 └── tools/
     ├── __init__.py
     └── brand.py           ← tool implementations
 ```
+
+## Telemetry (opt-in)
+
+The server can record one JSONL line per tool call. Useful for prioritizing
+which tools, colors, and components are actually used — drives the **N3** play
+in [`docs/strategic-report.md`](../docs/strategic-report.md).
+
+**Disabled by default.** To enable, set `BRAND_MCP_TELEMETRY_ENABLED=1` in
+`brand_mcp/.env` and restart the server.
+
+### Data model
+
+One event per line, written to `brand_mcp/telemetry/YYYY-MM-DD.jsonl`:
+
+```json
+{
+  "ts":   "2026-04-25T17:00:00.000Z",
+  "event": "tool_call",
+  "name": "get_color",
+  "ok":   true,
+  "ms":   12,
+  "meta": { "name": "Solidigm Purple" }
+}
+```
+
+Field reference:
+
+| Field   | Type    | Notes |
+|---------|---------|-------|
+| `ts`    | string  | ISO-8601 UTC, millisecond precision |
+| `event` | string  | Always `tool_call` today; reserved for future event types |
+| `name`  | string  | The tool name (e.g. `get_color`, `validate_brand_output`) |
+| `ok`    | bool    | `true` on success; `false` if the tool raised — for `validate_brand_output`, `ok` reflects pass/fail of the brand gates, not exceptions |
+| `ms`    | int     | Wall-clock duration in milliseconds (best effort) |
+| `meta`  | object  | Small scalar arguments only — strings truncated to 64 chars; lists/dicts/content blobs are dropped to protect privacy and keep file size bounded |
+
+### Retention
+
+- **Rotation:** one file per UTC day, automatic.
+- **Cleanup:** none built in. The aggregator only reads the last 30 days
+  by default (`load_recent_events(days=30)`); older files can be deleted
+  manually or via `find brand_mcp/telemetry -mtime +90 -delete` in cron.
+- **Privacy:** data is local-only, never transmitted. Content blobs (e.g. the
+  `content` argument to `validate_brand_output`) are never stored — only
+  the byte length.
+- **Disable / scrub:** unset `BRAND_MCP_TELEMETRY_ENABLED` and delete
+  `brand_mcp/telemetry/`. The directory is `.gitignore`d.
+
+### Aggregation API
+
+`GET /api/stats?days=30` returns:
+
+```json
+{
+  "enabled": true,
+  "window_days": 30,
+  "total_calls": 1240,
+  "error_count": 7,
+  "error_rate": 0.0056,
+  "avg_latency_ms": 18,
+  "top_tools": [{"name": "get_color", "calls": 412, "errors": 0}, ...],
+  "top_colors": [{"name": "Solidigm Purple", "calls": 88}, ...]
+}
+```
+
+The Astro site renders this at `/admin/stats` ([source](../site/src/pages/admin/stats.astro)).
 
 ## Security notes
 

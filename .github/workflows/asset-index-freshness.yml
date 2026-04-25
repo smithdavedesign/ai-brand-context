@@ -1,0 +1,51 @@
+name: Asset index freshness
+
+# Ensures brand/asset-index.json is regenerated whenever assets or
+# code references change. Implements the N2 carry-over.
+
+on:
+  pull_request:
+    paths:
+      - 'site/public/assets/**'
+      - 'site/src/**'
+      - 'tailwind/**'
+      - 'docs/**'
+      - 'brand/**'
+      - '.github/**'
+      - 'scripts/build-asset-index.mjs'
+      - '.github/workflows/asset-index-freshness.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'site/public/assets/**'
+      - 'scripts/build-asset-index.mjs'
+
+jobs:
+  asset-index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Regenerate asset index
+        run: npm run index:assets
+
+      - name: Fail if brand/asset-index.json is stale
+        run: |
+          if ! git diff --quiet -- brand/asset-index.json; then
+            echo "::error file=brand/asset-index.json::brand/asset-index.json is stale."
+            echo ""
+            echo "Run 'npm run index:assets' locally and commit the result."
+            echo ""
+            echo "--- Diff ---"
+            git --no-pager diff -- brand/asset-index.json | head -200
+            exit 1
+          fi
+          echo "asset-index.json is fresh."

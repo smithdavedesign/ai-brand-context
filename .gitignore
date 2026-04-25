@@ -36,3 +36,6 @@ test-results/
 
 # Telemetry (N3) — opt-in JSONL logs
 brand_mcp/telemetry/
+
+# Figma route (a) — incoming exports are working files, not history
+figma/incoming/*.json

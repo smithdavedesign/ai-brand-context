@@ -108,13 +108,18 @@ canonical token wins and the Figma file is updated to match.
 ## 5. Token sync workflow
 
 1. Designer changes a variable in **Design System 3.0**
-2. Brand owner exports affected variables (Figma → Tokens plugin)
-3. Diff against `tokens/colors.json` or `tokens/typography.json` in this repo
-4. Update the W3C DTCG token files
+2. Brand owner exports affected variables (Figma → Tokens plugin) into
+   `figma/incoming/YYYY-MM-DD.json` (gitignored)
+3. Run `npm run diff:figma -- figma/incoming/YYYY-MM-DD.json` — emits a
+   dated drift report at `docs/figma-snapshot-YYYY-MM-DD.md`
+4. Reconcile: update `tokens/colors.json` / `tokens/typography.json` for
+   anything the canonical should adopt; update Figma for anything the
+   canonical should retain
 5. `npm run build` → regenerates `dist/tokens.css`, `dist/tokens.js`,
    `figma/tokens.json`
 6. PR + CI → the `mcp-smoke-test` job re-loads tokens, validates 10 tool
-   contracts
+   contracts; the `asset-index-freshness` job verifies `brand/asset-index.json`
+   is current
 7. Storybook team pulls the published `@solidigm/brand-tokens` package on
    their next release
 

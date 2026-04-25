@@ -10,6 +10,7 @@
   "scripts": {
     "build": "node build.js",
     "index:assets": "node scripts/build-asset-index.mjs",
+    "diff:figma": "node scripts/diff-figma-tokens.mjs",
     "test": "playwright test",
     "test:api": "playwright test --grep 'MCP /api'",
     "test:ui": "playwright test --grep 'Assets page'"

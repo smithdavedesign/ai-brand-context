@@ -84,9 +84,12 @@ async function listAssetFilenames() {
 
 async function listSearchFiles() {
   const out = [];
+  const indexPath = join(REPO_ROOT, "brand/asset-index.json");
   for (const root of SEARCH_ROOTS) {
     const abs = join(REPO_ROOT, root);
     for await (const file of walk(abs)) {
+      // Don't include the index itself — it self-matches every asset.
+      if (file === indexPath) continue;
       const ext = "." + file.split(".").pop();
       if (!SEARCH_EXTENSIONS.has(ext)) continue;
       out.push(file);

@@ -255,6 +255,7 @@ const quickDownloads = [
       <div class="asset-modal__body">
         <h2 class="asset-modal__title" id="assetModalTitle"></h2>
         <dl class="asset-modal__meta" id="assetModalMeta"></dl>
+        <div class="asset-modal__codepaths" id="assetModalCodePaths"></div>
         <div class="asset-modal__actions">
           <button type="button" class="btn btn--sm btn--secondary" id="assetCopyUrl">Copy URL</button>
           <a class="btn btn--sm btn--primary" id="assetDownload" href="#">Download</a>
@@ -529,6 +530,23 @@ const quickDownloads = [
       modalMeta.innerHTML = fields
         .map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`)
         .join('');
+
+      // Code paths — where this asset is referenced in the repo (N2)
+      const codePaths = Array.isArray(asset.code_paths) ? asset.code_paths : [];
+      const codePathsBlock = document.getElementById('assetModalCodePaths');
+      if (codePathsBlock) {
+        if (codePaths.length === 0) {
+          codePathsBlock.innerHTML =
+            '<p class="asset-modal__codepaths-empty">No references found in the codebase.</p>';
+        } else {
+          const items = codePaths
+            .map((ref) => `<li><code>${ref.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</code></li>`)
+            .join('');
+          codePathsBlock.innerHTML =
+            `<p class="asset-modal__codepaths-label">Referenced in <strong>${codePaths.length}</strong> location${codePaths.length === 1 ? '' : 's'}:</p>` +
+            `<ul class="asset-modal__codepaths-list">${items}</ul>`;
+        }
+      }
 
       const downloadUrl = asset.download_url || asset.url;
       modalDownload.href = downloadUrl;
@@ -925,6 +943,37 @@ const quickDownloads = [
     .asset-modal__meta > div { display: grid; grid-template-columns: 90px 1fr; gap: 8px; font-size: 13px; }
     .asset-modal__meta dt { margin: 0; font-weight: 600; color: var(--color-neutral-700); }
     .asset-modal__meta dd { margin: 0; word-break: break-all; color: var(--color-neutral-900); }
+    .asset-modal__codepaths {
+      margin: 4px 0 0;
+      padding: 12px;
+      background: var(--color-neutral-50, #faf9fb);
+      border: 1px solid var(--color-neutral-200, #efeef2);
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .asset-modal__codepaths:empty { display: none; }
+    .asset-modal__codepaths-label { margin: 0 0 6px; color: var(--color-neutral-700); }
+    .asset-modal__codepaths-empty { margin: 0; color: var(--color-neutral-600); font-style: italic; }
+    .asset-modal__codepaths-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 4px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+    .asset-modal__codepaths-list code {
+      display: block;
+      padding: 4px 8px;
+      background: #fff;
+      border: 1px solid var(--color-neutral-200, #efeef2);
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      color: var(--color-neutral-900);
+      word-break: break-all;
+    }
     .asset-modal__actions {
       display: flex;
       gap: 8px;
