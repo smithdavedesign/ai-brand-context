@@ -97,6 +97,98 @@ def _check_accent_usage(content: str) -> List[Dict[str, str]]:
     return issues
 
 
+def _check_spacing_grid(content: str) -> List[Dict[str, str]]:
+    """Flag pixel spacing values that are not on the 4px grid.
+
+    Checks padding/margin/gap/top/bottom/left/right declarations.
+    Approved off-grid values (0, 100px, 120px, 150px) are explicitly allowed.
+    """
+    # Grid: multiples of 4px. Also allow 0 and the large section-spacing values.
+    _OFF_GRID_EXEMPT = {0, 100, 120, 150}
+    issues: List[Dict[str, str]] = []
+    # Match px values in spacing-related CSS properties
+    prop_re = re.compile(
+        r'(?:padding|margin|gap|top|bottom|left|right|column-gap|row-gap|inset)'
+        r'(?:-\w+)?\s*:\s*([^;}\n]+)',
+        re.IGNORECASE,
+    )
+    px_re = re.compile(r'(\d+)px')
+    for prop_match in prop_re.finditer(content):
+        val_str = prop_match.group(1)
+        for px_match in px_re.finditer(val_str):
+            px_val = int(px_match.group(1))
+            if px_val in _OFF_GRID_EXEMPT:
+                continue
+            if px_val % 4 != 0:
+                issues.append({
+                    "check": "spacing_grid",
+                    "value": f"{px_val}px",
+                    "message": (
+                        f"{px_val}px is not on the 4px grid. "
+                        "Use a value that is a multiple of 4 or a brand spacing token."
+                    ),
+                })
+    return issues
+
+
+def _check_motion_durations(content: str) -> List[Dict[str, str]]:
+    """Flag transition/animation durations not in the approved set.
+
+    Approved: 100ms, 200ms, 300ms, 500ms, 800ms.
+    """
+    _APPROVED_MS = {100, 200, 300, 500, 800}
+    issues: List[Dict[str, str]] = []
+    # Match transition/animation duration values in ms
+    duration_re = re.compile(
+        r'(?:transition|animation)(?:-duration)?\s*:[^;}\n]*?(\d+)ms',
+        re.IGNORECASE,
+    )
+    for m in duration_re.finditer(content):
+        ms = int(m.group(1))
+        if ms not in _APPROVED_MS:
+            issues.append({
+                "check": "motion_durations",
+                "value": f"{ms}ms",
+                "message": (
+                    f"{ms}ms is not an approved Solidigm motion duration. "
+                    f"Use one of: {sorted(_APPROVED_MS)} (ms)."
+                ),
+            })
+    return issues
+
+
+def _check_border_radius(content: str) -> List[Dict[str, str]]:
+    """Flag border-radius values not in the approved token set.
+
+    Approved: 0px (brand default), 4px (sm), 8px (md), 16px (lg), 9999px (pill), 50%.
+    """
+    _APPROVED_PX = {0, 4, 8, 16, 9999}
+    issues: List[Dict[str, str]] = []
+    br_re = re.compile(r'border-radius\s*:\s*([^;}\n]+)', re.IGNORECASE)
+    px_re = re.compile(r'(\d+)px')
+    pct_re = re.compile(r'(\d+)%')
+    for prop_match in br_re.finditer(content):
+        val_str = prop_match.group(1).strip()
+        # Allow CSS variables and 50%
+        if 'var(' in val_str:
+            continue
+        pct_vals = [int(m.group(1)) for m in pct_re.finditer(val_str)]
+        if pct_vals and all(v == 50 for v in pct_vals):
+            continue
+        for px_match in px_re.finditer(val_str):
+            px_val = int(px_match.group(1))
+            if px_val not in _APPROVED_PX:
+                issues.append({
+                    "check": "border_radius",
+                    "value": f"{px_val}px",
+                    "message": (
+                        f"border-radius {px_val}px is not an approved Solidigm value. "
+                        "Use 0 (default), 4px, 8px, 16px, 9999px, or 50%."
+                    ),
+                })
+    return issues
+
+
 # Registry of automated checks
 _CHECKS = {
     "hex_in_palette": _check_hex_in_palette,
@@ -105,6 +197,9 @@ _CHECKS = {
     "no_registered": _check_trademark,
     "font_allowlist": _check_font_family,
     "accent_usage": _check_accent_usage,
+    "spacing_grid": _check_spacing_grid,
+    "motion_durations": _check_motion_durations,
+    "border_radius": _check_border_radius,
 }
 
 

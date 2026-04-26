@@ -43,13 +43,23 @@ function writeFile(filePath, content) {
 // ---------------------------------------------------------------------------
 
 function readSourceTokens() {
-  const colorsRaw = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'tokens', 'colors.json'), 'utf8')
-  );
-  const typographyRaw = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'tokens', 'typography.json'), 'utf8')
-  );
-  return { colorsRaw, typographyRaw };
+  function readJSON(name) {
+    return JSON.parse(
+      fs.readFileSync(path.join(__dirname, 'tokens', `${name}.json`), 'utf8')
+    );
+  }
+  return {
+    colorsRaw:     readJSON('colors'),
+    typographyRaw: readJSON('typography'),
+    spaceRaw:      readJSON('space'),
+    breakpointsRaw:readJSON('breakpoints'),
+    radiusRaw:     readJSON('radius'),
+    shapeRaw:      readJSON('shape'),
+    motionRaw:     readJSON('motion'),
+    elevationRaw:  readJSON('elevation'),
+    iconsRaw:      readJSON('icons'),
+    semanticRaw:   readJSON('semantic'),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -433,7 +443,7 @@ function generateFigma(colorsRaw, typographyRaw, outDir) {
  * rules that reference the custom properties. When a new token category is
  * added (spacing, shadows, etc.) add it to layer 1.
  */
-function generateUIToolkit(colors, typography, outDir) {
+function generateUIToolkit(colors, typography, { spaceRaw, radiusRaw, iconsRaw }, outDir) {
   // --- Layer 1: Custom properties from tokens ---
   const colorVars = colors
     .map((c) => `--solidigm-color-${c.kebab}:${c.hex}`)
@@ -461,9 +471,30 @@ function generateUIToolkit(colors, typography, outDir) {
     })
     .join(';');
 
-  // Static token-like custom properties (spacing, border-radius, misc)
-  // These are built into the toolkit until they become first-class token categories.
-  const staticVars = [
+  // --- Token-derived custom properties ---
+
+  // Spacing: generated from tokens/space.json
+  const spaceScale = spaceRaw.space || {};
+  const spaceVarParts = Object.entries(spaceScale)
+    .filter(([, v]) => v && v.$value !== undefined)
+    .map(([step, v]) => `--space-${step}:${v.$value}`);
+
+  // Border-radius: generated from tokens/radius.json
+  const radiusScale = radiusRaw.radius || {};
+  const radiusVarParts = Object.entries(radiusScale)
+    .filter(([, v]) => v && v.$value !== undefined)
+    .map(([name, v]) => `--border-radius-${name}:${v.$value}`);
+
+  // Icon sizes: generated from tokens/icons.json
+  const iconSizeScale = (iconsRaw.icon || {}).size || {};
+  const iconSizeVarParts = Object.entries(iconSizeScale)
+    .filter(([, v]) => v && v.$value !== undefined)
+    .map(([name, v]) => `--icon-size-${name}:${v.$value}`);
+
+  // Static vars that do NOT yet have a token file (typography weights, fluid
+  // type scales, button defaults). These are kept here intentionally until a
+  // dedicated token category exists for each.
+  const staticVarParts = [
     '--font-family-primary:Sora,sans-serif',
     '--font-weight-extralight:200',
     '--font-weight-light:300',
@@ -471,16 +502,6 @@ function generateUIToolkit(colors, typography, outDir) {
     '--font-weight-medium:500',
     '--font-weight-semibold:600',
     '--font-weight-bold:700',
-    '--space-0:0px',  '--space-1:4px',  '--space-2:8px',  '--space-3:12px',
-    '--space-4:16px', '--space-5:20px', '--space-6:24px', '--space-7:28px',
-    '--space-8:32px', '--space-9:40px', '--space-10:48px','--space-11:56px',
-    '--space-12:64px','--space-13:72px','--space-14:80px','--space-15:88px',
-    '--space-16:96px',
-    '--border-radius-sm:8px',
-    '--border-radius-md:16px',
-    '--border-radius-lg:16px',
-    '--icon-size-sm:24px',
-    '--icon-size-md:32px',
     '--fluid-hero:clamp(42px,5.8vw,112px)',
     '--lh-fluid-hero:clamp(48px,5.7vw,110px)',
     '--fluid-h1:clamp(32px,4.5vw,72px)',
@@ -495,6 +516,13 @@ function generateUIToolkit(colors, typography, outDir) {
     '--button-padding-y:16px',
     '--button-padding-x:28px',
     '--button-min-width:225px',
+  ];
+
+  const staticVars = [
+    ...spaceVarParts,
+    ...radiusVarParts,
+    ...iconSizeVarParts,
+    ...staticVarParts,
   ].join(';');
 
   const rootBlock = `:root{${colorVars};${colorAliases.join(';')};${typeVars};${staticVars}}`;
@@ -609,7 +637,10 @@ function generateUIToolkit(colors, typography, outDir) {
 function main() {
   console.log('Building @solidigm/brand-tokens...\n');
 
-  const { colorsRaw, typographyRaw } = readSourceTokens();
+  const {
+    colorsRaw, typographyRaw, spaceRaw, breakpointsRaw, radiusRaw,
+    shapeRaw, motionRaw, elevationRaw, iconsRaw, semanticRaw,
+  } = readSourceTokens();
   const colors = transformColors(colorsRaw);
   const typography = transformTypography(typographyRaw);
 
@@ -627,10 +658,18 @@ function main() {
   // JS / TS
   generateJS(colors, typography, path.join(root, 'dist', 'js'));
 
-  // JSON (W3C DTCG) — tokens/ is now the source; only regenerate index.json
+  // JSON (W3C DTCG) — generate a unified index of all token categories
   const combined = {
-    color: colorsRaw,
-    typography: typographyRaw,
+    color:       colorsRaw,
+    typography:  typographyRaw,
+    space:       spaceRaw,
+    breakpoints: breakpointsRaw,
+    radius:      radiusRaw,
+    shape:       shapeRaw,
+    motion:      motionRaw,
+    elevation:   elevationRaw,
+    icons:       iconsRaw,
+    semantic:    semanticRaw,
   };
   writeFile(path.join(root, 'tokens', 'index.json'), JSON.stringify(combined, null, 2) + '\n');
 
@@ -640,8 +679,9 @@ function main() {
   // Figma / Token Studio
   generateFigma(colorsRaw, typographyRaw, path.join(root, 'figma'));
 
-  // UI Toolkit (combined minified CSS)
-  generateUIToolkit(colors, typography, path.join(root, 'dist'));
+  // UI Toolkit (combined minified CSS) — passes primitive token data so
+  // spacing, radius, and icon-size custom properties are token-derived
+  generateUIToolkit(colors, typography, { spaceRaw, radiusRaw, iconsRaw }, path.join(root, 'dist'));
 
   console.log('\nBuild complete.\n');
 }

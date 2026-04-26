@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-25T21:19:24.830Z",
+  "generated_at": "2026-04-26T05:30:03.962Z",
   "asset_count": 142,
   "referenced_count": 6,
   "index": {
@@ -105,8 +105,7 @@
     "logo/s-mark/purple/solidigm-logos-with-tm_s-mark-purple.eps": [],
     "logo/s-mark/white/s-mark-white-tm-1920x1080.png": [
       "site/src/pages/assets.astro:32",
-      "site/src/pages/assets.astro:33",
-      "site/src/pages/index.astro:52"
+      "site/src/pages/assets.astro:33"
     ],
     "logo/s-mark/white/s-mark-white-tm-3840x2160.png": [],
     "logo/s-mark/white/s-mark-white-tm-5760x3240-(1).png": [],

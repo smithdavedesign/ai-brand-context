@@ -34,28 +34,127 @@ def _read_text(path: str) -> str:
         return f.read()
 
 
+_TOKEN_CATEGORIES = (
+    "colors", "typography", "space", "breakpoints", "radius",
+    "shape", "motion", "elevation", "semantic", "icons",
+)
+
+
 def get_design_tokens(category: Optional[str] = None) -> Dict[str, Any]:
     """Return Solidigm design tokens.
 
     Parameters
     ----------
     category : str, optional
-        ``"colors"``, ``"typography"``, or ``None`` for all.
+        One of: ``colors``, ``typography``, ``space``, ``breakpoints``,
+        ``radius``, ``shape``, ``motion``, ``elevation``, ``semantic``,
+        ``icons``. Omit for all non-index token files.
     """
     tokens_dir = config.tokens_dir
     if category:
         name = category.lower()
         path = os.path.join(tokens_dir, f"{name}.json")
         if not os.path.isfile(path):
-            return {"status": "error", "error": f"Unknown token category: {category}"}
+            return {
+                "status": "error",
+                "error": f"Unknown token category: {category}",
+                "valid_categories": list(_TOKEN_CATEGORIES),
+            }
         return {"status": "ok", "category": name, "tokens": _read_json(path)}
 
+    all_tokens: Dict[str, Any] = {}
+    for cat in _TOKEN_CATEGORIES:
+        p = os.path.join(tokens_dir, f"{cat}.json")
+        if os.path.isfile(p):
+            all_tokens[cat] = _read_json(p)
+    return {"status": "ok", "tokens": all_tokens}
+
+
+# ---------------------------------------------------------------------------
+# Convenience / primitive token look-up tools
+# ---------------------------------------------------------------------------
+
+def get_spacing(step: Optional[str] = None) -> Dict[str, Any]:
+    """Return Solidigm spacing tokens.
+
+    Parameters
+    ----------
+    step : str, optional
+        A specific step key (``"4"``, ``"8"``, ``"16"``, etc.).  Omit for
+        the full scale.
+    """
+    data = _read_json(os.path.join(config.tokens_dir, "space.json"))
+    scale = data.get("space", {})
+    if step is not None:
+        token = scale.get(str(step))
+        if token is None:
+            return {
+                "status": "not_found",
+                "step": step,
+                "available": list(scale.keys()),
+            }
+        return {"status": "ok", "step": step, **token}
     return {
         "status": "ok",
-        "tokens": {
-            "colors": _read_json(os.path.join(tokens_dir, "colors.json")),
-            "typography": _read_json(os.path.join(tokens_dir, "typography.json")),
-        },
+        "scale": {k: v.get("$value") for k, v in scale.items() if isinstance(v, dict)},
+        "base_unit": data.get("$extensions", {}).get("com.solidigm.brand", {}).get("baseUnit", "4px"),
+        "tokens": scale,
+    }
+
+
+def get_breakpoints() -> Dict[str, Any]:
+    """Return the canonical Solidigm breakpoint + container-width tokens."""
+    data = _read_json(os.path.join(config.tokens_dir, "breakpoints.json"))
+    return {
+        "status": "ok",
+        "breakpoints": {k: v.get("$value") for k, v in data.get("breakpoint", {}).items() if isinstance(v, dict)},
+        "containers": {k: v.get("$value") for k, v in data.get("container", {}).items() if isinstance(v, dict)},
+        "tokens": data,
+    }
+
+
+def get_motion() -> Dict[str, Any]:
+    """Return the Solidigm motion tokens (durations, easings, transforms)."""
+    data = _read_json(os.path.join(config.tokens_dir, "motion.json"))
+    durations = {k: v.get("$value") for k, v in data.get("duration", {}).items() if isinstance(v, dict)}
+    easings = {k: v.get("$value") for k, v in data.get("easing", {}).items() if isinstance(v, dict)}
+    transforms = {k: v.get("$value") for k, v in data.get("transform", {}).items() if isinstance(v, dict)}
+    note = data.get("$extensions", {}).get("com.solidigm.brand", {}).get("preferReducedMotion", "")
+    return {
+        "status": "ok",
+        "durations": durations,
+        "easings": easings,
+        "transforms": transforms,
+        "reduced_motion_note": note,
+        "tokens": data,
+    }
+
+
+def get_icon(name: str) -> Dict[str, Any]:
+    """Look up a Solidigm UI atom icon by name.
+
+    Parameters
+    ----------
+    name : str
+        Icon name — e.g. ``"arrowDouble"``, ``"arrow-double"``,
+        ``"chevronDown"``, ``"chevron-down"``.
+    """
+    data = _read_json(os.path.join(config.tokens_dir, "icons.json"))
+    atoms = data.get("icon", {}).get("atom", {})
+    # Normalize: strip hyphens and lowercase for fuzzy key match
+    needle = "".join(ch for ch in name.lower() if ch.isalnum())
+    for key, token in atoms.items():
+        if "".join(ch for ch in key.lower() if ch.isalnum()) == needle:
+            return {
+                "status": "ok",
+                "name": key,
+                "token": token,
+                "sizes": data.get("icon", {}).get("size", {}),
+            }
+    return {
+        "status": "not_found",
+        "name": name,
+        "available": list(atoms.keys()),
     }
 
 

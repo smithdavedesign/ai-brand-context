@@ -1,0 +1,18 @@
+{
+  "$description": "Solidigm canonical border-radius primitives. The brand defaults to sharp corners (radius=0). Non-zero values exist only for specific UI affordances.",
+  "radius": {
+    "none":   { "$type": "dimension", "$value": "0px",     "$description": "Default. Sharp corners — the brand's primary geometric language." },
+    "sm":     { "$type": "dimension", "$value": "4px",     "$description": "Small inputs (search fields, dropdown items)." },
+    "md":     { "$type": "dimension", "$value": "8px",     "$description": "Reserved — currently unused. For future surfaces that need soft corners." },
+    "lg":     { "$type": "dimension", "$value": "16px",    "$description": "Reserved — currently unused. Cards on relaxed surfaces." },
+    "pill":   { "$type": "dimension", "$value": "9999px",  "$description": "Pill / capsule shape (carousel progress bars, tags)." },
+    "circle": { "$type": "dimension", "$value": "50%",     "$description": "Perfect circle (avatars, play buttons, milestone dots, social icons)." }
+  },
+  "$extensions": {
+    "com.solidigm.brand": {
+      "defaultRule": "Use radius.none unless an interaction or affordance requires otherwise.",
+      "rationale": "The 0-radius / sharp-corner system is a distinctive Solidigm visual signature. Departures must be deliberate.",
+      "evidence": "All buttons in Storybook + AEM have border-radius: 0. Only navbar search uses 4px. Only carousel uses pill. Circles are reserved for specific affordances."
+    }
+  }
+}

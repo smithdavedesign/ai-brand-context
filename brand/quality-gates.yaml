@@ -86,3 +86,21 @@ gates:
     severity: error
     description: "Never 'purple wash' photography or use obviously colorized results"
     check: no_purple_wash
+
+  # ── Spacing / Layout ───────────────────────────────────────────
+  - id: spacing-grid
+    severity: warning
+    description: "All spacing values must be multiples of 4px (the brand base unit)"
+    check: spacing_grid
+
+  # ── Motion ─────────────────────────────────────────────────────
+  - id: motion-durations
+    severity: warning
+    description: "Transition/animation durations must be one of: 100ms, 200ms, 300ms, 500ms, 800ms"
+    check: motion_durations
+
+  # ── Shape ──────────────────────────────────────────────────────
+  - id: border-radius
+    severity: warning
+    description: "border-radius must be 0 (brand default), 4px, 8px, 16px, 9999px, or 50%"
+    check: border_radius

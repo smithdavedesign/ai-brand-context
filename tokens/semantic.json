@@ -1,0 +1,73 @@
+{
+  "$description": "Solidigm semantic token aliases. Tier 2: human-readable names that resolve to primitive tokens. Use these in design docs and AI agent guidance — they're stable across redesigns.",
+  "color": {
+    "surface": {
+      "primary":    { "$type": "color", "$value": "{color.Dark.Solidigm Purple}", "$description": "Primary brand surface — the default Solidigm purple." },
+      "primaryAlt": { "$type": "color", "$value": "{color.Dark.Dark Purple}",     "$description": "Darker primary surface for hover/depth." },
+      "inverse":    { "$type": "color", "$value": "{color.Dark.Black}",           "$description": "Inverse surface — dark theme background." },
+      "neutral":    { "$type": "color", "$value": "{color.Light.White}",          "$description": "Default light neutral surface." },
+      "neutralWarm":{ "$type": "color", "$value": "{color.Light.Warm White}",     "$description": "Warm-tinted neutral for soft surfaces." }
+    },
+    "text": {
+      "onLight":     { "$type": "color", "$value": "{color.Dark.Black}",           "$description": "Primary text on light backgrounds." },
+      "onLightMuted":{ "$type": "color", "$value": "{color.Dark.Dark Grey}",       "$description": "Secondary/muted text on light." },
+      "onDark":      { "$type": "color", "$value": "{color.Light.White}",          "$description": "Primary text on dark/purple backgrounds." },
+      "accent":      { "$type": "color", "$value": "{color.Accents.Electric Teal}","$description": "Accent text (teal on dark surfaces)." }
+    },
+    "border": {
+      "subtle":   { "$type": "color", "$value": "{color.Dark.Mid Grey}",     "$description": "Subtle dividers." },
+      "default":  { "$type": "color", "$value": "{color.Dark.Dark Grey}",    "$description": "Default border." },
+      "emphasis": { "$type": "color", "$value": "{color.Dark.Solidigm Purple}", "$description": "Emphasized border (active states)." }
+    },
+    "feedback": {
+      "error":    { "$type": "color", "$value": "#ba3640", "$description": "Interface error / destructive action." },
+      "warning":  { "$type": "color", "$value": "#ff0000", "$description": "Warning / critical alert (use sparingly)." },
+      "success":  { "$type": "color", "$value": "{color.Accents.Electric Teal}", "$description": "Reserved — currently uses accent teal." },
+      "info":     { "$type": "color", "$value": "{color.Dark.Solidigm Purple}", "$description": "Informational state." }
+    }
+  },
+  "space": {
+    "gap": {
+      "xs": { "$type": "dimension", "$value": "{space.2}",  "$description": "Tight inline gap (8px)." },
+      "sm": { "$type": "dimension", "$value": "{space.5}",  "$description": "Standard small gap (20px)." },
+      "md": { "$type": "dimension", "$value": "{space.8}",  "$description": "Mobile primary gap (30px equivalent — uses 32 from clean scale)." },
+      "lg": { "$type": "dimension", "$value": "{space.10}", "$description": "Desktop primary gap (40px)." },
+      "xl": { "$type": "dimension", "$value": "{space.16}", "$description": "Large gap (64px)." }
+    },
+    "section": {
+      "sm": { "$type": "dimension", "$value": "{space.18}", "$description": "Section padding mobile (72px)." },
+      "md": { "$type": "dimension", "$value": "{space.25}", "$description": "Section padding tablet (100px)." },
+      "lg": { "$type": "dimension", "$value": "{space.38}", "$description": "Section padding desktop (150px)." }
+    },
+    "inset": {
+      "sm": { "$type": "dimension", "$value": "{space.5}",  "$description": "Container inline padding small (20px)." },
+      "md": { "$type": "dimension", "$value": "{space.8}",  "$description": "Container inline padding medium (32px)." },
+      "lg": { "$type": "dimension", "$value": "{space.10}", "$description": "Container inline padding large (40px)." },
+      "xl": { "$type": "dimension", "$value": "{space.20}", "$description": "Container inline padding extra-large (80px)." }
+    }
+  },
+  "typography": {
+    "context": {
+      "web":   { "$type": "fontFamily", "$value": "Sora",       "$description": "Marketing web + product apps. Google Fonts." },
+      "print": { "$type": "fontFamily", "$value": "Sequel100",  "$description": "Print, brand collateral, packaging." },
+      "ui":    { "$type": "fontFamily", "$value": "Roboto",     "$description": "Internal tools, dashboards, dense UI." },
+      "mono":  { "$type": "fontFamily", "$value": "Roboto Mono","$description": "Code, technical specs, monospace contexts." }
+    }
+  },
+  "icon": {
+    "size": {
+      "xs": { "$type": "dimension", "$value": "{space.4}",  "$description": "16px — inline icon." },
+      "sm": { "$type": "dimension", "$value": "{space.6}",  "$description": "24px — default UI icon." },
+      "md": { "$type": "dimension", "$value": "{space.8}",  "$description": "32px — card / feature icon." },
+      "lg": { "$type": "dimension", "$value": "{space.12}", "$description": "48px — large feature icon." },
+      "xl": { "$type": "dimension", "$value": "{space.16}", "$description": "64px — hero / display icon." }
+    }
+  },
+  "$extensions": {
+    "com.solidigm.brand": {
+      "rationale": "Semantic aliases survive redesigns — when the primitive value of a brand color changes, the semantic name (color.surface.primary) stays the same in component code.",
+      "preferredForAgents": "AI agents should prefer semantic names (color.surface.primary, space.gap.md) over primitive names (color.Dark.Solidigm Purple, space.8) when generating guidance, because semantics communicate intent.",
+      "fontContextRule": "When the surface is a website or web/native app: typography.context.web (Sora). When it's brand collateral, packaging, or print: typography.context.print (Sequel100). When it's a dense internal tool: typography.context.ui (Roboto)."
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<svg width="27" height="14" viewBox="0 0 27 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!--
+    Accordion chevron — Solidigm brand atom.
+    Fill: #00FFEC (Electric Teal) — hardcoded, does NOT adapt to theme.
+           This is an intentional brand decision: the teal chevron is always
+           used on dark/purple backgrounds in the accordion context.
+    Toggle animation:
+      Closed: rotate(0deg)
+      Open:   rotate(180deg) — points up
+      Duration: 500ms ease-in-out (motion.slow)
+    Size tokens:
+      Mobile:  icon.xs (16px) — applied as width on <svg>
+      Desktop: icon.sm (24px)
+    Source: stories/components/Molecules/Accordion/Accordion.tsx
+            stories/assets/styles/molecules/_accordion.scss
+  -->
+  <path
+    d="M10.5314 13.2238L16.8171 13.26L26.8848 3.19238L24.5011 0.808722L13.6651 11.6447L2.85635 0.836015L0.499978 3.19238L10.5314 13.2238Z"
+    fill="#00FFEC"
+  />
+</svg>

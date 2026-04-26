@@ -56,9 +56,49 @@ mcp = FastMCP(
 # ---------------------------------------------------------------------------
 @mcp.tool()
 def get_design_tokens(category: str | None = None) -> Dict[str, Any]:
-    """Return Solidigm design tokens. ``category`` ∈ {colors, typography} or omit for all."""
+    """Return Solidigm design tokens.
+
+    ``category`` ∈ {colors, typography, space, breakpoints, radius, shape,
+    motion, elevation, semantic, icons} or omit for all token files.
+    """
     telemetry.record("tool_call", "get_design_tokens", meta={"category": category} if category else None)
     return brand_tools.get_design_tokens(category)
+
+
+@mcp.tool()
+def get_spacing(step: str | None = None) -> Dict[str, Any]:
+    """Return Solidigm spacing tokens (4px-based scale).
+
+    Pass ``step`` (e.g. ``'4'``, ``'8'``, ``'16'``) for a single value, or
+    omit for the full scale.
+    """
+    telemetry.record("tool_call", "get_spacing", meta={"step": step} if step else None)
+    return brand_tools.get_spacing(step)
+
+
+@mcp.tool()
+def get_breakpoints() -> Dict[str, Any]:
+    """Return the canonical Solidigm breakpoint and container-width tokens."""
+    telemetry.record("tool_call", "get_breakpoints")
+    return brand_tools.get_breakpoints()
+
+
+@mcp.tool()
+def get_motion() -> Dict[str, Any]:
+    """Return Solidigm motion tokens — durations, cubic-bezier easings, and transform values."""
+    telemetry.record("tool_call", "get_motion")
+    return brand_tools.get_motion()
+
+
+@mcp.tool()
+def get_icon(name: str) -> Dict[str, Any]:
+    """Look up a Solidigm UI atom icon specification by name.
+
+    e.g. ``'arrowDouble'``, ``'arrow-double'``, ``'chevronDown'``.
+    Returns SVG asset path, viewBox, size bindings, theme rules, and animation tokens.
+    """
+    telemetry.record("tool_call", "get_icon", meta={"name": name[:64]})
+    return brand_tools.get_icon(name)
 
 
 @mcp.tool()
@@ -197,6 +237,21 @@ def _resource_colors() -> str:
 @mcp.resource("brand://tokens/typography")
 def _resource_typography() -> str:
     return json.dumps(brand_tools.get_design_tokens("typography")["tokens"], indent=2)
+
+
+@mcp.resource("brand://tokens/space")
+def _resource_space() -> str:
+    return json.dumps(brand_tools.get_design_tokens("space")["tokens"], indent=2)
+
+
+@mcp.resource("brand://tokens/motion")
+def _resource_motion() -> str:
+    return json.dumps(brand_tools.get_design_tokens("motion")["tokens"], indent=2)
+
+
+@mcp.resource("brand://tokens/icons")
+def _resource_icons() -> str:
+    return json.dumps(brand_tools.get_design_tokens("icons")["tokens"], indent=2)
 
 
 @mcp.resource("brand://guidelines/main")

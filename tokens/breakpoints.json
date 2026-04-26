@@ -1,0 +1,22 @@
+{
+  "$description": "Solidigm canonical breakpoints. Modernized from Bootstrap 5 (576/992) to align with current device reality and Tailwind/Material Design 3 conventions.",
+  "breakpoint": {
+    "xs":  { "$type": "dimension", "$value": "0px",    "$description": "Default / mobile-first base." },
+    "sm":  { "$type": "dimension", "$value": "640px",  "$description": "Large phone / phablet (was 576 in legacy)." },
+    "md":  { "$type": "dimension", "$value": "768px",  "$description": "Tablet portrait." },
+    "lg":  { "$type": "dimension", "$value": "1024px", "$description": "Tablet landscape / small laptop (was 992 in legacy)." },
+    "xl":  { "$type": "dimension", "$value": "1280px", "$description": "Desktop." },
+    "2xl": { "$type": "dimension", "$value": "1440px", "$description": "Wide desktop / design artboard width." }
+  },
+  "container": {
+    "max":     { "$type": "dimension", "$value": "1920px", "$description": "Maximum content render width." },
+    "artwork": { "$type": "dimension", "$value": "2400px", "$description": "Background imagery max width (full-bleed art)." }
+  },
+  "$extensions": {
+    "com.solidigm.brand": {
+      "rationale": "Updated `sm` 576→640 and `lg` 992→1024 to match modern device reality. Naming uses xs/sm/md/lg/xl/2xl (Tailwind convention) instead of xs/sm/md/lg/xl/xxl.",
+      "evidence": "Storybook + AEM use Bootstrap defaults (576/768/992/1280/1440). Both are decade-old defaults. Modern systems (Tailwind v3, MD3) use 640/768/1024/1280/1440.",
+      "designArtboardWidth": "1440px"
+    }
+  }
+}

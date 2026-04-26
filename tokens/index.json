@@ -404,5 +404,978 @@
         }
       }
     }
+  },
+  "space": {
+    "$description": "Solidigm canonical spacing primitives. 4px-based scale, vendor-neutral. Use semantic aliases (semantic/space.json) for component spacing decisions.",
+    "space": {
+      "0": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "No space."
+      },
+      "1": {
+        "$type": "dimension",
+        "$value": "4px",
+        "$description": "Hairline / icon padding."
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": "8px",
+        "$description": "Tight inline gap."
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": "12px",
+        "$description": "Compact gap."
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": "16px",
+        "$description": "Default base unit ($spacer = 1rem)."
+      },
+      "5": {
+        "$type": "dimension",
+        "$value": "20px",
+        "$description": "Standard small gap."
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": "24px",
+        "$description": "Medium gap."
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": "32px",
+        "$description": "Section inner spacing (small)."
+      },
+      "10": {
+        "$type": "dimension",
+        "$value": "40px",
+        "$description": "Desktop primary gap."
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": "48px",
+        "$description": "Large gap."
+      },
+      "14": {
+        "$type": "dimension",
+        "$value": "56px",
+        "$description": "Extra large gap."
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": "64px",
+        "$description": "Generous spacing."
+      },
+      "18": {
+        "$type": "dimension",
+        "$value": "72px",
+        "$description": "Section spacing (mobile)."
+      },
+      "20": {
+        "$type": "dimension",
+        "$value": "80px",
+        "$description": "Container inline padding (xxl)."
+      },
+      "24": {
+        "$type": "dimension",
+        "$value": "96px",
+        "$description": "Section spacing (compact)."
+      },
+      "25": {
+        "$type": "dimension",
+        "$value": "100px",
+        "$description": "Section spacing (tablet)."
+      },
+      "30": {
+        "$type": "dimension",
+        "$value": "120px",
+        "$description": "Hero block spacing."
+      },
+      "38": {
+        "$type": "dimension",
+        "$value": "150px",
+        "$description": "Section spacing (desktop)."
+      }
+    },
+    "$extensions": {
+      "com.solidigm.brand": {
+        "baseUnit": "4px",
+        "scaleType": "linear",
+        "rationale": "Modern 4px grid (Tailwind/Material 3 aligned). Numeric keys = pixels/4. Bootstrap leftover values (28/56/88) intentionally omitted — no design rationale.",
+        "evidence": "Derived from Storybook + AEM SCSS audit: $spacer * N values reduced to a clean linear scale."
+      }
+    }
+  },
+  "breakpoints": {
+    "$description": "Solidigm canonical breakpoints. Modernized from Bootstrap 5 (576/992) to align with current device reality and Tailwind/Material Design 3 conventions.",
+    "breakpoint": {
+      "xs": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "Default / mobile-first base."
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "640px",
+        "$description": "Large phone / phablet (was 576 in legacy)."
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "768px",
+        "$description": "Tablet portrait."
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "1024px",
+        "$description": "Tablet landscape / small laptop (was 992 in legacy)."
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "1280px",
+        "$description": "Desktop."
+      },
+      "2xl": {
+        "$type": "dimension",
+        "$value": "1440px",
+        "$description": "Wide desktop / design artboard width."
+      }
+    },
+    "container": {
+      "max": {
+        "$type": "dimension",
+        "$value": "1920px",
+        "$description": "Maximum content render width."
+      },
+      "artwork": {
+        "$type": "dimension",
+        "$value": "2400px",
+        "$description": "Background imagery max width (full-bleed art)."
+      }
+    },
+    "$extensions": {
+      "com.solidigm.brand": {
+        "rationale": "Updated `sm` 576→640 and `lg` 992→1024 to match modern device reality. Naming uses xs/sm/md/lg/xl/2xl (Tailwind convention) instead of xs/sm/md/lg/xl/xxl.",
+        "evidence": "Storybook + AEM use Bootstrap defaults (576/768/992/1280/1440). Both are decade-old defaults. Modern systems (Tailwind v3, MD3) use 640/768/1024/1280/1440.",
+        "designArtboardWidth": "1440px"
+      }
+    }
+  },
+  "radius": {
+    "$description": "Solidigm canonical border-radius primitives. The brand defaults to sharp corners (radius=0). Non-zero values exist only for specific UI affordances.",
+    "radius": {
+      "none": {
+        "$type": "dimension",
+        "$value": "0px",
+        "$description": "Default. Sharp corners — the brand's primary geometric language."
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "4px",
+        "$description": "Small inputs (search fields, dropdown items)."
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "8px",
+        "$description": "Reserved — currently unused. For future surfaces that need soft corners."
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "16px",
+        "$description": "Reserved — currently unused. Cards on relaxed surfaces."
+      },
+      "pill": {
+        "$type": "dimension",
+        "$value": "9999px",
+        "$description": "Pill / capsule shape (carousel progress bars, tags)."
+      },
+      "circle": {
+        "$type": "dimension",
+        "$value": "50%",
+        "$description": "Perfect circle (avatars, play buttons, milestone dots, social icons)."
+      }
+    },
+    "$extensions": {
+      "com.solidigm.brand": {
+        "defaultRule": "Use radius.none unless an interaction or affordance requires otherwise.",
+        "rationale": "The 0-radius / sharp-corner system is a distinctive Solidigm visual signature. Departures must be deliberate.",
+        "evidence": "All buttons in Storybook + AEM have border-radius: 0. Only navbar search uses 4px. Only carousel uses pill. Circles are reserved for specific affordances."
+      }
+    }
+  },
+  "shape": {
+    "$description": "Solidigm shape language. The 45° notch is a brand-distinctive geometric primitive used in containers, backgrounds, and large surfaces.",
+    "notch": {
+      "angle": {
+        "$type": "number",
+        "$value": 45,
+        "$description": "The canonical Solidigm notch angle, in degrees. Always 45° — a defining brand geometry."
+      },
+      "cut": {
+        "sm": {
+          "$type": "dimension",
+          "$value": "96px",
+          "$description": "Mobile / compact notch cut size."
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "100px",
+          "$description": "Tablet notch cut size."
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "146px",
+          "$description": "Desktop standard notch cut size."
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "190px",
+          "$description": "Footer / large surface notch (no image)."
+        },
+        "2xl": {
+          "$type": "dimension",
+          "$value": "357px",
+          "$description": "Footer / extra-large surface notch (with image)."
+        }
+      },
+      "clipPath": {
+        "topLeft": {
+          "$type": "string",
+          "$value": "polygon(26% 0%, 100% 0%, 98% 100%, 0% 100%, 0% 45%)",
+          "$description": "45° notch in top-left corner."
+        },
+        "topRight": {
+          "$type": "string",
+          "$value": "polygon(0% 0%, 45% 0%, 100% 45%, 100% 100%, 0% 100%)",
+          "$description": "45° notch in top-right corner."
+        },
+        "bottomLeft": {
+          "$type": "string",
+          "$value": "polygon(0% 0%, 100% 1%, 100% 100%, 45% 100%, 0% 75%)",
+          "$description": "45° notch in bottom-left corner."
+        },
+        "bottomRight": {
+          "$type": "string",
+          "$value": "polygon(0% 0%, 100% 0%, 100% 60%, 45% 100%, 0% 100%)",
+          "$description": "45° notch in bottom-right corner."
+        }
+      }
+    },
+    "border": {
+      "width": {
+        "hairline": {
+          "$type": "dimension",
+          "$value": "0.5px",
+          "$description": "Hairline divider (cards, separators)."
+        },
+        "thin": {
+          "$type": "dimension",
+          "$value": "1px",
+          "$description": "Default border (buttons, inputs, cards)."
+        },
+        "thick": {
+          "$type": "dimension",
+          "$value": "2px",
+          "$description": "Emphasized border (active tab indicator, dividers)."
+        },
+        "heavy": {
+          "$type": "dimension",
+          "$value": "4px",
+          "$description": "Heavy border (tab active indicator, button loader)."
+        },
+        "feature": {
+          "$type": "dimension",
+          "$value": "8px",
+          "$description": "Feature/accent border (hero play buttons)."
+        }
+      }
+    },
+    "$extensions": {
+      "com.solidigm.brand": {
+        "rationale": "The 45° notch is the brand's signature large-surface geometry — used widely on sections, backgrounds, footer, bento boxes. Cut sizes scale with breakpoint, not arbitrarily.",
+        "evidence": "Storybook + AEM both define the same $clipPaths map and the same notch dimensions per surface."
+      }
+    }
+  },
+  "motion": {
+    "$description": "Solidigm motion tokens. Standardized durations and easings extracted from observed usage. Default = duration.base + easing.standard.",
+    "duration": {
+      "instant": {
+        "$type": "duration",
+        "$value": "100ms",
+        "$description": "Reserved — instant feedback (state flips)."
+      },
+      "fast": {
+        "$type": "duration",
+        "$value": "200ms",
+        "$description": "Hover/focus state changes, small icon transforms."
+      },
+      "base": {
+        "$type": "duration",
+        "$value": "300ms",
+        "$description": "Default UI transition (cards, dropdowns, accordions)."
+      },
+      "slow": {
+        "$type": "duration",
+        "$value": "500ms",
+        "$description": "Larger transforms (accordion open/close, filters)."
+      },
+      "expressive": {
+        "$type": "duration",
+        "$value": "800ms",
+        "$description": "Brand-expressive moments (logo carousel scroll, hero reveal)."
+      }
+    },
+    "easing": {
+      "linear": {
+        "$type": "cubicBezier",
+        "$value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "$description": "Constant velocity. Loaders, scroll-driven animations."
+      },
+      "standard": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.4,
+          0,
+          0.2,
+          1
+        ],
+        "$description": "Default UI easing (Material standard). Most components."
+      },
+      "emphasized": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.2,
+          0,
+          0,
+          1
+        ],
+        "$description": "Brand-expressive easing for hero/feature reveals."
+      },
+      "decelerate": {
+        "$type": "cubicBezier",
+        "$value": [
+          0,
+          0,
+          0.2,
+          1
+        ],
+        "$description": "Element entering screen."
+      },
+      "accelerate": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.4,
+          0,
+          1,
+          1
+        ],
+        "$description": "Element leaving screen."
+      }
+    },
+    "transform": {
+      "arrowNudge": {
+        "$type": "dimension",
+        "$value": "4px",
+        "$description": "Standard arrow translateX on hover (links, buttons)."
+      },
+      "chevronFlip": {
+        "$type": "number",
+        "$value": 180,
+        "$description": "Chevron rotation degrees for accordion/dropdown open."
+      },
+      "iconScale": {
+        "$type": "number",
+        "$value": 1.2,
+        "$description": "Hover scale for emphasized icons."
+      }
+    },
+    "$extensions": {
+      "com.solidigm.brand": {
+        "rationale": "Motion was previously ad-hoc in component CSS (5+ different easing strings, 8+ durations). Consolidated to 5 durations + 5 easings covering all observed cases.",
+        "evidence": "Audit of Storybook+AEM transition declarations: 0.2s/0.3s/0.5s dominate; cubic-bezier(0.4,0,0.2,1) appears in carousel; ease/ease-in-out used inconsistently for similar effects.",
+        "preferReducedMotion": "Consumers must respect prefers-reduced-motion: reduce — drop to instant or duration.fast."
+      }
+    }
+  },
+  "elevation": {
+    "$description": "Solidigm elevation / shadow tokens. Sparse by design — the brand uses minimal elevation. Most surfaces are flat.",
+    "shadow": {
+      "none": {
+        "$type": "shadow",
+        "$value": "none",
+        "$description": "Default. Most surfaces are flat."
+      },
+      "card": {
+        "$type": "shadow",
+        "$value": {
+          "color": "rgba(0, 0, 0, 0.10)",
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "20px",
+          "spread": "0px"
+        },
+        "$description": "Floating card on light backgrounds (e.g., office map cards)."
+      },
+      "dropdown": {
+        "$type": "shadow",
+        "$value": {
+          "color": "rgba(0, 0, 0, 0.25)",
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "4px",
+          "spread": "0px"
+        },
+        "$description": "Dropdown menus, tab panels, content hub filters."
+      },
+      "overlay": {
+        "$type": "shadow",
+        "$value": {
+          "color": "rgba(0, 0, 0, 0.50)",
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "4px",
+          "spread": "0px"
+        },
+        "$description": "Stronger emphasis dropdown — for high-contrast surfaces."
+      },
+      "feature": {
+        "$type": "shadow",
+        "$value": {
+          "color": "rgba(255, 255, 255, 0.16)",
+          "offsetX": "0px",
+          "offsetY": "16px",
+          "blur": "40px",
+          "spread": "20px"
+        },
+        "$description": "Feature glow on dark surfaces (cookie preferences, modal on dark theme)."
+      },
+      "indicator": {
+        "$type": "shadow",
+        "$value": {
+          "color": "{Dark.Solidigm Purple}",
+          "offsetX": "0px",
+          "offsetY": "-2px",
+          "blur": "0px",
+          "spread": "0px",
+          "inset": false
+        },
+        "$description": "Inset-style purple indicator under active tabs."
+      }
+    },
+    "$extensions": {
+      "com.solidigm.brand": {
+        "rationale": "Elevation was ad-hoc: 5 unique shadow strings across the codebase. Consolidated to 5 named tokens covering all observed usage. The minimalism is intentional — Solidigm is a flat-design brand.",
+        "evidence": "Audit of Storybook+AEM: only 5 unique box-shadow declarations across the entire codebase."
+      }
+    }
+  },
+  "icons": {
+    "$schema": "https://design-tokens.org/schema",
+    "$description": "Solidigm UI icon atoms — canonical paths, size scale bindings, theme behavior, and animation specifications. Source-of-truth: Storybook LinkItem + Accordion components and AEM v3 styles.",
+    "icon": {
+      "size": {
+        "$description": "Icon size scale — tied to typographic rhythm. All values are square (width = height). Sourced from $iconSize map in _bootstrapOverrides.scss.",
+        "xs": {
+          "$type": "dimension",
+          "$value": "16px",
+          "$description": "Accordion chevron (mobile). Minimum body-inline icon."
+        },
+        "sm": {
+          "$type": "dimension",
+          "$value": "24px",
+          "$description": "Default icon size. Arrow-double (mobile), accordion chevron (desktop), button icons."
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "32px",
+          "$description": "Arrow-double (desktop xl breakpoint). Carousel arrows."
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "48px",
+          "$description": "Feature / hero icons. Requires brand approval for inline use."
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "64px",
+          "$description": "Decorative / illustration-scale icons only."
+        }
+      },
+      "atom": {
+        "arrowDouble": {
+          "$description": "The primary brand navigation icon — two right-pointing chevrons. Used on all link items, cards, and navigation CTAs. This is the most frequently appearing interactive icon on solidigm.com.",
+          "viewBox": {
+            "$type": "string",
+            "$value": "0 0 40 27",
+            "$description": "Canonical aspect ratio for the link / list-item context."
+          },
+          "viewBoxCompact": {
+            "$type": "string",
+            "$value": "0 0 24 24",
+            "$description": "Square grid variant used in button background-image and modal close. Same geometry on a 24px unit grid."
+          },
+          "assetPath": {
+            "$type": "string",
+            "$value": "brand/assets/icons/arrow-double.svg",
+            "$description": "currentColor variant — fill inherits from parent text color."
+          },
+          "assetPathTeal": {
+            "$type": "string",
+            "$value": "brand/assets/icons/arrow-double-teal.svg",
+            "$description": "Fixed Electric Teal fill variant — used in buttons and CTAs on dark/purple backgrounds."
+          },
+          "theme": {
+            "dark": {
+              "$type": "color",
+              "$value": "#FFFFFF",
+              "$description": "Dark theme: white fill. Inherited from parent color via currentColor. Class: .theme-solidigm--dark"
+            },
+            "light": {
+              "$type": "color",
+              "$value": "#000000",
+              "$description": "Light theme: black fill. Inherited from parent color via currentColor. Class: .theme-solidigm--light"
+            },
+            "button": {
+              "$type": "color",
+              "$value": "#00FFEC",
+              "$description": "Button / CTA context: always Electric Teal regardless of background theme."
+            },
+            "textArrowUtility": {
+              "$type": "color",
+              "$value": "{color.Dark.Solidigm Purple}",
+              "$description": ".text--arrow CSS class: uses CSS mask-image + background-color. Default color is Solidigm Purple. Background-color can be overridden per context."
+            }
+          },
+          "size": {
+            "mobile": {
+              "$type": "dimension",
+              "$value": "{icon.size.sm}",
+              "$description": "24px — set via map-get($iconSize, sm) on .list-item__icon svg"
+            },
+            "desktop": {
+              "$type": "dimension",
+              "$value": "{icon.size.md}",
+              "$description": "32px — set via map-get($iconSize, lg) on xl breakpoint (≥1280px)"
+            }
+          },
+          "animation": {
+            "hover": {
+              "$description": "On parent .list-item:hover — the icon container (.list-item__icon) translates right.",
+              "property": {
+                "$type": "string",
+                "$value": "transform"
+              },
+              "from": {
+                "$type": "string",
+                "$value": "translateX(0)"
+              },
+              "to": {
+                "$type": "string",
+                "$value": "translateX(4px)",
+                "$description": "4px = $spacer * 0.25 = motion.arrowNudge token"
+              },
+              "duration": {
+                "$type": "duration",
+                "$value": "300ms",
+                "$description": "motion.base token"
+              },
+              "easing": {
+                "$type": "cubicBezier",
+                "$value": "ease-in-out",
+                "$description": "Paired with transition-timing-function: linear override in source. Use motion.standard."
+              }
+            },
+            "hoverUnderline": {
+              "$description": "Simultaneously with icon nudge: the link text span::before expands from 0% to 100% width — an animated underline.",
+              "property": {
+                "$type": "string",
+                "$value": "width"
+              },
+              "from": {
+                "$type": "string",
+                "$value": "0%"
+              },
+              "to": {
+                "$type": "string",
+                "$value": "100%"
+              },
+              "duration": {
+                "$type": "duration",
+                "$value": "300ms"
+              },
+              "easing": {
+                "$type": "string",
+                "$value": "ease-in-out / linear"
+              },
+              "underlineColor": {
+                "dark": {
+                  "$type": "color",
+                  "$value": "#FFFFFF",
+                  "$description": "White underline on dark themes. .list-item__text span::before { background-color: $white }"
+                },
+                "light": {
+                  "$type": "color",
+                  "$value": "#000000",
+                  "$description": "Black underline on light themes. Overridden via @include theme-light() in _linkItem.scss"
+                }
+              },
+              "underlineOffset": {
+                "mobile": {
+                  "$type": "dimension",
+                  "$value": "-2px",
+                  "$description": "bottom: -2px (mobile)"
+                },
+                "desktop": {
+                  "$type": "dimension",
+                  "$value": "-10px",
+                  "$description": "bottom: -10px (desktop lg+)"
+                }
+              }
+            }
+          }
+        },
+        "chevronDown": {
+          "$description": "Accordion toggle chevron. Points down when closed, rotates 180° when open. Always Electric Teal — not theme-adaptive. Used exclusively in accordion triggers.",
+          "viewBox": {
+            "$type": "string",
+            "$value": "0 0 27 14"
+          },
+          "assetPath": {
+            "$type": "string",
+            "$value": "brand/assets/icons/chevron-down.svg"
+          },
+          "theme": {
+            "$description": "Chevron fill is hardcoded — it does not adapt to light/dark theme. The Electric Teal on dark/purple accordions is an intentional brand constant.",
+            "always": {
+              "$type": "color",
+              "$value": "#00FFEC",
+              "$description": "Electric Teal. Equivalent to color.accent.electricTeal. Never changes regardless of parent theme class."
+            }
+          },
+          "size": {
+            "mobile": {
+              "$type": "dimension",
+              "$value": "{icon.size.xs}",
+              "$description": "16px — map-get($iconSize, xs). Applied as width on <svg> element."
+            },
+            "desktop": {
+              "$type": "dimension",
+              "$value": "{icon.size.sm}",
+              "$description": "24px — map-get($iconSize, sm) at lg breakpoint (≥1024px)."
+            }
+          },
+          "animation": {
+            "toggle": {
+              "$description": "On .accordionv3.open: the chevron rotates 180° to point upward, indicating expanded state.",
+              "property": {
+                "$type": "string",
+                "$value": "transform"
+              },
+              "closed": {
+                "$type": "string",
+                "$value": "rotate(0deg)"
+              },
+              "open": {
+                "$type": "string",
+                "$value": "rotate(180deg)"
+              },
+              "duration": {
+                "$type": "duration",
+                "$value": "500ms",
+                "$description": "motion.slow token"
+              },
+              "easing": {
+                "$type": "string",
+                "$value": "ease-in-out",
+                "$description": "motion.emphasized token"
+              }
+            },
+            "contentReveal": {
+              "$description": "Accordion body expansion — all three properties transition together.",
+              "properties": {
+                "$type": "string",
+                "$value": "max-height, opacity, padding"
+              },
+              "duration": {
+                "$type": "duration",
+                "$value": "500ms"
+              },
+              "from": {
+                "$type": "string",
+                "$value": "max-height: 0; opacity: 0; padding: 0"
+              },
+              "to": {
+                "$type": "string",
+                "$value": "max-height: <content height>; opacity: 1; padding: auto"
+              }
+            }
+          },
+          "spacing": {
+            "marginBottom": {
+              "mobile": {
+                "$type": "dimension",
+                "$value": "30px",
+                "$description": "$gap-mobile — space below trigger button before content."
+              },
+              "desktop": {
+                "$type": "dimension",
+                "$value": "20px",
+                "$description": "$gap-desktop * 0.5 — tighter on desktop."
+              }
+            },
+            "contentGap": {
+              "mobile": {
+                "$type": "dimension",
+                "$value": "30px",
+                "$description": "$gap-mobile — gap between children inside expanded content."
+              },
+              "desktop": {
+                "$type": "dimension",
+                "$value": "40px",
+                "$description": "$gap-desktop."
+              }
+            },
+            "interItemMargin": {
+              "mobile": {
+                "$type": "dimension",
+                "$value": "30px"
+              },
+              "desktop": {
+                "$type": "dimension",
+                "$value": "40px"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "semantic": {
+    "$description": "Solidigm semantic token aliases. Tier 2: human-readable names that resolve to primitive tokens. Use these in design docs and AI agent guidance — they're stable across redesigns.",
+    "color": {
+      "surface": {
+        "primary": {
+          "$type": "color",
+          "$value": "{color.Dark.Solidigm Purple}",
+          "$description": "Primary brand surface — the default Solidigm purple."
+        },
+        "primaryAlt": {
+          "$type": "color",
+          "$value": "{color.Dark.Dark Purple}",
+          "$description": "Darker primary surface for hover/depth."
+        },
+        "inverse": {
+          "$type": "color",
+          "$value": "{color.Dark.Black}",
+          "$description": "Inverse surface — dark theme background."
+        },
+        "neutral": {
+          "$type": "color",
+          "$value": "{color.Light.White}",
+          "$description": "Default light neutral surface."
+        },
+        "neutralWarm": {
+          "$type": "color",
+          "$value": "{color.Light.Warm White}",
+          "$description": "Warm-tinted neutral for soft surfaces."
+        }
+      },
+      "text": {
+        "onLight": {
+          "$type": "color",
+          "$value": "{color.Dark.Black}",
+          "$description": "Primary text on light backgrounds."
+        },
+        "onLightMuted": {
+          "$type": "color",
+          "$value": "{color.Dark.Dark Grey}",
+          "$description": "Secondary/muted text on light."
+        },
+        "onDark": {
+          "$type": "color",
+          "$value": "{color.Light.White}",
+          "$description": "Primary text on dark/purple backgrounds."
+        },
+        "accent": {
+          "$type": "color",
+          "$value": "{color.Accents.Electric Teal}",
+          "$description": "Accent text (teal on dark surfaces)."
+        }
+      },
+      "border": {
+        "subtle": {
+          "$type": "color",
+          "$value": "{color.Dark.Mid Grey}",
+          "$description": "Subtle dividers."
+        },
+        "default": {
+          "$type": "color",
+          "$value": "{color.Dark.Dark Grey}",
+          "$description": "Default border."
+        },
+        "emphasis": {
+          "$type": "color",
+          "$value": "{color.Dark.Solidigm Purple}",
+          "$description": "Emphasized border (active states)."
+        }
+      },
+      "feedback": {
+        "error": {
+          "$type": "color",
+          "$value": "#ba3640",
+          "$description": "Interface error / destructive action."
+        },
+        "warning": {
+          "$type": "color",
+          "$value": "#ff0000",
+          "$description": "Warning / critical alert (use sparingly)."
+        },
+        "success": {
+          "$type": "color",
+          "$value": "{color.Accents.Electric Teal}",
+          "$description": "Reserved — currently uses accent teal."
+        },
+        "info": {
+          "$type": "color",
+          "$value": "{color.Dark.Solidigm Purple}",
+          "$description": "Informational state."
+        }
+      }
+    },
+    "space": {
+      "gap": {
+        "xs": {
+          "$type": "dimension",
+          "$value": "{space.2}",
+          "$description": "Tight inline gap (8px)."
+        },
+        "sm": {
+          "$type": "dimension",
+          "$value": "{space.5}",
+          "$description": "Standard small gap (20px)."
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{space.8}",
+          "$description": "Mobile primary gap (30px equivalent — uses 32 from clean scale)."
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{space.10}",
+          "$description": "Desktop primary gap (40px)."
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "{space.16}",
+          "$description": "Large gap (64px)."
+        }
+      },
+      "section": {
+        "sm": {
+          "$type": "dimension",
+          "$value": "{space.18}",
+          "$description": "Section padding mobile (72px)."
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{space.25}",
+          "$description": "Section padding tablet (100px)."
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{space.38}",
+          "$description": "Section padding desktop (150px)."
+        }
+      },
+      "inset": {
+        "sm": {
+          "$type": "dimension",
+          "$value": "{space.5}",
+          "$description": "Container inline padding small (20px)."
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{space.8}",
+          "$description": "Container inline padding medium (32px)."
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{space.10}",
+          "$description": "Container inline padding large (40px)."
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "{space.20}",
+          "$description": "Container inline padding extra-large (80px)."
+        }
+      }
+    },
+    "typography": {
+      "context": {
+        "web": {
+          "$type": "fontFamily",
+          "$value": "Sora",
+          "$description": "Marketing web + product apps. Google Fonts."
+        },
+        "print": {
+          "$type": "fontFamily",
+          "$value": "Sequel100",
+          "$description": "Print, brand collateral, packaging."
+        },
+        "ui": {
+          "$type": "fontFamily",
+          "$value": "Roboto",
+          "$description": "Internal tools, dashboards, dense UI."
+        },
+        "mono": {
+          "$type": "fontFamily",
+          "$value": "Roboto Mono",
+          "$description": "Code, technical specs, monospace contexts."
+        }
+      }
+    },
+    "icon": {
+      "size": {
+        "xs": {
+          "$type": "dimension",
+          "$value": "{space.4}",
+          "$description": "16px — inline icon."
+        },
+        "sm": {
+          "$type": "dimension",
+          "$value": "{space.6}",
+          "$description": "24px — default UI icon."
+        },
+        "md": {
+          "$type": "dimension",
+          "$value": "{space.8}",
+          "$description": "32px — card / feature icon."
+        },
+        "lg": {
+          "$type": "dimension",
+          "$value": "{space.12}",
+          "$description": "48px — large feature icon."
+        },
+        "xl": {
+          "$type": "dimension",
+          "$value": "{space.16}",
+          "$description": "64px — hero / display icon."
+        }
+      }
+    },
+    "$extensions": {
+      "com.solidigm.brand": {
+        "rationale": "Semantic aliases survive redesigns — when the primitive value of a brand color changes, the semantic name (color.surface.primary) stays the same in component code.",
+        "preferredForAgents": "AI agents should prefer semantic names (color.surface.primary, space.gap.md) over primitive names (color.Dark.Solidigm Purple, space.8) when generating guidance, because semantics communicate intent.",
+        "fontContextRule": "When the surface is a website or web/native app: typography.context.web (Sora). When it's brand collateral, packaging, or print: typography.context.print (Sequel100). When it's a dense internal tool: typography.context.ui (Roboto)."
+      }
+    }
   }
 }

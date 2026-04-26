@@ -1,0 +1,29 @@
+<svg width="40" height="27" viewBox="0 0 40 27" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!--
+    Double-arrow link icon — Solidigm brand atom.
+    Fill: inherit / currentColor (adapts to light/dark theme via parent color).
+      Dark theme  → white (#FFFFFF)
+      Light theme → black (#000000)
+    Usage:
+      - LinkItem component (.list-item__icon) — inline SVG, fill="none" on <svg>,
+        path fill driven by CSS currentColor
+      - .text--arrow CSS utility class — applied as mask-image; color set via
+        background-color (default: Solidigm Purple)
+    Size tokens: icon.sm (24px) mobile → icon.lg (32px) desktop  [⚠ see tokens/icons.json]
+    Hover animation: translateX(4px) over 300ms ease-in-out (motion.arrowNudge)
+    Source: stories/components/Atoms/LinkItem/LinkItem.tsx
+            stories/assets/styles/base/_base.scss (.text--arrow)
+  -->
+  <g id="Arrow">
+    <path
+      id="Vector 234"
+      d="M13.4162 16.3533L13.4524 10.0676L3.38477 0L1.00111 2.38366L11.8371 13.2197L1.0284 24.0284L3.38477 26.3848L13.4162 16.3533Z"
+      fill="currentColor"
+    />
+    <path
+      id="Vector 235"
+      d="M26.4162 16.3533L26.4524 10.0676L16.3848 0L14.0011 2.38366L24.8371 13.2197L14.0284 24.0284L16.3848 26.3848L26.4162 16.3533Z"
+      fill="currentColor"
+    />
+  </g>
+</svg>

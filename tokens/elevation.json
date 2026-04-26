@@ -1,0 +1,37 @@
+{
+  "$description": "Solidigm elevation / shadow tokens. Sparse by design — the brand uses minimal elevation. Most surfaces are flat.",
+  "shadow": {
+    "none":     { "$type": "shadow", "$value": "none", "$description": "Default. Most surfaces are flat." },
+    "card":     {
+      "$type": "shadow",
+      "$value": { "color": "rgba(0, 0, 0, 0.10)", "offsetX": "0px", "offsetY": "4px", "blur": "20px", "spread": "0px" },
+      "$description": "Floating card on light backgrounds (e.g., office map cards)."
+    },
+    "dropdown": {
+      "$type": "shadow",
+      "$value": { "color": "rgba(0, 0, 0, 0.25)", "offsetX": "0px", "offsetY": "4px", "blur": "4px", "spread": "0px" },
+      "$description": "Dropdown menus, tab panels, content hub filters."
+    },
+    "overlay": {
+      "$type": "shadow",
+      "$value": { "color": "rgba(0, 0, 0, 0.50)", "offsetX": "0px", "offsetY": "4px", "blur": "4px", "spread": "0px" },
+      "$description": "Stronger emphasis dropdown — for high-contrast surfaces."
+    },
+    "feature": {
+      "$type": "shadow",
+      "$value": { "color": "rgba(255, 255, 255, 0.16)", "offsetX": "0px", "offsetY": "16px", "blur": "40px", "spread": "20px" },
+      "$description": "Feature glow on dark surfaces (cookie preferences, modal on dark theme)."
+    },
+    "indicator": {
+      "$type": "shadow",
+      "$value": { "color": "{Dark.Solidigm Purple}", "offsetX": "0px", "offsetY": "-2px", "blur": "0px", "spread": "0px", "inset": false },
+      "$description": "Inset-style purple indicator under active tabs."
+    }
+  },
+  "$extensions": {
+    "com.solidigm.brand": {
+      "rationale": "Elevation was ad-hoc: 5 unique shadow strings across the codebase. Consolidated to 5 named tokens covering all observed usage. The minimalism is intentional — Solidigm is a flat-design brand.",
+      "evidence": "Audit of Storybook+AEM: only 5 unique box-shadow declarations across the entire codebase."
+    }
+  }
+}

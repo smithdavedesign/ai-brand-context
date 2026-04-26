@@ -1,0 +1,293 @@
+{
+  "$schema": "https://design-tokens.org/schema",
+  "$description": "Solidigm UI icon atoms — canonical paths, size scale bindings, theme behavior, and animation specifications. Source-of-truth: Storybook LinkItem + Accordion components and AEM v3 styles.",
+
+  "icon": {
+    "size": {
+      "$description": "Icon size scale — tied to typographic rhythm. All values are square (width = height). Sourced from $iconSize map in _bootstrapOverrides.scss.",
+      "xs": {
+        "$type": "dimension",
+        "$value": "16px",
+        "$description": "Accordion chevron (mobile). Minimum body-inline icon."
+      },
+      "sm": {
+        "$type": "dimension",
+        "$value": "24px",
+        "$description": "Default icon size. Arrow-double (mobile), accordion chevron (desktop), button icons."
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": "32px",
+        "$description": "Arrow-double (desktop xl breakpoint). Carousel arrows."
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": "48px",
+        "$description": "Feature / hero icons. Requires brand approval for inline use."
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": "64px",
+        "$description": "Decorative / illustration-scale icons only."
+      }
+    },
+
+    "atom": {
+      "arrowDouble": {
+        "$description": "The primary brand navigation icon — two right-pointing chevrons. Used on all link items, cards, and navigation CTAs. This is the most frequently appearing interactive icon on solidigm.com.",
+
+        "viewBox": {
+          "$type": "string",
+          "$value": "0 0 40 27",
+          "$description": "Canonical aspect ratio for the link / list-item context."
+        },
+        "viewBoxCompact": {
+          "$type": "string",
+          "$value": "0 0 24 24",
+          "$description": "Square grid variant used in button background-image and modal close. Same geometry on a 24px unit grid."
+        },
+        "assetPath": {
+          "$type": "string",
+          "$value": "brand/assets/icons/arrow-double.svg",
+          "$description": "currentColor variant — fill inherits from parent text color."
+        },
+        "assetPathTeal": {
+          "$type": "string",
+          "$value": "brand/assets/icons/arrow-double-teal.svg",
+          "$description": "Fixed Electric Teal fill variant — used in buttons and CTAs on dark/purple backgrounds."
+        },
+
+        "theme": {
+          "dark": {
+            "$type": "color",
+            "$value": "#FFFFFF",
+            "$description": "Dark theme: white fill. Inherited from parent color via currentColor. Class: .theme-solidigm--dark"
+          },
+          "light": {
+            "$type": "color",
+            "$value": "#000000",
+            "$description": "Light theme: black fill. Inherited from parent color via currentColor. Class: .theme-solidigm--light"
+          },
+          "button": {
+            "$type": "color",
+            "$value": "#00FFEC",
+            "$description": "Button / CTA context: always Electric Teal regardless of background theme."
+          },
+          "textArrowUtility": {
+            "$type": "color",
+            "$value": "{color.Dark.Solidigm Purple}",
+            "$description": ".text--arrow CSS class: uses CSS mask-image + background-color. Default color is Solidigm Purple. Background-color can be overridden per context."
+          }
+        },
+
+        "size": {
+          "mobile": {
+            "$type": "dimension",
+            "$value": "{icon.size.sm}",
+            "$description": "24px — set via map-get($iconSize, sm) on .list-item__icon svg"
+          },
+          "desktop": {
+            "$type": "dimension",
+            "$value": "{icon.size.md}",
+            "$description": "32px — set via map-get($iconSize, lg) on xl breakpoint (≥1280px)"
+          }
+        },
+
+        "animation": {
+          "hover": {
+            "$description": "On parent .list-item:hover — the icon container (.list-item__icon) translates right.",
+            "property": {
+              "$type": "string",
+              "$value": "transform"
+            },
+            "from": {
+              "$type": "string",
+              "$value": "translateX(0)"
+            },
+            "to": {
+              "$type": "string",
+              "$value": "translateX(4px)",
+              "$description": "4px = $spacer * 0.25 = motion.arrowNudge token"
+            },
+            "duration": {
+              "$type": "duration",
+              "$value": "300ms",
+              "$description": "motion.base token"
+            },
+            "easing": {
+              "$type": "cubicBezier",
+              "$value": "ease-in-out",
+              "$description": "Paired with transition-timing-function: linear override in source. Use motion.standard."
+            }
+          },
+          "hoverUnderline": {
+            "$description": "Simultaneously with icon nudge: the link text span::before expands from 0% to 100% width — an animated underline.",
+            "property": {
+              "$type": "string",
+              "$value": "width"
+            },
+            "from": {
+              "$type": "string",
+              "$value": "0%"
+            },
+            "to": {
+              "$type": "string",
+              "$value": "100%"
+            },
+            "duration": {
+              "$type": "duration",
+              "$value": "300ms"
+            },
+            "easing": {
+              "$type": "string",
+              "$value": "ease-in-out / linear"
+            },
+            "underlineColor": {
+              "dark": {
+                "$type": "color",
+                "$value": "#FFFFFF",
+                "$description": "White underline on dark themes. .list-item__text span::before { background-color: $white }"
+              },
+              "light": {
+                "$type": "color",
+                "$value": "#000000",
+                "$description": "Black underline on light themes. Overridden via @include theme-light() in _linkItem.scss"
+              }
+            },
+            "underlineOffset": {
+              "mobile": {
+                "$type": "dimension",
+                "$value": "-2px",
+                "$description": "bottom: -2px (mobile)"
+              },
+              "desktop": {
+                "$type": "dimension",
+                "$value": "-10px",
+                "$description": "bottom: -10px (desktop lg+)"
+              }
+            }
+          }
+        }
+      },
+
+      "chevronDown": {
+        "$description": "Accordion toggle chevron. Points down when closed, rotates 180° when open. Always Electric Teal — not theme-adaptive. Used exclusively in accordion triggers.",
+
+        "viewBox": {
+          "$type": "string",
+          "$value": "0 0 27 14"
+        },
+        "assetPath": {
+          "$type": "string",
+          "$value": "brand/assets/icons/chevron-down.svg"
+        },
+
+        "theme": {
+          "$description": "Chevron fill is hardcoded — it does not adapt to light/dark theme. The Electric Teal on dark/purple accordions is an intentional brand constant.",
+          "always": {
+            "$type": "color",
+            "$value": "#00FFEC",
+            "$description": "Electric Teal. Equivalent to color.accent.electricTeal. Never changes regardless of parent theme class."
+          }
+        },
+
+        "size": {
+          "mobile": {
+            "$type": "dimension",
+            "$value": "{icon.size.xs}",
+            "$description": "16px — map-get($iconSize, xs). Applied as width on <svg> element."
+          },
+          "desktop": {
+            "$type": "dimension",
+            "$value": "{icon.size.sm}",
+            "$description": "24px — map-get($iconSize, sm) at lg breakpoint (≥1024px)."
+          }
+        },
+
+        "animation": {
+          "toggle": {
+            "$description": "On .accordionv3.open: the chevron rotates 180° to point upward, indicating expanded state.",
+            "property": {
+              "$type": "string",
+              "$value": "transform"
+            },
+            "closed": {
+              "$type": "string",
+              "$value": "rotate(0deg)"
+            },
+            "open": {
+              "$type": "string",
+              "$value": "rotate(180deg)"
+            },
+            "duration": {
+              "$type": "duration",
+              "$value": "500ms",
+              "$description": "motion.slow token"
+            },
+            "easing": {
+              "$type": "string",
+              "$value": "ease-in-out",
+              "$description": "motion.emphasized token"
+            }
+          },
+          "contentReveal": {
+            "$description": "Accordion body expansion — all three properties transition together.",
+            "properties": {
+              "$type": "string",
+              "$value": "max-height, opacity, padding"
+            },
+            "duration": {
+              "$type": "duration",
+              "$value": "500ms"
+            },
+            "from": {
+              "$type": "string",
+              "$value": "max-height: 0; opacity: 0; padding: 0"
+            },
+            "to": {
+              "$type": "string",
+              "$value": "max-height: <content height>; opacity: 1; padding: auto"
+            }
+          }
+        },
+
+        "spacing": {
+          "marginBottom": {
+            "mobile": {
+              "$type": "dimension",
+              "$value": "30px",
+              "$description": "$gap-mobile — space below trigger button before content."
+            },
+            "desktop": {
+              "$type": "dimension",
+              "$value": "20px",
+              "$description": "$gap-desktop * 0.5 — tighter on desktop."
+            }
+          },
+          "contentGap": {
+            "mobile": {
+              "$type": "dimension",
+              "$value": "30px",
+              "$description": "$gap-mobile — gap between children inside expanded content."
+            },
+            "desktop": {
+              "$type": "dimension",
+              "$value": "40px",
+              "$description": "$gap-desktop."
+            }
+          },
+          "interItemMargin": {
+            "mobile": {
+              "$type": "dimension",
+              "$value": "30px"
+            },
+            "desktop": {
+              "$type": "dimension",
+              "$value": "40px"
+            }
+          }
+        }
+      }
+    }
+  }
+}
