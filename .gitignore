@@ -39,3 +39,4 @@ brand_mcp/telemetry/
 
 # Figma route (a) — incoming exports are working files, not history
 figma/incoming/*.json
+.claude/
