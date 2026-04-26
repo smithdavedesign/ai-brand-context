@@ -43,7 +43,7 @@ const easings = getMotionEasings();
         <div class="stack-lg">
 
           <section id="durations">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Durations</h2>
+            <h2 class="doc-h2">Durations</h2>
             <p class="muted" style="max-width:720px;">
               Five steps from <code>100ms</code> (instant feedback) to <code>800ms</code>
               (brand-expressive reveals). Most UI transitions use <code>base</code>.
@@ -71,7 +71,7 @@ const easings = getMotionEasings();
           </section>
 
           <section id="easings">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Easings</h2>
+            <h2 class="doc-h2">Easings</h2>
             <p class="muted" style="max-width:720px;">
               Five cubic-bezier curves. <code>standard</code> is the default for most
               components. <code>emphasized</code> is reserved for hero/feature brand moments.
@@ -99,15 +99,14 @@ const easings = getMotionEasings();
           </section>
 
           <section id="a11y">
-            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Accessibility</h2>
+            <h2 class="doc-h2">Accessibility</h2>
             <p class="muted" style="max-width:720px;">
               All animated components must respect the user's motion preference.
               Wrap transitions in a <code>prefers-reduced-motion</code> media query or
               use the generated CSS custom properties which include the override block
               in <code>dist/css/motion.css</code>.
             </p>
-            <div class="card" style="background:var(--color-neutral-900); max-width:700px;">
-              <pre class="mono text-small" style="color:var(--color-accent-teal); line-height:1.7; margin:0;"><code>@media (prefers-reduced-motion: reduce) {"{"}
+            <pre style="max-width:700px; line-height:1.7;"><code>@media (prefers-reduced-motion: reduce) {"{"}
   *,
   *::before,
   *::after {"{"}
@@ -115,7 +114,6 @@ const easings = getMotionEasings();
     transition-duration: 0.01ms !important;
   {"}"}
 {"}"}</code></pre>
-            </div>
             <p class="muted text-small" style="margin-top:12px; max-width:720px;">
               This block is emitted automatically in <code>dist/css/motion.css</code>
               — import it once and every component using <code>--solidigm-duration-*</code>
@@ -128,3 +126,13 @@ const easings = getMotionEasings();
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.doc-h2 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--fluid-h3);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-2);
+}
+</style>

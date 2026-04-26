@@ -1,34 +1,44 @@
 ---
-// A decorative, zero-dependency animated flow: Token → Component → Page → Product
+// Token → Component → Page → Product flow diagram
 ---
 <div class="token-flow">
   <div class="token-flow__step" style="--delay: 0s;">
-    <div class="token-flow__dot" style="background: var(--color-purple-500);"></div>
+    <div class="token-flow__dot token-flow__dot--token">
+      <span class="token-flow__icon">{}</span>
+    </div>
     <span class="token-flow__label">Token</span>
-    <span class="token-flow__sub mono text-xs">--color-purple-500</span>
+    <span class="token-flow__sub mono text-xs">--solidigm-purple</span>
   </div>
-  <div class="token-flow__arrow"></div>
-  <div class="token-flow__step" style="--delay: 0.3s;">
-    <div class="token-flow__dot" style="background: linear-gradient(135deg, var(--color-purple-500), var(--color-purple-400));">
-      <span style="color:#fff; font-size:10px; font-weight:600; letter-spacing:1px;">BTN</span>
+
+  <div class="token-flow__arrow" aria-hidden="true"></div>
+
+  <div class="token-flow__step" style="--delay: 0.2s;">
+    <div class="token-flow__dot token-flow__dot--component">
+      <span class="token-flow__icon">BTN</span>
     </div>
     <span class="token-flow__label">Component</span>
     <span class="token-flow__sub mono text-xs">.tk-btn--primary</span>
   </div>
-  <div class="token-flow__arrow"></div>
-  <div class="token-flow__step" style="--delay: 0.6s;">
-    <div class="token-flow__dot" style="background: var(--color-neutral-50); border: 1px solid rgba(0,0,0,0.08);">
-      <div style="width:20px; height:3px; background:var(--color-purple-500); border-radius:2px; margin-bottom:3px;"></div>
-      <div style="width:14px; height:2px; background:var(--color-neutral-300); border-radius:2px; margin-bottom:2px;"></div>
-      <div style="width:18px; height:2px; background:var(--color-neutral-300); border-radius:2px;"></div>
+
+  <div class="token-flow__arrow" aria-hidden="true"></div>
+
+  <div class="token-flow__step" style="--delay: 0.4s;">
+    <div class="token-flow__dot token-flow__dot--page">
+      <div class="token-flow__page-lines">
+        <div class="token-flow__page-line token-flow__page-line--h"></div>
+        <div class="token-flow__page-line"></div>
+        <div class="token-flow__page-line token-flow__page-line--short"></div>
+      </div>
     </div>
     <span class="token-flow__label">Page</span>
     <span class="token-flow__sub mono text-xs">Marketing, product, docs</span>
   </div>
-  <div class="token-flow__arrow"></div>
-  <div class="token-flow__step" style="--delay: 0.9s;">
-    <div class="token-flow__dot" style="background: var(--color-blue-900); color:#fff;">
-      <span style="font-size:20px;">◆</span>
+
+  <div class="token-flow__arrow" aria-hidden="true"></div>
+
+  <div class="token-flow__step" style="--delay: 0.6s;">
+    <div class="token-flow__dot token-flow__dot--product">
+      <span class="token-flow__icon">◆</span>
     </div>
     <span class="token-flow__label">Product</span>
     <span class="token-flow__sub mono text-xs">Solidigm experience</span>
@@ -40,54 +50,121 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3, 12px);
-  padding: var(--space-6, 24px);
-  background: #fff;
-  border-radius: var(--border-radius-md, 16px);
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 10px 40px rgba(22, 2, 49, 0.06);
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-6);
+  background: var(--ultra-dark-purple);
+  border: 1px solid rgba(255,255,255,0.08);
   flex-wrap: wrap;
 }
+
 .token-flow__step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  min-width: 120px;
+  gap: var(--space-2);
+  min-width: 110px;
   flex: 1;
-  animation: flow-in 0.6s var(--delay, 0s) both ease;
+  animation: flow-in var(--dur-slow) var(--delay, 0s) both var(--ease-standard);
 }
+
 .token-flow__dot {
   width: 64px;
   height: 64px;
-  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  box-shadow: 0 4px 12px rgba(22,2,49,0.1);
 }
+
+/* Token — solid purple square */
+.token-flow__dot--token {
+  background: var(--solidigm-purple);
+}
+/* Component — purple with lighter tint */
+.token-flow__dot--component {
+  background: var(--light-purple);
+}
+/* Page — outlined, no fill */
+.token-flow__dot--page {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+/* Product — white fill with dark text */
+.token-flow__dot--product {
+  background: var(--color-neutral-0);
+  color: var(--ultra-dark-purple);
+}
+
+.token-flow__icon {
+  font-family: var(--font-family-primary);
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 1px;
+  color: var(--color-neutral-0);
+}
+.token-flow__dot--product .token-flow__icon {
+  color: var(--ultra-dark-purple);
+  font-size: 18px;
+}
+
+/* Page dot mini mockup lines */
+.token-flow__page-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  padding: 0 8px;
+}
+.token-flow__page-line {
+  width: 28px;
+  height: 2px;
+  background: rgba(255,255,255,0.4);
+}
+.token-flow__page-line--h {
+  width: 20px;
+  background: var(--electric-teal);
+}
+.token-flow__page-line--short { width: 20px; }
+
 .token-flow__label {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--color-purple-600);
+  color: var(--electric-teal);
 }
-.token-flow__sub { color: var(--color-neutral-600); }
+.token-flow__sub {
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+}
+
 .token-flow__arrow {
-  flex: 0 0 24px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-purple-500), var(--color-purple-400));
-  border-radius: 2px;
-  opacity: 0.4;
+  flex: 0 0 32px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--solidigm-purple), var(--electric-teal));
+  opacity: 0.6;
+  position: relative;
 }
+.token-flow__arrow::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -3px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid var(--electric-teal);
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  opacity: 0.6;
+}
+
 @keyframes flow-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
+
 @media (max-width: 640px) {
   .token-flow__arrow { display: none; }
-  .token-flow__step { min-width: 44%; }
+  .token-flow__step  { min-width: 44%; }
 }
 </style>
