@@ -44,10 +44,10 @@ function writeFile(filePath, content) {
 
 function readSourceTokens() {
   const colorsRaw = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'resources', 'color.styles.tokens.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, 'tokens', 'colors.json'), 'utf8')
   );
   const typographyRaw = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'resources', 'text.styles.tokens.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, 'tokens', 'typography.json'), 'utf8')
   );
   return { colorsRaw, typographyRaw };
 }
@@ -419,6 +419,190 @@ function generateFigma(colorsRaw, typographyRaw, outDir) {
 }
 
 // ---------------------------------------------------------------------------
+// Generator: UI Toolkit (combined CSS — tokens + components + utilities)
+// ---------------------------------------------------------------------------
+
+/**
+ * Generates dist/ui-toolkit.min.css — a single minified CSS file combining:
+ *   1. Token-derived custom properties (colors, typography, spacing, radii)
+ *   2. Base element resets & heading styles
+ *   3. .tk-* component classes (buttons, etc.)
+ *   4. .u-* utility classes (layout, text, spacing, responsive)
+ *
+ * Tokens (layer 1) are generated from source data; layers 2–4 are static
+ * rules that reference the custom properties. When a new token category is
+ * added (spacing, shadows, etc.) add it to layer 1.
+ */
+function generateUIToolkit(colors, typography, outDir) {
+  // --- Layer 1: Custom properties from tokens ---
+  const colorVars = colors
+    .map((c) => `--solidigm-color-${c.kebab}:${c.hex}`)
+    .join(';');
+
+  // Map kebab names to shorter aliases matching the hand-authored toolkit
+  const colorAliases = [];
+  for (const c of colors) {
+    // Derive an alias family (e.g. "purple-500", "neutral-800")
+    const k = c.kebab;
+    colorAliases.push(`--color-${k}:${c.hex}`);
+  }
+
+  const typeVars = typography
+    .map((t) => {
+      const k = t.kebab;
+      const v = t.value;
+      return [
+        `--solidigm-type-${k}-font-family:${v.fontFamily}`,
+        `--solidigm-type-${k}-font-size:${v.fontSize}`,
+        `--solidigm-type-${k}-font-weight:${v.fontWeight}`,
+        `--solidigm-type-${k}-line-height:${v.lineHeight}`,
+        `--solidigm-type-${k}-letter-spacing:${v.letterSpacing}`,
+      ].join(';');
+    })
+    .join(';');
+
+  // Static token-like custom properties (spacing, border-radius, misc)
+  // These are built into the toolkit until they become first-class token categories.
+  const staticVars = [
+    '--font-family-primary:Sora,sans-serif',
+    '--font-weight-extralight:200',
+    '--font-weight-light:300',
+    '--font-weight-regular:400',
+    '--font-weight-medium:500',
+    '--font-weight-semibold:600',
+    '--font-weight-bold:700',
+    '--space-0:0px',  '--space-1:4px',  '--space-2:8px',  '--space-3:12px',
+    '--space-4:16px', '--space-5:20px', '--space-6:24px', '--space-7:28px',
+    '--space-8:32px', '--space-9:40px', '--space-10:48px','--space-11:56px',
+    '--space-12:64px','--space-13:72px','--space-14:80px','--space-15:88px',
+    '--space-16:96px',
+    '--border-radius-sm:8px',
+    '--border-radius-md:16px',
+    '--border-radius-lg:16px',
+    '--icon-size-sm:24px',
+    '--icon-size-md:32px',
+    '--fluid-hero:clamp(42px,5.8vw,112px)',
+    '--lh-fluid-hero:clamp(48px,5.7vw,110px)',
+    '--fluid-h1:clamp(32px,4.5vw,72px)',
+    '--lh-fluid-h1:clamp(38px,4.3vw,82px)',
+    '--fluid-h2:clamp(28px,3.9vw,62px)',
+    '--lh-fluid-h2:clamp(34px,3.8vw,72px)',
+    '--fluid-h3:clamp(24px,2.6vw,42px)',
+    '--lh-fluid-h3:clamp(28px,2.5vw,48px)',
+    '--fluid-h4:32px', '--lh-fluid-h4:38px',
+    '--fluid-h5:24px', '--lh-fluid-h5:28px',
+    '--fluid-h6:20px', '--lh-fluid-h6:26px',
+    '--button-padding-y:16px',
+    '--button-padding-x:28px',
+    '--button-min-width:225px',
+  ].join(';');
+
+  const rootBlock = `:root{${colorVars};${colorAliases.join(';')};${typeVars};${staticVars}}`;
+
+  // Responsive token overrides
+  const responsiveRoot = '@media (min-width:992px){:root{--button-padding-y:18px;--button-min-width:276px}}';
+
+  // --- Layer 2: Base element styles ---
+  const baseStyles = [
+    '*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}',
+    'html{font-size:100%}',
+    'body{font-family:var(--font-family-primary);font-weight:var(--font-weight-regular);color:var(--color-neutral-800,#21201f);line-height:1.5;-webkit-font-smoothing:antialiased}',
+    'h1,h2,h3,h4,h5,h6{font-weight:var(--font-weight-extralight);color:var(--color-purple-600,#2f006b);line-height:1.2;margin-top:var(--space-8);margin-bottom:var(--space-4)}',
+    'h1{font-size:var(--fluid-h1);line-height:var(--lh-fluid-h1)}',
+    'h2{font-size:var(--fluid-h2);line-height:var(--lh-fluid-h2)}',
+    'h3{font-size:var(--fluid-h3);line-height:var(--lh-fluid-h3)}',
+    'h4{font-size:var(--fluid-h4);line-height:var(--lh-fluid-h4)}',
+    'h5{font-size:var(--fluid-h5);line-height:var(--lh-fluid-h5)}',
+    'h6{font-size:var(--fluid-h6);line-height:var(--lh-fluid-h6)}',
+  ].join('');
+
+  // --- Layer 3: Component classes (.tk-*) ---
+  const componentClasses = [
+    '.tk-btn{padding:var(--button-padding-y) var(--button-padding-x);min-width:var(--button-min-width);border-radius:var(--border-radius-sm);font-size:16px;font-weight:var(--font-weight-medium);cursor:pointer;text-align:center;transition:background-color 0.2s,box-shadow 0.2s,color 0.2s;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid transparent}',
+    '.tk-btn--primary{background-color:var(--color-solidigm-purple,#4f00b5);color:#fff}',
+    '.tk-btn--primary:hover{background-color:var(--color-purple-600,#2f006b)}',
+    '.tk-btn--secondary{background-color:#fff;color:var(--color-solidigm-purple,#4f00b5);border-color:var(--color-solidigm-purple,#4f00b5)}',
+    '.tk-btn--secondary:hover{background-color:var(--color-neutral-50,#f4f3f1)}',
+  ].join('');
+
+  // --- Layer 4: Utility classes (.u-*) ---
+  const utilityClasses = [
+    // Color
+    '.u-text-primary{color:var(--color-solidigm-purple,#4f00b5) !important}',
+    '.u-text-white{color:#fff !important}',
+    '.u-bg-primary{background-color:var(--color-solidigm-purple,#4f00b5) !important}',
+    '.u-bg-neutral{background-color:var(--color-neutral-50,#f4f3f1) !important}',
+    // Text
+    '.u-text-center{text-align:center !important}',
+    '.u-text-right{text-align:right !important}',
+    '.u-font-bold{font-weight:var(--font-weight-bold) !important}',
+    '.u-font-medium{font-weight:var(--font-weight-medium) !important}',
+    '.u-text-caption{font-size:16px;line-height:20px}',
+    '.u-text-xs{font-size:12px !important}',
+    '.u-text-sm{font-size:14px !important}',
+    '.u-text-base{font-size:16px !important}',
+    '.u-text-lg{font-size:18px !important}',
+    '.u-text-xl{font-size:20px !important}',
+    '.u-uppercase{text-transform:uppercase !important}',
+    '.u-lowercase{text-transform:lowercase !important}',
+    '.u-no-underline{text-decoration:none !important}',
+    // Spacing
+    '.u-p-4{padding:var(--space-4) !important}',
+    '.u-m-4{margin:var(--space-4) !important}',
+    '.u-p-8{padding:var(--space-8) !important}',
+    '.u-m-8{margin:var(--space-8) !important}',
+    '.u-p-16{padding:var(--space-16) !important}',
+    '.u-m-16{margin:var(--space-16) !important}',
+    '.u-mb-0{margin-bottom:0 !important}',
+    '.u-mt-0{margin-top:0 !important}',
+    '.u-mt-auto{margin-top:auto !important}',
+    '.u-ml-auto{margin-left:auto !important}',
+    '.u-mr-auto{margin-right:auto !important}',
+    '.u-mx-auto{margin-left:auto !important;margin-right:auto !important}',
+    '.u-round-md{border-radius:var(--border-radius-md) !important}',
+    // Layout
+    '.u-flex{display:flex !important}',
+    '.u-inline-flex{display:inline-flex !important}',
+    '.u-block{display:block !important}',
+    '.u-inline-block{display:inline-block !important}',
+    '.u-hidden{display:none !important}',
+    '.u-relative{position:relative !important}',
+    '.u-absolute{position:absolute !important}',
+    '.u-items-center{align-items:center !important}',
+    '.u-justify-center{justify-content:center !important}',
+    '.u-justify-between{justify-content:space-between !important}',
+    '.u-flex-col{flex-direction:column !important}',
+    '.u-flex-wrap{flex-wrap:wrap !important}',
+    // Sizing
+    '.u-w-full{width:100% !important}',
+    '.u-h-full{height:100% !important}',
+    '.u-max-w-screen{max-width:1920px !important}',
+    // Responsive
+    '@media (max-width:767px){.u-hidden-mobile{display:none !important}}',
+    '@media (min-width:768px){.u-hidden-desktop{display:none !important}}',
+    // Interactivity
+    '.u-transition{transition:all 0.2s ease !important}',
+    '.u-hover-scale:hover{transform:scale(1.02) !important}',
+  ].join('');
+
+  // --- Assemble ---
+  const fontImport = "@import url('https://fonts.googleapis.com/css2?family=Sora:wght@200..700&display=swap');";
+  const banner = `/*! Solidigm UI Toolkit — generated by build.js on ${new Date().toISOString().slice(0, 10)} */`;
+
+  const css = [
+    banner,
+    fontImport,
+    rootBlock,
+    responsiveRoot,
+    baseStyles,
+    componentClasses,
+    utilityClasses,
+  ].join('');
+
+  writeFile(path.join(outDir, 'ui-toolkit.min.css'), css);
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -443,14 +627,21 @@ function main() {
   // JS / TS
   generateJS(colors, typography, path.join(root, 'dist', 'js'));
 
-  // JSON (W3C DTCG)
-  generateJSON(colorsRaw, typographyRaw, path.join(root, 'tokens'));
+  // JSON (W3C DTCG) — tokens/ is now the source; only regenerate index.json
+  const combined = {
+    color: colorsRaw,
+    typography: typographyRaw,
+  };
+  writeFile(path.join(root, 'tokens', 'index.json'), JSON.stringify(combined, null, 2) + '\n');
 
   // Tailwind preset
   generateTailwind(colors, typography, path.join(root, 'tailwind'));
 
   // Figma / Token Studio
   generateFigma(colorsRaw, typographyRaw, path.join(root, 'figma'));
+
+  // UI Toolkit (combined minified CSS)
+  generateUIToolkit(colors, typography, path.join(root, 'dist'));
 
   console.log('\nBuild complete.\n');
 }

@@ -183,19 +183,31 @@ Extend the brand-compliance audit script with a preview/apply workflow for the
 
 ### Phase 9 follow-ups (carried into Phase 10)
 
-- [ ] Wire `npm run index:assets` into CI (stale-detection)
-- [ ] Surface `code_paths` in the assets preview modal
-- [ ] Document telemetry data model + retention in `brand_mcp/README.md`
+- [x] Wire `npm run index:assets` into CI (stale-detection) — `.github/workflows/asset-index-freshness.yml`
+- [x] Surface `code_paths` in the assets preview modal — `site/src/pages/assets.astro`
+- [x] Document telemetry data model + retention in `brand_mcp/README.md`
 - [ ] Live smoke-test the 4 new prompts from Claude Desktop + VS Code Copilot
+
+---
+
+## 🚧 Phase 10 — Figma sync + token strategy
+
+- [x] Wire Figma MCP into `.vscode/mcp.json` (HTTP at `localhost:3845`)
+- [x] `generateUIToolkit()` in `build.js` — generates `dist/ui-toolkit.min.css` from tokens
+- [x] Update `sync-toolkit.mjs` to source from `dist/` instead of `docs/`
+- [x] Figma variable audit via live MCP — [`docs/figma-variable-audit-2025-04-25.md`](./figma-variable-audit-2025-04-25.md)
+- [x] Token expansion strategy — [`docs/token-expansion-strategy.md`](./token-expansion-strategy.md)
+- [ ] Extract spacing, radius, breakpoint tokens from Figma comps (Phase A)
+- [ ] Publish missing text styles + color variables in Figma DS 3.0 (Phase B — needs Figma admin)
+- [ ] Storybook integration bridge (Phase C — blocked: needs Storybook repo)
+- [ ] Automated Figma ↔ token drift detection in CI (Phase D)
 
 ---
 
 ## 🚧 Deferred / nice-to-have
 
-- [ ] **Generate `ui-toolkit.min.css` from `build.js`** — currently `docs/ui-toolkit.min.css` is a manually-maintained file copied into `site/public/` at build time. Extend `build.js` to compile it from `tokens/` so the full toolkit CSS is source-driven and `docs/ui-toolkit.min.css` can be removed. This closes the last manually-edited CSS gap in the pipeline.
 - [ ] Write-capable SharePoint tools (upload assets from agents)
 - [ ] Redis-backed token store for production multi-instance deploys
-- [ ] Figma MCP integration so the tokens → figma sync is bi-directional
 - [ ] Published Docker image for the MCP server
 - [ ] Azure Static Web Apps deployment with Entra SSO gate (if site moves off GH Pages)
 - [ ] ESLint rule pack published as its own MCP prompt/resource
