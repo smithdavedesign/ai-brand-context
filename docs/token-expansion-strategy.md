@@ -7,14 +7,29 @@
 
 ## Current state
 
-| Token category | File | Count | Coverage |
-|---------------|------|-------|----------|
-| Colors | `tokens/colors.json` | 14 | ✅ Complete (matches toolkit palette) |
-| Typography | `tokens/typography.json` | 28 | ✅ Complete (DT + MB, all 14 styles × 2) |
+All token categories are now implemented (Phase 10, April 2025).
 
-Everything else specified in the UI Toolkit is either:
-- Embedded in `build.js` `generateUIToolkit()` as hardcoded values, or
-- Not captured at all
+| Token category | File | Count | Status |
+|---------------|------|-------|--------|
+| Colors | `tokens/colors.json` | 14 | ✅ Complete |
+| Typography | `tokens/typography.json` | 28 | ✅ Complete |
+| Space | `tokens/space.json` | 18 | ✅ Implemented |
+| Breakpoints | `tokens/breakpoints.json` | 8 | ✅ Implemented |
+| Radius | `tokens/radius.json` | 6 | ✅ Implemented |
+| Shape | `tokens/shape.json` | — | ✅ Implemented |
+| Motion | `tokens/motion.json` | 13 | ✅ Implemented |
+| Elevation | `tokens/elevation.json` | 6 | ✅ Implemented |
+| Semantic | `tokens/semantic.json` | — | ✅ Implemented |
+| Icons | `tokens/icons.json` | — | ✅ Implemented |
+
+All categories are wired into:
+- `build.js` (`readSourceTokens()` + `generateUIToolkit()`)
+- `brand_mcp/tools/brand.py` (`get_design_tokens` + dedicated tools)
+- `tokens/index.json` (unified DTCG bundle)
+
+The values in `tokens/space.json` were validated against the Storybook + AEM
+SCSS audit (see `docs/storybook-scss-audit.md`). `tokens/breakpoints.json`
+modernizes legacy Bootstrap defaults (576→640, 992→1024) per audit evidence.
 
 ---
 

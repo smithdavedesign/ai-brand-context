@@ -18,9 +18,9 @@ file, a Notion page) — **this repo wins**. Other surfaces are downstream.
 
 Components:
 
-- `tokens/` — W3C DTCG design tokens (color, typography). Source of truth for hex/font values.
+- `tokens/` — W3C DTCG design tokens (10 categories). Source of truth for all design values.
 - `brand/` — canonical brand content (voice, guidelines, quality gates, platform overrides).
-- `brand_mcp/` — Python MCP server exposing the system to AI agents (10 tools, 5 resources, 4 prompts, 4 HTTP routes).
+- `brand_mcp/` — Python MCP server exposing the system to AI agents (14 tools, 8 resources, 4 prompts, 4 HTTP routes).
 - `site/` — Astro documentation site that consumes the MCP server.
 - `.github/` — Copilot instructions, prompts, and the `brand-compliance` Skill.
 
@@ -43,8 +43,12 @@ cd brand_mcp && source .venv/bin/activate && python -m brand_mcp.server
 
 | Tool | When to call |
 |------|--------------|
-| `get_design_tokens` | Need the full palette, type scale, or W3C DTCG tokens |
+| `get_design_tokens` | Need tokens for any category (colors, typography, space, breakpoints, radius, shape, motion, elevation, semantic, icons) |
 | `get_color` | Looking up a single color (fuzzy: `"solidigm-purple"`, `"Electric Teal"`) |
+| `get_spacing` | Look up a spacing step value (`"4"` → `"16px"`) or the full scale |
+| `get_breakpoints` | Need the canonical breakpoint + container-width scale |
+| `get_motion` | Need motion durations, cubic-bezier easings, or transform values |
+| `get_icon` | Need an icon SVG spec (viewBox, asset path, size bindings, theme/animation rules) |
 | `get_brand_guidelines` | Need narrative guidance on a topic (voice, logo, typography…) |
 | `get_ui_toolkit_class` | Implementing UI — look up a `tk-*` CSS class |
 | `list_assets` | Need any logo, illustration, or doc — local + SharePoint |
@@ -68,6 +72,9 @@ Pre-built workflows you can invoke by name:
 
 - `brand://tokens/colors`
 - `brand://tokens/typography`
+- `brand://tokens/space`
+- `brand://tokens/motion`
+- `brand://tokens/icons`
 - `brand://guidelines/main`
 - `brand://toolkit/css`
 - `brand://assets/manifest`
@@ -84,6 +91,7 @@ These are non-negotiable. The `validate_brand_output` tool enforces all of them.
 - **Voice:** title case for headlines (no ALL CAPS), no em-dash overuse, no marketing fluff.
 - **Logos:** use `get_logo` to resolve; never crop, recolor, or reposition the
   logo outside its clear-space rules.
+- **Spacing / radius / motion / icons:** covered by new token files — always retrieve via `get_spacing`, `get_motion`, `get_icon`, etc. rather than hardcoding.
 - **Assets:** never duplicate hex/font values inline — read them through the
   MCP tools or import from `@solidigm/brand-tokens`.
 - **Archived docs (`docs/_archive/`):** read-only, historical. Edit

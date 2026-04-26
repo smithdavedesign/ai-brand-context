@@ -107,6 +107,23 @@ jobs:
           assert v['error_count'] > 0, v
 
           print(f'OK: composer + validation tools green')
+
+          # --- Primitive token tools (Phase 10) ---
+          sp = brand.get_spacing('4')
+          assert sp['status'] == 'ok', sp
+
+          bp = brand.get_breakpoints()
+          assert bp['status'] == 'ok', bp
+          assert 'lg' in bp['breakpoints'], bp
+
+          mt = brand.get_motion()
+          assert mt['status'] == 'ok', mt
+          assert 'base' in mt['durations'], mt
+
+          ic = brand.get_icon('arrowDouble')
+          assert ic['status'] == 'ok', ic
+
+          print('OK: primitive token tools green')
           "
 
       - name: Start server + probe /api/health

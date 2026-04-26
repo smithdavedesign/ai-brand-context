@@ -7,7 +7,7 @@ and the Astro documentation site.
 
 ## Features
 
-- **Design tokens** — read `tokens/*.json` directly (no auth)
+- **Design tokens** — all 10 W3C DTCG categories (colors, typography, space, breakpoints, radius, shape, motion, elevation, semantic, icons) via `get_design_tokens(category)` or dedicated tools
 - **Brand guidelines** — serve `docs/brand-guidelines.md` by topic
 - **UI toolkit** — look up rules for any `.tk-*` or `.u-*` class
 - **Local assets** — walk `site/public/assets/` and expose a structured manifest
@@ -72,13 +72,21 @@ python scripts/smoke_test.py
 
 | Tool | Description |
 |------|-------------|
-| `get_design_tokens` | All tokens, or filter by category (`colors`, `typography`) |
+| `get_design_tokens` | All tokens, or filter by category (10 categories: colors, typography, space, breakpoints, radius, shape, motion, elevation, semantic, icons) |
 | `get_color` | Look up a single color by name |
+| `get_spacing` | Look up a spacing step value or the full scale |
+| `get_breakpoints` | Canonical breakpoint + container-width scale |
+| `get_motion` | Motion durations, cubic-bezier easings, and transform values |
+| `get_icon` | Icon spec — viewBox, asset path, size bindings, theme/animation rules |
 | `get_brand_guidelines` | Full guidelines, or a specific topic section |
 | `get_ui_toolkit_class` | Look up CSS rules for a toolkit class |
 | `list_assets` | Unified list of local + SharePoint assets |
+| `get_asset` | Resolve one asset by name or path (returns `code_paths`) |
 | `get_logo` | Resolve a specific logo variant/color/resolution |
 | `search_brand_source_documents` | SharePoint-only — recursive brand library search |
+| `get_brand_context` | Assemble a prompt for an AI flow — scope by `platform` + `task` |
+| `get_brand_system_prompt` | Drop-in system prompt for brand-aware LLM calls |
+| `validate_brand_output` | Verify generated copy/markup passes brand quality gates |
 
 ## Resources exposed
 
@@ -86,6 +94,9 @@ python scripts/smoke_test.py
 |-----|---------|
 | `brand://tokens/colors` | `tokens/colors.json` |
 | `brand://tokens/typography` | `tokens/typography.json` |
+| `brand://tokens/space` | `tokens/space.json` |
+| `brand://tokens/motion` | `tokens/motion.json` |
+| `brand://tokens/icons` | `tokens/icons.json` |
 | `brand://guidelines/main` | `docs/brand-guidelines.md` |
 | `brand://toolkit/css` | `docs/ui-toolkit.min.css` |
 | `brand://assets/manifest` | Walk of `site/public/assets/` with parsed metadata |

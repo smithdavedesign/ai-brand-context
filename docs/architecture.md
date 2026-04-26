@@ -25,7 +25,7 @@ flowchart TB
     %% -------------------- Sources --------------------
     subgraph Sources["📦 Source of truth (this repo + SharePoint)"]
         direction TB
-        tokensSrc["tokens/*.json<br/>W3C DTCG"]
+        tokensSrc["tokens/*.json (10)<br/>W3C DTCG<br/>colors · typography · space<br/>breakpoints · radius · shape<br/>motion · elevation · semantic · icons"]
         brandSrc["brand/<br/>*.md · colors.json<br/>quality-gates.yaml<br/>platforms/"]
         guidelinesSrc["docs/brand-guidelines.md"]
         toolkitSrc["docs/ui-toolkit.min.css"]
@@ -52,8 +52,8 @@ flowchart TB
     %% -------------------- MCP Server --------------------
     subgraph MCP["🧠 Solidigm Brand MCP (Python · FastMCP)"]
         direction TB
-        mcpTools["Tools (10)<br/>get_design_tokens · get_color<br/>get_brand_guidelines · get_ui_toolkit_class<br/>list_assets · get_logo<br/>search_brand_source_documents<br/><b>get_brand_context</b> · <b>get_brand_system_prompt</b><br/><b>validate_brand_output</b>"]
-        mcpResources["Resources<br/>brand://tokens/{colors,typography}<br/>brand://guidelines/main<br/>brand://toolkit/css<br/>brand://assets/manifest"]
+        mcpTools["Tools (14)<br/>get_design_tokens · get_color<br/>get_spacing · get_breakpoints<br/>get_motion · get_icon<br/>get_brand_guidelines · get_ui_toolkit_class<br/>list_assets · get_asset · get_logo<br/>search_brand_source_documents<br/><b>get_brand_context</b> · <b>get_brand_system_prompt</b><br/><b>validate_brand_output</b>"]
+        mcpResources["Resources (8)<br/>brand://tokens/{colors,typography,space,motion,icons}<br/>brand://guidelines/main<br/>brand://toolkit/css<br/>brand://assets/manifest"]
         mcpComposer["Composer<br/>colors · context · prompts<br/>validation · assets · cache"]
         mcpHttp["HTTP routes<br/>/mcp · /api/assets · /api/validate<br/>/api/health · /microsoft/authorize"]
         graphClient["Graph API client<br/>OAuth2 PKCE + client credentials<br/>TTL cache · 429 retry"]

@@ -190,17 +190,25 @@ Extend the brand-compliance audit script with a preview/apply workflow for the
 
 ---
 
-## 🚧 Phase 10 — Figma sync + token strategy
+## ✅ Phase 10 — Figma sync + token expansion
 
 - [x] Wire Figma MCP into `.vscode/mcp.json` (HTTP at `localhost:3845`)
 - [x] `generateUIToolkit()` in `build.js` — generates `dist/ui-toolkit.min.css` from tokens
 - [x] Update `sync-toolkit.mjs` to source from `dist/` instead of `docs/`
 - [x] Figma variable audit via live MCP — [`docs/figma-variable-audit-2025-04-25.md`](./figma-variable-audit-2025-04-25.md)
 - [x] Token expansion strategy — [`docs/token-expansion-strategy.md`](./token-expansion-strategy.md)
-- [ ] Extract spacing, radius, breakpoint tokens from Figma comps (Phase A)
-- [ ] Publish missing text styles + color variables in Figma DS 3.0 (Phase B — needs Figma admin)
-- [ ] Storybook integration bridge (Phase C — blocked: needs Storybook repo)
-- [ ] Automated Figma ↔ token drift detection in CI (Phase D)
+- [x] **Token files (all 10):** `space.json`, `breakpoints.json`, `radius.json`, `shape.json`, `motion.json`, `elevation.json`, `semantic.json`, `icons.json` (plus existing `colors` + `typography`)
+- [x] **SVG icon atoms:** `brand/assets/icons/` — `arrow-double.svg`, `arrow-double-teal.svg`, `chevron-down.svg`
+- [x] **Platform overrides:** `brand/platforms/web.md`, `print.md`, `ios.md`
+- [x] **MCP tools (4 new):** `get_spacing`, `get_breakpoints`, `get_motion`, `get_icon`; `get_design_tokens` covers all 10 categories
+- [x] **MCP resources (3 new):** `brand://tokens/{space,motion,icons}`
+- [x] **build.js:** `readSourceTokens()` reads all 10 files; `generateUIToolkit()` derives `--space-*`, `--border-radius-*`, `--icon-size-*` from token files; `tokens/index.json` covers all 10 categories
+- [x] **Validation (3 new gates):** `spacing_grid`, `motion_durations`, `border_radius`
+- [x] **brand/iconography.md:** full UI Atom Icons section (arrow + chevron specs, hover animations, theme rules)
+- [x] Storybook + AEM SCSS audit evidence docs committed
+- [ ] Publish missing text styles + color variables in Figma DS 3.0 (needs Figma admin)
+- [ ] Storybook integration bridge (blocked: needs Storybook repo access)
+- [ ] Automated Figma ↔ token drift detection in CI
 
 ---
 
