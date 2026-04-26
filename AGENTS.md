@@ -87,7 +87,7 @@ These are non-negotiable. The `validate_brand_output` tool enforces all of them.
 
 - **Trademark:** use `Solidigm™` (not `®`, not bare `Solidigm`).
 - **Color:** only hex values that match `tokens/colors.json`. No invented hexes.
-- **Typography:** only `Sequel100`, `Roboto`, and `Roboto Mono` — never substitutes.
+- **Typography:** only `Sora` (display/headlines), `Noto Sans` (body/UI/multilingual), and `Avenir Next LT Pro` (Microsoft Office fallback) — never substitutes.
 - **Voice:** title case for headlines (no ALL CAPS), no em-dash overuse, no marketing fluff.
 - **Logos:** use `get_logo` to resolve; never crop, recolor, or reposition the
   logo outside its clear-space rules.

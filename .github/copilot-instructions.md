@@ -19,9 +19,14 @@ Whenever a task involves Solidigm colors, typography, logos, trademarks, voice/t
 |------|----------|
 | `get_design_tokens` | Need the full palette, typography scale, or W3C DTCG tokens |
 | `get_color` | Looking up a single named color (fuzzy-matches `"solidigm-purple"`, `"Electric Teal"`, etc.) |
+| `get_spacing` | Looking up a spacing step value (`"4"` → `"16px"`) or the full 17-step scale |
+| `get_breakpoints` | Need the canonical breakpoint + container-width scale |
+| `get_motion` | Need motion durations, cubic-bezier easings, or transform values |
+| `get_icon` | Need an icon SVG spec (viewBox, asset path, size bindings, theme/animation rules) |
 | `get_brand_guidelines` | Need narrative guidance on a topic (voice, logo, typography, etc.) |
 | `get_ui_toolkit_class` | Implementing UI — look up a `tk-*` CSS class |
 | `list_assets` | Need a logo, illustration, or doc — local + SharePoint unified manifest |
+| `get_asset` | Resolve one asset by name or path (returns `code_paths`) |
 | `get_logo` | Resolving a specific logo variant/color/format |
 | `search_brand_source_documents` | Need the official brand PDF, PPT, or source from SharePoint |
 | `get_brand_context` | Assembling a prompt for an AI flow — scope by `platform` + `task` |

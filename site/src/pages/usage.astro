@@ -148,27 +148,67 @@ import CodeBlock from '~/components/CodeBlock.astro';
           </div>
         </div>
 
-        <h3 class="text-h5" style="margin-top:32px;">Tools available</h3>
+        <h3 class="text-h5" style="margin-top:32px;">Token tools</h3>
         <div class="grid grid--2">
           <div class="card">
             <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_design_tokens</code></h4>
-            <p class="text-small muted" style="margin:0;">All tokens or filter by <code>colors</code> / <code>typography</code>.</p>
+            <p class="text-small muted" style="margin:0;">All tokens or filter by category: <code>colors</code>, <code>typography</code>, <code>space</code>, <code>motion</code>, <code>elevation</code>, <code>breakpoints</code>, <code>icons</code>, and more.</p>
           </div>
           <div class="card">
             <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_color</code></h4>
-            <p class="text-small muted" style="margin:0;">Look up a color by name (“Solidigm Purple”, “Electric Teal”).</p>
+            <p class="text-small muted" style="margin:0;">Look up a color by name ("Solidigm Purple", "Electric Teal"). Fuzzy-matches common aliases.</p>
           </div>
           <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_spacing</code></h4>
+            <p class="text-small muted" style="margin:0;">Return a single spacing step value ("4" → "16px") or dump the full 17-step scale.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_breakpoints</code></h4>
+            <p class="text-small muted" style="margin:0;">Canonical breakpoint widths and container-max-width values for responsive layouts.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_motion</code></h4>
+            <p class="text-small muted" style="margin:0;">Animation duration steps and cubic-bezier easing tokens (ease, ease-in, ease-out, spring).</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_icon</code></h4>
+            <p class="text-small muted" style="margin:0;">SVG spec for any icon — viewBox, asset path, size bindings, theme and animation rules.</p>
+          </div>
+        </div>
+
+        <h3 class="text-h5" style="margin-top:32px;">Guidelines &amp; copy tools</h3>
+        <div class="grid grid--2">
+          <div class="card">
             <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_brand_guidelines</code></h4>
-            <p class="text-small muted" style="margin:0;">Full guidelines or a specific topic section.</p>
+            <p class="text-small muted" style="margin:0;">Full brand guidelines or a specific topic section (voice, logo, typography, color usage…).</p>
           </div>
           <div class="card">
             <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_ui_toolkit_class</code></h4>
-            <p class="text-small muted" style="margin:0;">Return CSS rules for any <code>.tk-*</code> or <code>.u-*</code> utility class.</p>
+            <p class="text-small muted" style="margin:0;">Return CSS rules for any <code>.tk-*</code> or <code>.u-*</code> utility class from the UI toolkit.</p>
           </div>
           <div class="card">
-            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>list_assets</code> / <code>get_logo</code></h4>
-            <p class="text-small muted" style="margin:0;">Unified manifest of local + SharePoint brand assets, filterable by category, color, variant, resolution.</p>
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_brand_context</code></h4>
+            <p class="text-small muted" style="margin:0;">Scoped brand context keyed by platform + task — ideal for injecting into a generation prompt.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_brand_system_prompt</code></h4>
+            <p class="text-small muted" style="margin:0;">Drop-in system prompt pre-loaded with current brand rules for brand-aware LLM calls.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>validate_brand_output</code></h4>
+            <p class="text-small muted" style="margin:0;">Run generated copy or markup through the 16 quality gates before publishing.</p>
+          </div>
+        </div>
+
+        <h3 class="text-h5" style="margin-top:32px;">Asset tools</h3>
+        <div class="grid grid--2">
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>list_assets</code></h4>
+            <p class="text-small muted" style="margin:0;">Unified manifest of local + SharePoint brand assets — filterable by category, color, variant, and resolution.</p>
+          </div>
+          <div class="card">
+            <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>get_asset</code> / <code>get_logo</code></h4>
+            <p class="text-small muted" style="margin:0;">Resolve one asset by name or path (<code>get_asset</code>), or resolve a specific logo variant/color/format (<code>get_logo</code>).</p>
           </div>
           <div class="card">
             <h4 style="margin:0 0 4px; font-size:14px; font-weight:600;"><code>search_brand_source_documents</code></h4>
@@ -180,6 +220,9 @@ import CodeBlock from '~/components/CodeBlock.astro';
         <ul class="text-small muted" style="line-height:1.9;">
           <li><code>brand://tokens/colors</code> — all color tokens, W3C DTCG format</li>
           <li><code>brand://tokens/typography</code> — all type styles (desktop + mobile)</li>
+          <li><code>brand://tokens/space</code> — full 17-step spacing scale</li>
+          <li><code>brand://tokens/motion</code> — duration steps and easing curves</li>
+          <li><code>brand://tokens/icons</code> — icon catalog with SVG specs</li>
           <li><code>brand://guidelines/main</code> — full brand guidelines markdown</li>
           <li><code>brand://toolkit/css</code> — the UI toolkit CSS source</li>
           <li><code>brand://assets/manifest</code> — JSON manifest of every local asset</li>
