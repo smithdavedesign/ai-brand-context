@@ -151,7 +151,7 @@ a:hover { color: var(--dark-purple); }
 }
 
 .section--dark .section-title,
-.section--purple .section-title { color: var(--color-neutral-0); }
+.section--purple .section-title { color: var(--color-neutral-0) !important; }
 
 .section-lede {
   font-size: clamp(16px, 1.4vw, 20px);
@@ -162,7 +162,7 @@ a:hover { color: var(--dark-purple); }
 }
 
 .section--dark .section-lede,
-.section--purple .section-lede { color: rgba(255,255,255,0.75); }
+.section--purple .section-lede { color: rgba(255,255,255,0.75) !important; }
 
 /* ---------- Nav ---------- */
 .nav {
