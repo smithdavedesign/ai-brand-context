@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import SectionHeader from '~/components/SectionHeader.astro';
 import CodeBlock from '~/components/CodeBlock.astro';
 import TokenFlowDiagram from '~/components/islands/TokenFlowDiagram.astro';
 
@@ -42,93 +41,131 @@ const tokenJsonExample = `{
             <li><a href="/tokens/usage">Install & usage</a></li>
           </ul>
         </aside>
-        <div>
-          <h2 style="font-family:Sora; font-weight:300; font-size:36px; color:var(--color-purple-600); margin:0 0 16px;">
-            What is a design token?
-          </h2>
-          <p style="font-size:18px; line-height:1.6; color:var(--color-neutral-600); max-width:720px;">
-            A design token is a <strong>named value</strong> for a design decision. Instead
-            of writing <code>#4f00b5</code> in 40 places, you name it once —
-            <code>--color-purple-500</code> — and reference the name.
-          </p>
-          <p class="muted" style="max-width:720px;">
-            When the brand evolves, you change one token. Everywhere that used it updates
-            automatically: Figma, code, marketing pages, internal tools. That's why tokens
-            are the foundation of any serious design system.
-          </p>
 
-          <div style="margin-top: var(--space-8, 32px); padding: var(--space-6, 24px); background: var(--color-neutral-50); border-radius: var(--border-radius-md, 16px); border-left: 4px solid var(--color-purple-500);">
-            <strong style="color: var(--color-purple-600);">For non-technical folks:</strong>
-            <p style="margin: 8px 0 0; color: var(--color-neutral-600);">
-              Think of tokens like the <em>ingredient list</em> for the brand. Designers and
-              engineers pick from the same ingredient list — so no matter who cooks,
-              everything tastes like Solidigm.
+        <div class="stack-lg">
+          <div>
+            <h2 class="doc-h2">What is a design token?</h2>
+            <p class="tok-intro">
+              A design token is a <strong>named value</strong> for a design decision. Instead
+              of writing <code>#4f00b5</code> in 40 places, you name it once —
+              <code>--solidigm-purple</code> — and reference the name.
             </p>
+            <p class="muted" style="max-width:720px;">
+              When the brand evolves, you change one token. Everywhere that used it updates
+              automatically: Figma, code, marketing pages, internal tools. That's why tokens
+              are the foundation of any serious design system.
+            </p>
+            <div class="tok-callout">
+              <strong>For non-technical folks:</strong>
+              <p>
+                Think of tokens like the <em>ingredient list</em> for the brand. Designers and
+                engineers pick from the same ingredient list — so no matter who cooks,
+                everything tastes like Solidigm.
+              </p>
+            </div>
           </div>
 
-          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
-            Token flow
-          </h3>
-          <p class="muted" style="max-width: 720px;">
-            Tokens flow from a single JSON source of truth out to every format your team
-            uses. Update the JSON, rebuild, publish — every consumer gets the new value.
-          </p>
-          <TokenFlowDiagram />
-
-          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
-            W3C DTCG format
-          </h3>
-          <p class="muted" style="max-width: 720px;">
-            Tokens follow the
-            <a href="https://tr.designtokens.org/format/">W3C Design Tokens Community Group</a>
-            spec. Every token has a <code>$type</code> and a <code>$value</code>. This is the
-            emerging industry standard.
-          </p>
-          <CodeBlock lang="json" filename="tokens/colors.json" code={tokenJsonExample} />
-
-          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
-            Token categories
-          </h3>
-          <div class="grid grid--2" style="margin-top: var(--space-4, 16px);">
-            <a href="/tokens/colors" class="card">
-              <span class="eyebrow">14 tokens</span>
-              <h4 style="margin:8px 0; font-size:20px;">Colors</h4>
-              <p class="text-small muted">Primary, purple family, neutrals, accents, semantic.</p>
-            </a>
-            <a href="/tokens/typography" class="card">
-              <span class="eyebrow">28 tokens</span>
-              <h4 style="margin:8px 0; font-size:20px;">Typography</h4>
-              <p class="text-small muted">14 desktop + 14 mobile type styles on the Sora family.</p>
-            </a>
-            <a href="/tokens/spacing" class="card">
-              <span class="eyebrow">17 + 3 tokens</span>
-              <h4 style="margin:8px 0; font-size:20px;">Spacing & Radius</h4>
-              <p class="text-small muted">4pt spacing scale (0–96px) and radius presets.</p>
-            </a>
-            <a href="/tokens/usage" class="card">
-              <span class="eyebrow">6 formats</span>
-              <h4 style="margin:8px 0; font-size:20px;">Install & usage</h4>
-              <p class="text-small muted">CSS, SCSS, JS/TS, Tailwind, ESLint, Figma.</p>
-            </a>
+          <div>
+            <h3 class="doc-h3">Token flow</h3>
+            <p class="muted" style="max-width:720px;">
+              Tokens flow from a single JSON source of truth out to every format your team
+              uses. Update the JSON, rebuild, publish — every consumer gets the new value.
+            </p>
+            <TokenFlowDiagram />
           </div>
 
-            <a href="/tokens/motion" class="card">
-              <span class="eyebrow">5 + 5 tokens</span>
-              <h4 style="margin:8px 0; font-size:20px;">Motion</h4>
-              <p class="text-small muted">5 durations + 5 easings. Default: base + standard.</p>
-            </a>
-            <a href="/tokens/elevation" class="card">
-              <span class="eyebrow">6 tokens</span>
-              <h4 style="margin:8px 0; font-size:20px;">Elevation</h4>
-              <p class="text-small muted">Shadow scale for flat-first UI surfaces.</p>
-            </a>
-            <a href="/tokens/breakpoints" class="card">
-              <span class="eyebrow">6 + 2 tokens</span>
-              <h4 style="margin:8px 0; font-size:20px;">Breakpoints</h4>
-              <p class="text-small muted">Viewport breakpoints and container widths.</p>
-            </a>
+          <div>
+            <h3 class="doc-h3">W3C DTCG format</h3>
+            <p class="muted" style="max-width:720px;">
+              Tokens follow the
+              <a href="https://tr.designtokens.org/format/">W3C Design Tokens Community Group</a>
+              spec. Every token has a <code>$type</code> and a <code>$value</code>. This is the
+              emerging industry standard.
+            </p>
+            <CodeBlock lang="json" filename="tokens/colors.json" code={tokenJsonExample} />
+          </div>
+
+          <div>
+            <h3 class="doc-h3">Token categories</h3>
+            <div class="grid grid--3" style="margin-top: var(--space-4);">
+              <a href="/tokens/colors" class="card">
+                <span class="eyebrow">14 tokens</span>
+                <h4 class="tok-card-title">Colors</h4>
+                <p class="text-small muted">Primary, purple family, neutrals, accents, semantic.</p>
+              </a>
+              <a href="/tokens/typography" class="card">
+                <span class="eyebrow">28 tokens</span>
+                <h4 class="tok-card-title">Typography</h4>
+                <p class="text-small muted">14 desktop + 14 mobile type styles on the Sora family.</p>
+              </a>
+              <a href="/tokens/spacing" class="card">
+                <span class="eyebrow">17 + 3 tokens</span>
+                <h4 class="tok-card-title">Spacing & Radius</h4>
+                <p class="text-small muted">4pt spacing scale (0–96px) and radius presets.</p>
+              </a>
+              <a href="/tokens/motion" class="card">
+                <span class="eyebrow">5 + 5 tokens</span>
+                <h4 class="tok-card-title">Motion</h4>
+                <p class="text-small muted">5 durations + 5 easings. Default: base + standard.</p>
+              </a>
+              <a href="/tokens/elevation" class="card">
+                <span class="eyebrow">6 tokens</span>
+                <h4 class="tok-card-title">Elevation</h4>
+                <p class="text-small muted">Shadow scale for flat-first UI surfaces.</p>
+              </a>
+              <a href="/tokens/breakpoints" class="card">
+                <span class="eyebrow">6 + 2 tokens</span>
+                <h4 class="tok-card-title">Breakpoints</h4>
+                <p class="text-small muted">Viewport breakpoints and container widths.</p>
+              </a>
+              <a href="/tokens/usage" class="card">
+                <span class="eyebrow">6 formats</span>
+                <h4 class="tok-card-title">Install & usage</h4>
+                <p class="text-small muted">CSS, SCSS, JS/TS, Tailwind, ESLint, Figma.</p>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+.doc-h2 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--fluid-h3);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-4);
+}
+.doc-h3 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--fluid-h4);
+  color: var(--ultra-dark-purple);
+  margin: 0 0 var(--space-3);
+}
+.tok-intro {
+  font-size: clamp(16px, 1.4vw, 18px);
+  line-height: 1.6;
+  color: var(--medium-gray);
+  max-width: 720px;
+  margin-bottom: var(--space-4);
+}
+.tok-callout {
+  margin-top: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  background: var(--light-gray);
+  border-left: 4px solid var(--solidigm-purple);
+  max-width: 720px;
+}
+.tok-callout strong { color: var(--ultra-dark-purple); }
+.tok-callout p { margin: var(--space-2) 0 0; color: var(--medium-gray); }
+.tok-card-title {
+  font-size: var(--fluid-h5);
+  font-weight: var(--font-weight-extralight);
+  margin: var(--space-2) 0 var(--space-1);
+  color: var(--ultra-dark-purple);
+}
+</style>
