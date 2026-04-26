@@ -49,8 +49,8 @@
   --border-radius-lg: 0 !important;
 }
 
-/* Catch hard-coded radii in components, buttons, inputs, and cards.
- * Escape hatch: add class `.allow-round` or attribute `data-round` to an element. */
+/* Enforce sharp corners across all components — Solidigm brand mandate.
+ * Escape hatch: add class `.allow-round` to an element. */
 button,
 input,
 select,
@@ -67,6 +67,8 @@ img,
 figure,
 .nav__brand-mark,
 .nav__link--active::after,
+.nav__burger,
+.sidebar-toggle,
 .dodont__item,
 .sidebar a {
   border-radius: 0 !important;
@@ -454,55 +456,59 @@ a:hover { color: var(--dark-purple); }
   margin-top: var(--space-1);
 }
 
-/* ---------- Buttons (extend toolkit) ---------- */
+/* ---------- Buttons ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
   padding: 14px 22px;
   border-radius: 0;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
+  text-align: center;
   text-decoration: none;
   border: 1px solid transparent;
   transition: background-color var(--dur-fast) var(--ease-standard),
               color var(--dur-fast) var(--ease-standard),
               border-color var(--dur-fast) var(--ease-standard);
 }
-.btn--primary { background: var(--solidigm-purple); color: #fff; }
-.btn--primary:hover { background: var(--dark-purple); color: #fff; }
+.btn--primary { background: var(--solidigm-purple); color: var(--color-neutral-0); }
+.btn--primary:hover { background: var(--dark-purple); color: var(--color-neutral-0); }
+/* Secondary: white fill / purple border / ultra-dark text → hover = light gray, no flip */
 .btn--secondary {
-  background: transparent;
-  color: var(--solidigm-purple);
+  background: var(--color-neutral-0);
+  color: var(--ultra-dark-purple);
   border-color: var(--solidigm-purple);
 }
 .btn--secondary:hover {
-  background: var(--solidigm-purple);
-  color: #fff;
+  background: var(--light-gray);
+  color: var(--ultra-dark-purple);
+  border-color: var(--solidigm-purple);
 }
 /* Ghost — for use on dark/purple backgrounds */
 .btn--ghost {
   background: transparent;
-  color: #fff;
+  color: var(--color-neutral-0);
   border-color: rgba(255, 255, 255, 0.5);
 }
 .btn--ghost:hover {
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: #fff;
+  color: var(--color-neutral-0);
+  border-color: var(--color-neutral-0);
 }
-/* On-purple variant — white fill for dark/purple section CTAs */
+/* On-dark — site-specific variant: white fill for dark/purple section CTAs */
 .btn--on-dark {
-  background: #fff;
+  background: var(--color-neutral-0);
   color: var(--ultra-dark-purple);
-  border-color: #fff;
+  border-color: var(--color-neutral-0);
 }
 .btn--on-dark:hover { background: var(--light-gray); color: var(--ultra-dark-purple); }
-.btn--sm { padding: 8px 14px; font-size: 10px; }
+/* Small — compact variant for nav / pagination */
+.btn--sm { padding: var(--space-2, 8px) 14px; font-size: 10px; }
 
 /* ---------- Code blocks ---------- */
 pre, code {
