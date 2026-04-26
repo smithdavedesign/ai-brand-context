@@ -733,6 +733,68 @@ pre code {
   font-weight: 500;
 }
 
+/* ---------- Brand page — logo demo + color philosophy ----------
+ * Kept in global.css (unscoped) so color inheritance on dark
+ * backgrounds works — Astro scoped CSS blocks propagation.
+ */
+.logo-demo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-5);
+}
+.logo-demo__stage {
+  padding: var(--space-10) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.logo-demo__stage--light { background: var(--light-gray); }
+.logo-demo__stage--dark  { background: var(--dark-blue); }
+.logo-demo__stage--gray  { background: var(--color-neutral-600); }
+.logo-demo__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) 0;
+}
+.logo-demo__mark svg { width: 120px; height: auto; display: block; }
+.logo-demo__caption {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  color: var(--dark-grey);
+}
+/* White caption text on dark stages */
+.logo-demo__stage--dark .logo-demo__caption,
+.logo-demo__stage--gray .logo-demo__caption {
+  color: var(--color-neutral-0);
+}
+
+.phil-chip {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: 140px;
+  justify-content: flex-end;
+}
+.phil-chip strong {
+  font-size: var(--fluid-h5);
+  font-weight: var(--font-weight-medium);
+  color: inherit;
+}
+.phil-chip span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  color: inherit;
+  opacity: 0.85;
+}
+
 /* ---------- Utilities ---------- */
 .stack > * + * { margin-top: var(--space-5, 20px); }
 .stack-lg > * + * { margin-top: var(--space-8, 32px); }
