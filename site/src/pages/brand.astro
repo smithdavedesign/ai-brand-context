@@ -99,30 +99,30 @@ const logoRules = [
       <div class="logo-demo">
         <div class="logo-demo__stage logo-demo__stage--light">
           <div class="logo-demo__mark">
-            <!-- Purple logo on light — fill controlled via CSS class -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg logo-svg--purple">
-              <polygon points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
-              <polygon points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+            <!-- Purple logo on light -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg">
+              <polygon fill="#4F00B5" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+              <polygon fill="#4F00B5" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
             </svg>
           </div>
           <span class="logo-demo__caption">On light · Purple</span>
         </div>
         <div class="logo-demo__stage logo-demo__stage--dark">
           <div class="logo-demo__mark">
-            <!-- White logo on dark — fill controlled via CSS class -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg logo-svg--white">
-              <polygon points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
-              <polygon points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+            <!-- White logo on dark -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg">
+              <polygon fill="#FFFFFF" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+              <polygon fill="#FFFFFF" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
             </svg>
           </div>
           <span class="logo-demo__caption">On dark · White</span>
         </div>
         <div class="logo-demo__stage logo-demo__stage--gray">
           <div class="logo-demo__mark">
-            <!-- Dark logo on neutral — fill controlled via CSS class -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg logo-svg--dark">
-              <polygon points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
-              <polygon points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+            <!-- Dark logo on neutral -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="24 352 416 376" aria-hidden="true" class="logo-svg">
+              <polygon fill="#21201F" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+              <polygon fill="#21201F" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
             </svg>
           </div>
           <span class="logo-demo__caption">On medium · Black</span>
@@ -261,10 +261,8 @@ const logoRules = [
   height: auto;
   display: block;
 }
-/* SVG fill via CSS — no hardcoded hex in markup */
-.logo-svg--purple polygon { fill: var(--solidigm-purple); }
-.logo-svg--white  polygon { fill: var(--color-neutral-0); }
-.logo-svg--dark   polygon { fill: var(--color-neutral-900); }
+/* SVG fills set directly as attributes in markup — Astro scoping
+   cannot reliably reach SVG polygon children via CSS class rules. */
 
 .logo-demo__caption {
   font-size: 10px;
@@ -282,12 +280,14 @@ const logoRules = [
   min-height: 140px;
   justify-content: flex-end;
 }
-.phil-chip strong {
+/* :global() escapes Astro scoping so color:inherit reliably picks up
+   the parent .phil-chip div's inline color (white on dark chips). */
+:global(.phil-chip strong) {
   font-size: var(--fluid-h5);
   font-weight: var(--font-weight-medium);
   color: inherit;
 }
-.phil-chip span {
+:global(.phil-chip span) {
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
