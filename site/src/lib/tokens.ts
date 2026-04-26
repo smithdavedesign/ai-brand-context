@@ -4,6 +4,9 @@
  */
 import colorsJson from '../../../tokens/colors.json';
 import typographyJson from '../../../tokens/typography.json';
+import motionJson from '../../../tokens/motion.json';
+import elevationJson from '../../../tokens/elevation.json';
+import breakpointsJson from '../../../tokens/breakpoints.json';
 
 export interface ColorToken {
   name: string;
@@ -117,4 +120,99 @@ export function contrastRatio(hexA: string, hexB: string): number {
   const l2 = L(hexB);
   const [a, b] = l1 > l2 ? [l1, l2] : [l2, l1];
   return (a + 0.05) / (b + 0.05);
+}
+
+// ---------------------------------------------------------------------------
+// Motion tokens
+// ---------------------------------------------------------------------------
+
+export interface MotionDuration {
+  name: string;
+  value: string;
+  description: string;
+}
+
+export interface MotionEasing {
+  name: string;
+  cssValue: string;
+  rawValue: number[];
+  description: string;
+}
+
+type MotionJson = typeof motionJson;
+
+export function getMotionDurations(): MotionDuration[] {
+  const durations = (motionJson as MotionJson).duration as Record<string, { $value: string; $description: string }>;
+  return Object.entries(durations).map(([name, tok]) => ({
+    name,
+    value: tok.$value,
+    description: tok.$description,
+  }));
+}
+
+export function getMotionEasings(): MotionEasing[] {
+  const easings = (motionJson as MotionJson).easing as Record<string, { $value: number[]; $description: string }>;
+  return Object.entries(easings).map(([name, tok]) => ({
+    name,
+    rawValue: tok.$value,
+    cssValue: `cubic-bezier(${tok.$value.join(', ')})`,
+    description: tok.$description,
+  }));
+}
+
+// ---------------------------------------------------------------------------
+// Elevation tokens
+// ---------------------------------------------------------------------------
+
+export interface ShadowToken {
+  name: string;
+  cssValue: string;
+  description: string;
+}
+
+type ElevationJson = typeof elevationJson;
+
+export function getShadowTokens(): ShadowToken[] {
+  const shadows = (elevationJson as ElevationJson).shadow as Record<string, { $value: string | Record<string, string | number | boolean>; $description: string }>;
+  return Object.entries(shadows).map(([name, tok]) => {
+    let cssValue: string;
+    if (typeof tok.$value === 'string') {
+      cssValue = tok.$value;
+    } else {
+      const s = tok.$value as Record<string, string | number | boolean>;
+      const inset = s.inset ? 'inset ' : '';
+      cssValue = `${inset}${s.offsetX} ${s.offsetY} ${s.blur} ${s.spread} ${s.color}`;
+    }
+    return { name, cssValue, description: tok.$description };
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Breakpoints tokens
+// ---------------------------------------------------------------------------
+
+export interface BreakpointToken {
+  name: string;
+  value: string;
+  description: string;
+}
+
+type BreakpointsJson = typeof breakpointsJson;
+
+export function getBreakpointTokens(): BreakpointToken[] {
+  const bps = (breakpointsJson as BreakpointsJson).breakpoint as Record<string, { $value: string; $description: string }>;
+  return Object.entries(bps).map(([name, tok]) => ({
+    name,
+    value: tok.$value,
+    description: tok.$description,
+  }));
+}
+
+export function getContainerTokens(): BreakpointToken[] {
+  const containers = (breakpointsJson as BreakpointsJson).container as Record<string, { $value: string; $description: string }>;
+  return Object.entries(containers).map(([name, tok]) => ({
+    name,
+    value: tok.$value,
+    description: tok.$description,
+  }));
 }

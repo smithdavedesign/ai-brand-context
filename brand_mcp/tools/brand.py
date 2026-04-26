@@ -138,11 +138,13 @@ def get_icon(name: str) -> Dict[str, Any]:
     name : str
         Icon name — e.g. ``"arrowDouble"``, ``"arrow-double"``,
         ``"chevronDown"``, ``"chevron-down"``.
+        Partial names (e.g. ``"arrow"``) fuzzy-match available icons.
     """
     data = _read_json(os.path.join(config.tokens_dir, "icons.json"))
     atoms = data.get("icon", {}).get("atom", {})
     # Normalize: strip hyphens and lowercase for fuzzy key match
     needle = "".join(ch for ch in name.lower() if ch.isalnum())
+    # Exact match first
     for key, token in atoms.items():
         if "".join(ch for ch in key.lower() if ch.isalnum()) == needle:
             return {
@@ -150,6 +152,16 @@ def get_icon(name: str) -> Dict[str, Any]:
                 "name": key,
                 "token": token,
                 "sizes": data.get("icon", {}).get("size", {}),
+            }
+    # Partial / fuzzy match
+    for key, token in atoms.items():
+        if needle in "".join(ch for ch in key.lower() if ch.isalnum()):
+            return {
+                "status": "ok",
+                "name": key,
+                "token": token,
+                "sizes": data.get("icon", {}).get("size", {}),
+                "fuzzy": True,
             }
     return {
         "status": "not_found",
@@ -202,9 +214,14 @@ def get_color(name: str) -> Dict[str, Any]:
 
 def get_brand_guidelines(topic: Optional[str] = None) -> Dict[str, Any]:
     """Return the brand guidelines markdown (full or a single topic section)."""
-    path = os.path.join(config.docs_dir, "brand-guidelines.md")
-    if not os.path.isfile(path):
-        return {"status": "error", "error": "brand-guidelines.md not found"}
+    # Prefer brand/brand.md (canonical); fall back to docs/brand-guidelines.md (legacy)
+    candidates = [
+        os.path.join(config.brand_dir, "brand.md"),
+        os.path.join(config.docs_dir, "brand-guidelines.md"),
+    ]
+    path = next((p for p in candidates if os.path.isfile(p)), None)
+    if path is None:
+        return {"status": "error", "error": "brand guidelines file not found"}
 
     text = _read_text(path)
     if not topic:
@@ -334,9 +351,15 @@ async def search_brand_source_documents(
 # UI toolkit tool
 # ---------------------------------------------------------------------------
 def get_ui_toolkit_class(name: str) -> Dict[str, Any]:
-    """Return the CSS body of a toolkit class from ``docs/ui-toolkit.min.css``."""
-    path = os.path.join(config.docs_dir, "ui-toolkit.min.css")
-    if not os.path.isfile(path):
+    """Return the CSS body of a toolkit class from the UI toolkit stylesheet."""
+    # Search in order: dist/ (build output), site/public/ (deployed), docs/ (legacy)
+    candidates = [
+        os.path.join(config.REPO_ROOT, "dist", "ui-toolkit.min.css"),
+        os.path.join(config.REPO_ROOT, "site", "public", "ui-toolkit.min.css"),
+        os.path.join(config.docs_dir, "ui-toolkit.min.css"),
+    ]
+    path = next((p for p in candidates if os.path.isfile(p)), None)
+    if path is None:
         return {"status": "error", "error": "ui-toolkit.min.css not found"}
 
     css = _read_text(path)

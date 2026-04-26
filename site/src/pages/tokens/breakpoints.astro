@@ -1,0 +1,132 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getBreakpointTokens, getContainerTokens } from '~/lib/tokens';
+
+const breakpoints = getBreakpointTokens();
+const containers = getContainerTokens();
+---
+<BaseLayout title="Breakpoints" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">Design Tokens</span>
+      <h1 class="page-hero__title">Breakpoints.</h1>
+      <p class="page-hero__lede">
+        Six viewport breakpoints and two container widths. Modernized from
+        Bootstrap 5 defaults to align with current device reality.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens">Overview</a></li>
+            <li><a href="/tokens/colors">Colors</a></li>
+            <li><a href="/tokens/typography">Typography</a></li>
+            <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/motion">Motion</a></li>
+            <li><a href="/tokens/elevation">Elevation</a></li>
+            <li><a href="/tokens/breakpoints" class="active">Breakpoints</a></li>
+            <li><a href="/tokens/usage">Install & usage</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#breakpoints">Viewport breakpoints</a></li>
+            <li><a href="#containers">Container widths</a></li>
+            <li><a href="#migration">Migration notes</a></li>
+          </ul>
+        </aside>
+
+        <div class="stack-lg">
+
+          <section id="breakpoints">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Viewport breakpoints</h2>
+            <p class="muted" style="max-width:720px;">
+              Mobile-first. Apply styles at the named breakpoint and up.
+            </p>
+            <table class="table" style="max-width:900px;">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>CSS variable</th>
+                  <th>SCSS variable</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {breakpoints.map((bp) => (
+                  <tr>
+                    <td><code>breakpoint.{bp.name}</code></td>
+                    <td><code class="mono text-xs">--solidigm-bp-{bp.name}</code></td>
+                    <td><code class="mono text-xs">$solidigm-bp-{bp.name}</code></td>
+                    <td><strong>{bp.value}</strong></td>
+                    <td class="muted text-small">{bp.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="containers">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Container widths</h2>
+            <p class="muted" style="max-width:720px;">
+              Two container constraints: one for content, one for full-bleed background art.
+            </p>
+            <table class="table" style="max-width:700px;">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>CSS variable</th>
+                  <th>Value</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {containers.map((c) => (
+                  <tr>
+                    <td><code>container.{c.name}</code></td>
+                    <td><code class="mono text-xs">--solidigm-container-{c.name}</code></td>
+                    <td><strong>{c.value}</strong></td>
+                    <td class="muted text-small">{c.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="migration">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Migration from Bootstrap 5</h2>
+            <p class="muted" style="max-width:720px;">
+              Two breakpoints changed from legacy Solidigm web codebases (Storybook + AEM).
+              All others remain the same.
+            </p>
+            <table class="table" style="max-width:600px;">
+              <thead>
+                <tr><th>Breakpoint</th><th>Legacy value</th><th>Canonical value</th><th>Reason</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>sm</code></td>
+                  <td><code>576px</code></td>
+                  <td><strong>640px</strong></td>
+                  <td class="muted text-small">Aligns with Tailwind v3 + modern device reality</td>
+                </tr>
+                <tr>
+                  <td><code>lg</code></td>
+                  <td><code>992px</code></td>
+                  <td><strong>1024px</strong></td>
+                  <td class="muted text-small">Aligns with Tailwind v3 + Material Design 3</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

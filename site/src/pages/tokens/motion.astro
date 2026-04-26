@@ -1,0 +1,130 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getMotionDurations, getMotionEasings } from '~/lib/tokens';
+
+const durations = getMotionDurations();
+const easings = getMotionEasings();
+---
+<BaseLayout title="Motion" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">Design Tokens</span>
+      <h1 class="page-hero__title">Motion.</h1>
+      <p class="page-hero__lede">
+        Five durations and five easings cover every animation in the system.
+        Default: <code>duration.base</code> (300ms) + <code>easing.standard</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens">Overview</a></li>
+            <li><a href="/tokens/colors">Colors</a></li>
+            <li><a href="/tokens/typography">Typography</a></li>
+            <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/motion" class="active">Motion</a></li>
+            <li><a href="/tokens/elevation">Elevation</a></li>
+            <li><a href="/tokens/breakpoints">Breakpoints</a></li>
+            <li><a href="/tokens/usage">Install & usage</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#durations">Durations</a></li>
+            <li><a href="#easings">Easings</a></li>
+            <li><a href="#a11y">Accessibility</a></li>
+          </ul>
+        </aside>
+
+        <div class="stack-lg">
+
+          <section id="durations">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Durations</h2>
+            <p class="muted" style="max-width:720px;">
+              Five steps from <code>100ms</code> (instant feedback) to <code>800ms</code>
+              (brand-expressive reveals). Most UI transitions use <code>base</code>.
+            </p>
+            <table class="table" style="max-width:800px;">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>CSS variable</th>
+                  <th>Value</th>
+                  <th>Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                {durations.map((d) => (
+                  <tr>
+                    <td><code>duration.{d.name}</code></td>
+                    <td><code class="mono">--solidigm-duration-{d.name}</code></td>
+                    <td><strong>{d.value}</strong></td>
+                    <td class="muted text-small">{d.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="easings">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Easings</h2>
+            <p class="muted" style="max-width:720px;">
+              Five cubic-bezier curves. <code>standard</code> is the default for most
+              components. <code>emphasized</code> is reserved for hero/feature brand moments.
+            </p>
+            <table class="table" style="max-width:900px;">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>CSS variable</th>
+                  <th>Value</th>
+                  <th>Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                {easings.map((e) => (
+                  <tr>
+                    <td><code>easing.{e.name}</code></td>
+                    <td><code class="mono">--solidigm-easing-{e.name}</code></td>
+                    <td><code class="mono text-xs">{e.cssValue}</code></td>
+                    <td class="muted text-small">{e.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section id="a11y">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Accessibility</h2>
+            <p class="muted" style="max-width:720px;">
+              All animated components must respect the user's motion preference.
+              Wrap transitions in a <code>prefers-reduced-motion</code> media query or
+              use the generated CSS custom properties which include the override block
+              in <code>dist/css/motion.css</code>.
+            </p>
+            <div class="card" style="background:var(--color-neutral-900); max-width:700px;">
+              <pre class="mono text-small" style="color:var(--color-accent-teal); line-height:1.7; margin:0;"><code>@media (prefers-reduced-motion: reduce) {"{"}
+  *,
+  *::before,
+  *::after {"{"}
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  {"}"}
+{"}"}</code></pre>
+            </div>
+            <p class="muted text-small" style="margin-top:12px; max-width:720px;">
+              This block is emitted automatically in <code>dist/css/motion.css</code>
+              — import it once and every component using <code>--solidigm-duration-*</code>
+              variables gets the override for free.
+            </p>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

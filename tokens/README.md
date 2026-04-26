@@ -36,6 +36,21 @@ This directory holds the **canonical, vendor-neutral Solidigm brand tokens**. Ev
 
 ---
 
+## Two color files — what's the difference?
+
+`tokens/colors.json` (this directory) and `brand/colors.json` serve different purposes:
+
+| | `tokens/colors.json` | `brand/colors.json` |
+|-|----------------------|----------------------|
+| **Format** | W3C DTCG (`$type`, `$value`) | Enriched object with WCAG notes, usage guidance, aliases |
+| **Used by** | Build pipeline (`build.js`), Figma sync, dist outputs | MCP `get_color()` tool, brand compliance checks |
+| **Authority** | Source of truth for CSS/SCSS/JS/TS dist files | Source of truth for AI-assisted brand guidance |
+| **Edit when** | Adding/changing a color in the palette | Adding WCAG notes, usage examples, or color aliases |
+
+Both files must stay in sync for any new color additions. The primitive hex values in `tokens/colors.json` are the ground truth.
+
+---
+
 ## Conventions
 
 - **Numeric space keys = pixels ÷ 4.** `space.4` = 16px, `space.10` = 40px, `space.25` = 100px.

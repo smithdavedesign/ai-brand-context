@@ -11,7 +11,8 @@
     "build": "node build.js",
     "index:assets": "node scripts/build-asset-index.mjs",
     "diff:figma": "node scripts/diff-figma-tokens.mjs",
-    "test": "playwright test",
+    "test": "npm run test:tools && playwright test",
+    "test:tools": "./brand_mcp/.venv/bin/python tests/tools_mcp_test.py",
     "test:api": "playwright test --grep 'MCP /api'",
     "test:ui": "playwright test --grep 'Assets page'"
   },

@@ -1,0 +1,98 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getShadowTokens } from '~/lib/tokens';
+
+const shadows = getShadowTokens();
+---
+<BaseLayout title="Elevation" activeNav="tokens">
+  <section class="page-hero">
+    <div class="container">
+      <span class="badge badge--npm">Design Tokens</span>
+      <h1 class="page-hero__title">Elevation.</h1>
+      <p class="page-hero__lede">
+        Six shadow tokens. Sparse by design — Solidigm™ is a flat-design brand.
+        Most surfaces use <code>shadow.none</code>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="layout-docs">
+        <aside class="sidebar">
+          <h4>Tokens</h4>
+          <ul>
+            <li><a href="/tokens">Overview</a></li>
+            <li><a href="/tokens/colors">Colors</a></li>
+            <li><a href="/tokens/typography">Typography</a></li>
+            <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/motion">Motion</a></li>
+            <li><a href="/tokens/elevation" class="active">Elevation</a></li>
+            <li><a href="/tokens/breakpoints">Breakpoints</a></li>
+            <li><a href="/tokens/usage">Install & usage</a></li>
+          </ul>
+          <h4>On this page</h4>
+          <ul>
+            <li><a href="#scale">Shadow scale</a></li>
+            <li><a href="#usage">Usage guidance</a></li>
+          </ul>
+        </aside>
+
+        <div class="stack-lg">
+
+          <section id="scale">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Shadow scale</h2>
+            <p class="muted" style="max-width:720px;">
+              Six levels from <code>none</code> (flat) to <code>feature</code>
+              (brand-expressive glow on dark surfaces).
+            </p>
+
+            <div class="grid grid--2" style="margin-top: 24px; gap: 20px;">
+              {shadows.map((s) => (
+                <div class="card" style="background: var(--color-neutral-900);">
+                  <div style={`
+                    width: 100%;
+                    height: 80px;
+                    background: var(--color-purple-500);
+                    border-radius: 8px;
+                    box-shadow: ${s.cssValue === 'none' ? 'none' : s.cssValue};
+                    margin-bottom: 16px;
+                  `}></div>
+                  <div class="mono" style="color:var(--color-accent-teal); font-weight:500; margin-bottom:4px;">shadow.{s.name}</div>
+                  <code class="text-xs mono" style="color:var(--color-neutral-300); display:block; margin-bottom:8px; word-break:break-all;">--solidigm-shadow-{s.name}</code>
+                  <div class="text-small muted">{s.description}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="usage">
+            <h2 style="font-family:Sora; font-weight:300; font-size:32px; color:var(--color-purple-600); margin:0 0 8px;">Usage guidance</h2>
+            <div class="card" style="max-width:700px;">
+              <table class="table">
+                <thead>
+                  <tr><th>Token</th><th>CSS variable</th><th>When to use</th></tr>
+                </thead>
+                <tbody>
+                  {shadows.map((s) => (
+                    <tr>
+                      <td><code>shadow.{s.name}</code></td>
+                      <td><code class="mono text-xs">--solidigm-shadow-{s.name}</code></td>
+                      <td class="muted text-small">{s.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="muted text-small" style="margin-top:16px; max-width:720px;">
+              The brand default is <strong>flat</strong>. Elevation tokens exist for specific
+              functional contexts (floating dropdowns, feature panels on dark themes) — not for
+              general decoration. When in doubt, use <code>shadow.none</code>.
+            </p>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

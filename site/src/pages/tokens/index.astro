@@ -36,6 +36,9 @@ const tokenJsonExample = `{
             <li><a href="/tokens/colors">Colors</a></li>
             <li><a href="/tokens/typography">Typography</a></li>
             <li><a href="/tokens/spacing">Spacing & Radius</a></li>
+            <li><a href="/tokens/motion">Motion</a></li>
+            <li><a href="/tokens/elevation">Elevation</a></li>
+            <li><a href="/tokens/breakpoints">Breakpoints</a></li>
             <li><a href="/tokens/usage">Install & usage</a></li>
           </ul>
         </aside>
@@ -109,14 +112,21 @@ const tokenJsonExample = `{
             </a>
           </div>
 
-          <h3 style="margin-top: var(--space-10, 48px); font-family:Sora; font-weight:400; font-size:26px; color:var(--color-purple-600);">
-            Planned tokens
-          </h3>
-          <ul style="color: var(--color-neutral-600);">
-            <li><span class="badge badge--planned">Planned</span> Elevation / shadows</li>
-            <li><span class="badge badge--planned">Planned</span> Motion (duration, easing)</li>
-            <li><span class="badge badge--planned">Planned</span> Semantic background tokens</li>
-          </ul>
+            <a href="/tokens/motion" class="card">
+              <span class="eyebrow">5 + 5 tokens</span>
+              <h4 style="margin:8px 0; font-size:20px;">Motion</h4>
+              <p class="text-small muted">5 durations + 5 easings. Default: base + standard.</p>
+            </a>
+            <a href="/tokens/elevation" class="card">
+              <span class="eyebrow">6 tokens</span>
+              <h4 style="margin:8px 0; font-size:20px;">Elevation</h4>
+              <p class="text-small muted">Shadow scale for flat-first UI surfaces.</p>
+            </a>
+            <a href="/tokens/breakpoints" class="card">
+              <span class="eyebrow">6 + 2 tokens</span>
+              <h4 style="margin:8px 0; font-size:20px;">Breakpoints</h4>
+              <p class="text-small muted">Viewport breakpoints and container widths.</p>
+            </a>
         </div>
       </div>
     </div>
