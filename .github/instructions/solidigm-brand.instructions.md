@@ -7,9 +7,9 @@ applyTo: "**/*.{astro,tsx,jsx,ts,js,css,scss,md,mdx,html,vue}"
 
 These rules mirror `brand/quality-gates.yaml`. Violations should be fixed, not shipped. When in doubt, call the `solidigm-brand` MCP tools — `get_color`, `get_brand_guidelines`, `validate_brand_output`.
 
-## Color — the 17-hex palette
+## Color — the 14-hex palette
 
-- **Allowed hex values only.** Primary: `#4f00b5` (Solidigm Purple), `#ffffff`, `#21201f`, `#160231`. Purple family: `#8d59cf`, `#b9a4da`, `#f0e6fb`. Gray family: `#f5f3f1`, `#e9e8e7`, `#a6a6a6`, `#52514f`. Accents (≤10% of any composition): `#00ffec` (Electric Teal), `#ff6c5a` (Warm Coral), `#ffd000` (Signal Yellow). Chart-only: `#007fff`, `#00a651`, `#ed1c24`.
+- **Allowed hex values only.** Dark: `#4f00b5` (Solidigm Purple), `#8d59cf` (Light Purple), `#2f006b` (Dark Purple), `#160231` (Ultra Dark Purple), `#00083f` (Dark Blue), `#21201f` (Dark Grey), `#000000` (Black). Light: `#ffffff` (White), `#f5f3f1` (Light Gray), `#a5a29d` (Gray), `#52514f` (Medium Gray). Accents (≤10% of any composition): `#00ffec` (Electric Teal), `#ea11bc` (Electric Pink), `#ffa42c` (Orange).
 - Any hex outside this set → replace with the nearest approved token.
 - Accent colors are for **emphasis only**. Do not use as backgrounds, borders, or dominant elements.
 - Reference via tokens, not raw hex: `var(--solidigm-color-solidigm-purple)` or `colors.solidigmPurple`.

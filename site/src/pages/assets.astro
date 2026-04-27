@@ -79,7 +79,7 @@ const quickDownloads = [
             <div class="quick-dl__preview">
               {item.format
                 ? <span class="quick-dl__fmt">{item.format}</span>
-                : <img src={item.url} alt="" loading="lazy" />}
+                : <img src={item.url} alt={item.label} loading="lazy" />}
             </div>
             <div class="quick-dl__info">
               <span class="quick-dl__label">{item.label}</span>
@@ -472,7 +472,7 @@ const quickDownloads = [
             }
           }
           const thumb = thumbSrc
-            ? `<img src="${thumbSrc}" alt="" loading="lazy" />`
+            ? `<img src="${thumbSrc}" alt="${a.label || a.filename || 'Asset preview'}" loading="lazy" />`
             : `<div class="asset-card__placeholder">${(a.format || a.category || '?').toUpperCase()}</div>`;
           const meta = [
             a.source === 'sharepoint' ? 'SharePoint' : 'Local',

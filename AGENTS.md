@@ -20,7 +20,7 @@ Components:
 
 - `tokens/` — W3C DTCG design tokens (10 categories). Source of truth for all design values.
 - `brand/` — canonical brand content (voice, guidelines, quality gates, platform overrides).
-- `brand_mcp/` — Python MCP server exposing the system to AI agents (14 tools, 8 resources, 4 prompts, 4 HTTP routes).
+- `brand_mcp/` — Python MCP server exposing the system to AI agents (15 tools, 8 resources, 4 prompts, 4 HTTP routes).
 - `site/` — Astro documentation site that consumes the MCP server.
 - `.github/` — Copilot instructions, prompts, and the `brand-compliance` Skill.
 

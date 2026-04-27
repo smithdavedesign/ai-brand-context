@@ -14,6 +14,9 @@ const {
   description = 'Solidigm Design System — one system, every touchpoint. Tokens, UI toolkit, brand foundation, and governance.',
   activeNav = 'home',
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = `${title} · Solidigm Design System`;
 ---
 
 <!doctype html>
@@ -22,7 +25,36 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <title>{title} · Solidigm Design System</title>
+    <title>{fullTitle}</title>
+
+    <link rel="canonical" href={canonicalURL.href} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:site_name" content="Solidigm Design System" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Solidigm Design System",
+      "url": Astro.site?.href,
+      "description": "Canonical source of truth for Solidigm design tokens, UI toolkit, brand guidelines, and governance.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Solidigm",
+        "url": "https://www.solidigm.com"
+      }
+    })} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
