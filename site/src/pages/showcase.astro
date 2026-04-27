@@ -58,9 +58,18 @@ const illustrations = [
 
 <BaseLayout
   title="Showcase — Brand in Motion"
-  description="The Solidigm design system expressed at its most powerful — colors, type, icons, and motion, fully dark."
+  description="The Solidigm design system expressed at its most powerful — colors, type, icons, and motion."
   activeNav="home"
 >
+<div id="sc-root" data-theme="dark">
+
+  <!-- Theme toggle — fixed, always accessible -->
+  <button id="sc-toggle" class="sc-toggle" aria-label="Switch to light theme" title="Toggle theme">
+    <span class="sc-toggle__icon sc-toggle__icon--dark">◐</span>
+    <span class="sc-toggle__icon sc-toggle__icon--light">☀</span>
+    <span class="sc-toggle__label sc-toggle__label--dark">Dark</span>
+    <span class="sc-toggle__label sc-toggle__label--light">Light</span>
+  </button>
 
   <!-- ═══════════════════════════════════════════════════════════════
        1. HERO
@@ -426,7 +435,28 @@ const illustrations = [
     </svg>
   </section>
 
+</div><!-- /#sc-root -->
 </BaseLayout>
+
+<script>
+  const root = document.getElementById('sc-root') as HTMLElement;
+  const btn  = document.getElementById('sc-toggle') as HTMLButtonElement;
+  const KEY  = 'sc-theme';
+
+  function apply(theme: string) {
+    root.dataset.theme = theme;
+    btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+  }
+
+  // Restore saved preference, defaulting to dark
+  apply(localStorage.getItem(KEY) ?? 'dark');
+
+  btn.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    apply(next);
+    localStorage.setItem(KEY, next);
+  });
+</script>
 
 <style>
 /* ══════════════════════════════════════════════════════════
@@ -1038,6 +1068,140 @@ const illustrations = [
   line-height: 1.4;
   color: rgba(255,255,255,0.75);
 }
+
+/* ══════════════════════════════════════════════════════════
+   THEME TOGGLE BUTTON
+══════════════════════════════════════════════════════════ */
+.sc-toggle {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--solidigm-purple);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family-primary);
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background var(--dur-fast) var(--ease-standard);
+}
+.sc-toggle:hover { background: var(--dark-purple); }
+
+/* Show/hide icon+label pairs per theme */
+#sc-root[data-theme="dark"]  .sc-toggle__icon--light,
+#sc-root[data-theme="dark"]  .sc-toggle__label--light { display: none; }
+#sc-root[data-theme="light"] .sc-toggle__icon--dark,
+#sc-root[data-theme="light"] .sc-toggle__label--dark  { display: none; }
+
+/* ══════════════════════════════════════════════════════════
+   LIGHT THEME OVERRIDES
+   Scope to #sc-root[data-theme="light"] so dark is default.
+══════════════════════════════════════════════════════════ */
+
+/* Shared text + eyebrow */
+#sc-root[data-theme="light"] .sc-section-title { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-section-lede  { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-eyebrow       { color: var(--solidigm-purple); }
+#sc-root[data-theme="light"] .sc-eyebrow--teal { color: var(--solidigm-purple); }
+
+/* 1. Hero */
+#sc-root[data-theme="light"] .sc-hero {
+  background: linear-gradient(160deg, var(--light-gray) 0%, #fff 60%);
+  color: var(--ultra-dark-purple);
+}
+#sc-root[data-theme="light"] .sc-hero__bg {
+  background:
+    radial-gradient(ellipse 800px 500px at 80% 100%, rgba(79,0,181,0.06), transparent 60%),
+    radial-gradient(ellipse 400px 300px at 10% 0%, rgba(141,89,207,0.04), transparent 55%);
+}
+#sc-root[data-theme="light"] .sc-hero__headline { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-hero__sub      { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-hero__mark     { color: rgba(79,0,181,0.06); }
+#sc-root[data-theme="light"] .sc-hero__angle    { background: var(--solidigm-purple); }
+
+/* 2. Mission */
+#sc-root[data-theme="light"] .sc-mission           { background: #fff; }
+#sc-root[data-theme="light"] .sc-mission__quote    { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-mission__sub      { color: var(--medium-gray); }
+
+/* 3. Values */
+#sc-root[data-theme="light"] .sc-values            { background: var(--light-gray); }
+#sc-root[data-theme="light"] .sc-values__grid      { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.05); }
+#sc-root[data-theme="light"] .sc-value-card        { background: #fff; }
+#sc-root[data-theme="light"] .sc-value-card:hover  { background: rgba(79,0,181,0.04); }
+#sc-root[data-theme="light"] .sc-value-card__icon  { filter: none; opacity: 1; }
+#sc-root[data-theme="light"] .sc-value-card__word  { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-value-card__sub   { color: var(--medium-gray); }
+
+/* 4. Color palette — stays dark (it IS the palette demo) */
+
+/* 5. Typography */
+#sc-root[data-theme="light"] .sc-type                 { background: #fff; }
+#sc-root[data-theme="light"] .sc-type__sample--hero   { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-type__spec-note      { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-type__weights        { background: rgba(0,0,0,0.04); }
+#sc-root[data-theme="light"] .sc-type__weight-row     { background: #fff; }
+#sc-root[data-theme="light"] .sc-type__weight-row:hover { background: rgba(79,0,181,0.04); }
+#sc-root[data-theme="light"] .sc-type__weight-sample  { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-type__weight-name    { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-type__weight-use     { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-type__rule           { border-color: rgba(0,0,0,0.08); color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-type__specimen       { border-bottom-color: rgba(0,0,0,0.08); }
+
+/* 6. Brand Angle */
+#sc-root[data-theme="light"] .sc-angle                { background: var(--light-gray); }
+#sc-root[data-theme="light"] .sc-angle__tile          { background: rgba(79,0,181,0.1); }
+#sc-root[data-theme="light"] .sc-angle__tile--c       { background: rgba(79,0,181,0.06); }
+#sc-root[data-theme="light"] .sc-angle__tile--d       { background: rgba(79,0,181,0.18); }
+#sc-root[data-theme="light"] .sc-angle__tile:hover    { background: rgba(79,0,181,0.22); }
+#sc-root[data-theme="light"] .sc-angle__rule-item     { border-left-color: rgba(79,0,181,0.2); }
+#sc-root[data-theme="light"] .sc-angle__rule-text     { color: var(--medium-gray); }
+
+/* 7. Icons */
+#sc-root[data-theme="light"] .sc-icons                { background: #fff; }
+#sc-root[data-theme="light"] .sc-icon-grid            { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.04); }
+#sc-root[data-theme="light"] .sc-icon-item            { background: #fff; }
+#sc-root[data-theme="light"] .sc-icon-item:hover      { background: rgba(79,0,181,0.05); }
+#sc-root[data-theme="light"] .sc-icon-img             { filter: none; opacity: 1; }
+#sc-root[data-theme="light"] .sc-icon-label           { color: rgba(0,0,0,0.35); }
+
+/* 8. Infrastructure illustrations */
+#sc-root[data-theme="light"] .sc-infra               { background: var(--light-gray); }
+#sc-root[data-theme="light"] .sc-infra__card         { background: #fff; border-color: rgba(0,0,0,0.06); }
+#sc-root[data-theme="light"] .sc-infra__card:hover   { background: #fff; border-color: rgba(79,0,181,0.25); }
+#sc-root[data-theme="light"] .sc-infra__img          { filter: none; opacity: 0.9; }
+#sc-root[data-theme="light"] .sc-infra__label        { color: var(--medium-gray); }
+
+/* 9. Stats */
+#sc-root[data-theme="light"] .sc-stats               { background: linear-gradient(180deg, var(--light-gray) 0%, #fff 100%); }
+#sc-root[data-theme="light"] .sc-stat__value         { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-stat__label         { color: var(--medium-gray); border-top-color: rgba(0,0,0,0.1); }
+
+/* 10. Voice */
+#sc-root[data-theme="light"] .sc-voice               { background: #fff; }
+#sc-root[data-theme="light"] .sc-voice__grid         { background: rgba(0,0,0,0.04); }
+#sc-root[data-theme="light"] .sc-voice__card         { background: #fff; }
+#sc-root[data-theme="light"] .sc-voice__card:hover   { background: rgba(79,0,181,0.04); }
+#sc-root[data-theme="light"] .sc-voice__word         { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-voice__note         { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-voice__eg-text      { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-voice__eg--do       { border-left-color: var(--solidigm-purple); }
+
+/* 11. Motion */
+#sc-root[data-theme="light"] .sc-motion              { background: var(--light-gray); }
+#sc-root[data-theme="light"] .sc-motion__card        { border-color: rgba(0,0,0,0.06); background: #fff; }
+#sc-root[data-theme="light"] .sc-motion__name        { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-motion__no,
+#sc-root[data-theme="light"] .sc-motion__yes         { color: var(--medium-gray); }
+
+/* 12. CTA — always dark, it's the brand moment */
 
 /* ══════════════════════════════════════════════════════════
    12. CTA
