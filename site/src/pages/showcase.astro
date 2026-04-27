@@ -1207,7 +1207,10 @@ const illustrations = [
 #sc-root[data-theme="light"] .sc-motion__no          { color: var(--medium-gray); }
 #sc-root[data-theme="light"] .sc-motion__yes         { color: var(--solidigm-purple) !important; }
 
-/* 12. CTA — always dark, it's the brand moment */
+/* 12. CTA — always dark; restore white text overridden by global light rule */
+#sc-root[data-theme="light"] .sc-cta .sc-section-title { color: #fff; }
+#sc-root[data-theme="light"] .sc-cta .sc-section-lede  { color: rgba(255,255,255,0.65); }
+#sc-root[data-theme="light"] .sc-cta .sc-eyebrow       { color: var(--electric-teal); }
 
 /* ══════════════════════════════════════════════════════════
    12. CTA
