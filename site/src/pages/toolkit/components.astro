@@ -321,6 +321,7 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
               <strong>Purpose:</strong> Notification banner for success, warning, or error
               states. Icon&nbsp;+&nbsp;message in a tinted container.
             </p>
+            <!-- brand-audit:exempt -->
             <ComponentPreview
               title="Alert"
               layout="stack"
@@ -328,11 +329,12 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--electric-teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
   This is an informational alert message.
 </div>
-<div style="display:flex; align-items:center; gap:12px; padding:10px 20px; background:rgba(186,54,64,0.08); border-left:3px solid #ba3640; font-size:14px; margin-top:var(--space-3);">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ba3640" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+<div style="display:flex; align-items:center; gap:12px; padding:10px 20px; background:rgba(186,54,64,0.08); border-left:3px solid var(--color-semantic-error,#ba3640); font-size:14px; margin-top:var(--space-3);">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-semantic-error,#ba3640)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
   This is an error alert message.
 </div>`}
             />
+            <!-- /brand-audit:exempt -->
             <h4 class="doc-variants-label">Specs (from Storybook)</h4>
             <table class="table">
               <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>

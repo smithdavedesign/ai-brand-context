@@ -213,6 +213,19 @@ const logoRules = [
       <ContrastChecker />
     </div>
   </section>
+
+  <!-- Showcase handoff -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <a href="/showcase" class="brand-showcase-link">
+        <div>
+          <p class="eyebrow" style="color:var(--electric-teal); margin-bottom:var(--space-2);">Brand Showcase</p>
+          <p class="brand-showcase-link__headline">See the brand at full expression →</p>
+          <p class="brand-showcase-link__sub">Colors, type, icons, motion — everything in one dark canvas.</p>
+        </div>
+      </a>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -258,4 +271,29 @@ const logoRules = [
   line-height: 1.6;
 }
 .type-philosophy__note p strong { color: var(--ultra-dark-purple); font-weight: var(--font-weight-semibold); }
+
+.brand-showcase-link {
+  display: block;
+  padding: var(--space-8) var(--space-8);
+  background: var(--ultra-dark-purple);
+  border-left: 4px solid var(--solidigm-purple);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-standard);
+}
+.brand-showcase-link:hover { background: #1e0442; }
+.brand-showcase-link__headline {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: clamp(24px, 3vw, 40px);
+  color: #fff;
+  margin: 0 0 var(--space-2);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.brand-showcase-link__sub {
+  font-size: 14px;
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
 </style>

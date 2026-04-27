@@ -210,6 +210,11 @@ import SectionHeader from '~/components/SectionHeader.astro';
           <span class="aud-card__cta">Business guide →</span>
         </a>
       </div>
+      <!-- Showcase teaser -->
+      <a href="/showcase" class="showcase-teaser">
+        <span class="eyebrow eyebrow--dark">Brand Showcase</span>
+        <span class="showcase-teaser__headline">See the brand at full expression →</span>
+      </a>
     </div>
   </section>
 
@@ -223,6 +228,7 @@ import SectionHeader from '~/components/SectionHeader.astro';
       <div style="display: inline-flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
         <a href="/tokens/usage" class="btn btn--on-dark">Install the package</a>
         <a href="/toolkit/components" class="btn btn--ghost">Browse components</a>
+        <a href="/showcase" class="btn btn--ghost">Brand showcase</a>
       </div>
     </div>
   </section>
@@ -378,5 +384,28 @@ import SectionHeader from '~/components/SectionHeader.astro';
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
+}
+
+.showcase-teaser {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding: var(--space-5) var(--space-6);
+  background: var(--ultra-dark-purple);
+  border-left: 4px solid var(--solidigm-purple);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-standard);
+}
+.showcase-teaser:hover { background: #1e0442; }
+.showcase-teaser .eyebrow { margin-bottom: 0; color: var(--electric-teal); }
+.showcase-teaser__headline {
+  font-family: var(--font-family-primary);
+  font-size: clamp(16px, 1.5vw, 22px);
+  font-weight: var(--font-weight-extralight);
+  color: #fff;
+  letter-spacing: -0.01em;
 }
 </style>
