@@ -667,7 +667,7 @@ const quickDownloads = [
       transition: border-color 0.15s, box-shadow 0.15s;
     }
     .quick-dl__item--dark {
-      background: var(--color-blue-900);
+      background: var(--solidigm-color-dark-blue, #00083f);
       border-color: rgba(255,255,255,0.1);
       color: #fff;
     }
@@ -691,6 +691,10 @@ const quickDownloads = [
       align-items: center;
       justify-content: center;
       overflow: hidden;
+    }
+    .quick-dl__item--dark .quick-dl__preview {
+      background: rgba(22, 2, 49, 0.55);
+      border: 1px solid rgba(255,255,255,0.12);
     }
     .quick-dl__preview img {
       max-width: 100%;
