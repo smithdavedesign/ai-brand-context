@@ -200,8 +200,10 @@ const illustrations = [
       <div class="sc-type__rules">
         <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--electric-teal);">✓</span> Title Case for headlines</div>
         <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--electric-teal);">✓</span> Sentence case for long subheads</div>
-        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--color-semantic-error);">✕</span> ALL CAPS headlines — never</div>
-        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--color-semantic-error);">✕</span> Bold mid-sentence for emphasis — never</div>
+        <!-- brand-audit:exempt -->
+        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--color-semantic-error,#ba3640);">✕</span> ALL CAPS headlines — never</div>
+        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--color-semantic-error,#ba3640);">✕</span> Bold mid-sentence for emphasis — never</div>
+        <!-- /brand-audit:exempt -->
       </div>
     </div>
   </section>
@@ -243,10 +245,12 @@ const illustrations = [
           <span class="sc-angle__rule-num" style="color:#4f00b5;">90°</span>
           <span class="sc-angle__rule-text">All containers, cards, buttons — sharp, never rounded</span>
         </div>
+        <!-- brand-audit:exempt -->
         <div class="sc-angle__rule-item">
-          <span class="sc-angle__rule-num" style="color:var(--color-semantic-error);">0</span>
+          <span class="sc-angle__rule-num" style="color:var(--color-semantic-error,#ba3640);">0</span>
           <span class="sc-angle__rule-text">Border radius — the brand has no soft corners</span>
         </div>
+        <!-- /brand-audit:exempt -->
       </div>
     </div>
   </section>
@@ -352,10 +356,12 @@ const illustrations = [
           <span class="sc-voice__eg-label" style="color:var(--electric-teal);">Do</span>
           <p class="sc-voice__eg-text">"We see current limitations as future opportunities."</p>
         </div>
+        <!-- brand-audit:exempt -->
         <div class="sc-voice__eg sc-voice__eg--dont">
-          <span class="sc-voice__eg-label" style="color:var(--color-semantic-error);">Don't</span>
+          <span class="sc-voice__eg-label" style="color:var(--color-semantic-error,#ba3640);">Don't</span>
           <p class="sc-voice__eg-text">"Our industry-leading, best-in-class, cutting-edge solutions leverage synergies."</p>
         </div>
+        <!-- /brand-audit:exempt -->
       </div>
     </div>
   </section>
@@ -383,12 +389,14 @@ const illustrations = [
           <strong class="sc-motion__name">Slow · 320ms</strong>
           <span class="sc-motion__use">Reveals, overlays</span>
         </div>
+        <!-- brand-audit:exempt -->
         <div class="sc-motion__card sc-motion__card--rule">
-          <span class="sc-motion__no" style="color:var(--color-semantic-error);">No bouncy springs.</span>
-          <span class="sc-motion__no" style="color:var(--color-semantic-error);">No confetti.</span>
-          <span class="sc-motion__no" style="color:var(--color-semantic-error);">No elaborate entrances.</span>
+          <span class="sc-motion__no" style="color:var(--color-semantic-error,#ba3640);">No bouncy springs.</span>
+          <span class="sc-motion__no" style="color:var(--color-semantic-error,#ba3640);">No confetti.</span>
+          <span class="sc-motion__no" style="color:var(--color-semantic-error,#ba3640);">No elaborate entrances.</span>
           <span class="sc-motion__yes" style="color:var(--electric-teal);">Standard ease. Linear reveals. Respect for reduced-motion.</span>
         </div>
+        <!-- /brand-audit:exempt -->
       </div>
     </div>
   </section>
@@ -960,7 +968,7 @@ const illustrations = [
   border-left: 3px solid rgba(255,255,255,0.1);
 }
 .sc-voice__eg--do { border-left-color: var(--electric-teal); }
-.sc-voice__eg--dont { border-left-color: #ba3640; }
+.sc-voice__eg--dont { border-left-color: var(--color-semantic-error,#ba3640); }
 .sc-voice__eg-label {
   display: block;
   font-size: 10px;
