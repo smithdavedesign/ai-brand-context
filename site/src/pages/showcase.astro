@@ -1125,6 +1125,26 @@ const illustrations = [
 #sc-root[data-theme="light"] .sc-hero__sub      { color: var(--medium-gray); }
 #sc-root[data-theme="light"] .sc-hero__mark     { color: rgba(79,0,181,0.06); }
 #sc-root[data-theme="light"] .sc-hero__angle    { background: var(--solidigm-purple); }
+/* Hero buttons — primary purple + dark outline in light mode */
+#sc-root[data-theme="light"] .sc-hero .btn--on-dark {
+  background: var(--solidigm-purple);
+  color: #fff;
+  border-color: var(--solidigm-purple);
+}
+#sc-root[data-theme="light"] .sc-hero .btn--on-dark:hover {
+  background: var(--dark-purple);
+  border-color: var(--dark-purple);
+}
+#sc-root[data-theme="light"] .sc-hero .btn--ghost {
+  background: transparent;
+  color: var(--ultra-dark-purple);
+  border-color: var(--ultra-dark-purple);
+}
+#sc-root[data-theme="light"] .sc-hero .btn--ghost:hover {
+  background: var(--dark-purple);
+  color: #fff;
+  border-color: var(--dark-purple);
+}
 
 /* 2. Mission */
 #sc-root[data-theme="light"] .sc-mission           { background: #fff; }
