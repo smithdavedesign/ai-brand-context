@@ -29,15 +29,30 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
           <ul>
             <li><a href="#buttons">Buttons</a></li>
             <li><a href="#headings">Headings</a></li>
+            <li><a href="#eyebrow">Eyebrow</a></li>
+            <li><a href="#badge">Badge</a></li>
+            <li><a href="#link-item">Link item</a></li>
+            <li><a href="#inline-links">Inline links</a></li>
+            <li><a href="#checkbox">Checkbox</a></li>
+            <li><a href="#alert">Alert</a></li>
           </ul>
           <h4>Molecules</h4>
           <ul>
             <li><a href="#form-field">Form field</a></li>
             <li><a href="#card">Card</a></li>
+            <li><a href="#table">Table</a></li>
+            <li><a href="#dodont">Do / Don't</a></li>
+            <li><a href="#accordion">Accordion</a></li>
+            <li><a href="#breadcrumb">Breadcrumb</a></li>
+            <li><a href="#modal">Modal</a></li>
+            <li><a href="#tabs">Tabs</a></li>
+            <li><a href="#inpage-nav">In-page nav</a></li>
           </ul>
           <h4>Organisms</h4>
           <ul>
             <li><a href="#hero">Hero section</a></li>
+            <li><a href="#navbar">Navbar</a></li>
+            <li><a href="#footer">Footer</a></li>
           </ul>
         </aside>
         <div class="stack-lg">
@@ -48,33 +63,58 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
             <p class="muted" style="max-width:720px;">
               <strong>Purpose:</strong> Trigger an action or navigation. Use <em>Primary</em> for
               the single most important action per view; <em>Secondary</em> for supporting
-              actions.
+              actions. Specs from Figma Dotcom 3.0 — Button (Large).
             </p>
             <ComponentPreview
-              title="Primary & Secondary"
-              html={`<button class="tk-btn tk-btn--primary">Primary action</button>
-<button class="tk-btn tk-btn--secondary">Secondary action</button>`}
+              title="Primary & Secondary (on light)"
+              html={`<button class="btn btn--primary">Primary action</button>
+<button class="btn btn--secondary" style="margin-left:var(--space-2);">Secondary action</button>`}
+            />
+            <ComponentPreview
+              title="Primary & Ghost (on dark)"
+              html={`<div style="background:var(--ultra-dark-purple); padding:var(--space-6); display:flex; gap:var(--space-4); align-items:center;">
+  <button class="btn btn--primary">Primary action</button>
+  <button class="btn btn--ghost">Secondary action</button>
+</div>`}
             />
             <h4 class="doc-variants-label">Variants</h4>
             <table class="table">
               <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
               <tbody>
-                <tr><td><code>.tk-btn</code></td><td>Base button styling</td></tr>
-                <tr><td><code>.tk-btn--primary</code></td><td>Primary action (purple fill)</td></tr>
-                <tr><td><code>.tk-btn--secondary</code></td><td>Secondary action (outline)</td></tr>
+                <tr><td><code>.btn</code></td><td>Base — Sora SemiBold, 10px, 2px tracking, uppercase, 18px 55px padding</td></tr>
+                <tr><td><code>.btn--primary</code></td><td>Purple fill (#4F00B5) → hover Dark Purple (#2F006B)</td></tr>
+                <tr><td><code>.btn--secondary</code></td><td>White fill, purple border+text → hover Dark Purple fill + white text</td></tr>
+                <tr><td><code>.btn--ghost</code></td><td>Transparent, solid white border → hover Dark Purple fill (for dark backgrounds)</td></tr>
+                <tr><td><code>.btn--on-dark</code></td><td>White fill — for dark/purple section CTAs</td></tr>
+                <tr><td><code>.btn--sm</code></td><td>Compact — 8px 14px padding (nav/pagination)</td></tr>
+                <tr><td><code>.tk-btn</code></td><td>UI Toolkit alias — legacy, same specs</td></tr>
+              </tbody>
+            </table>
+            <h4 class="doc-variants-label">Figma specs — Button (Large)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Size</td><td>276 × 54px (auto-layout, hug content)</td></tr>
+                <tr><td>Padding</td><td>18px top / 19px bottom / 55px inline</td></tr>
+                <tr><td>Font</td><td>Sora SemiBold, 10px / 14px line-height</td></tr>
+                <tr><td>Letter spacing</td><td>2px</td></tr>
+                <tr><td>Transform</td><td>uppercase</td></tr>
+                <tr><td>Border radius</td><td>0 (sharp corners)</td></tr>
+                <tr><td>Interactive color</td><td>#4F00B5 Solidigm Purple</td></tr>
+                <tr><td>Hover color</td><td>#2F006B Dark Purple</td></tr>
               </tbody>
             </table>
             <div class="dodont" style="margin-top: var(--space-6, 24px);">
               <div class="dodont__item dodont__item--do">
-                <div class="dodont__preview"><button class="tk-btn tk-btn--primary">Get started</button></div>
+                <div class="dodont__preview"><button class="btn btn--primary">Get started</button></div>
                 <div class="dodont__label">Do</div>
                 <div class="dodont__note">One primary button per view — for the most important action.</div>
               </div>
               <div class="dodont__item dodont__item--dont">
                 <div class="dodont__preview" style="display:flex; gap:var(--space-2);">
-                  <button class="tk-btn tk-btn--primary">Save</button>
-                  <button class="tk-btn tk-btn--primary">Export</button>
-                  <button class="tk-btn tk-btn--primary">Share</button>
+                  <button class="btn btn--primary">Save</button>
+                  <button class="btn btn--primary">Export</button>
+                  <button class="btn btn--primary">Share</button>
                 </div>
                 <div class="dodont__label">Don't</div>
                 <div class="dodont__note">Three primaries compete — the user can't tell what matters most.</div>
@@ -98,6 +138,210 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
 <h3>H3 — Subsection</h3>
 <p>Body text — default paragraph style in the toolkit.</p>`}
             />
+          </section>
+
+          <!-- EYEBROW -->
+          <section id="eyebrow">
+            <span class="eyebrow">Atom</span>
+            <h2 class="doc-h2">Eyebrow</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> A small uppercase label placed above a heading to establish
+              category or context. 10px&nbsp;/&nbsp;uppercase&nbsp;/&nbsp;2px letter-spacing.
+            </p>
+            <ComponentPreview
+              title="Eyebrow variants"
+              layout="stack"
+              html={`<span class="eyebrow">Category label</span>
+<h2 style="margin-top:0;">Section heading</h2>
+
+<div style="background:var(--ultra-dark-purple); padding:var(--space-6);">
+  <span class="eyebrow eyebrow--dark">On dark background</span>
+  <h2 style="margin-top:0; color:var(--color-neutral-0);">Dark section heading</h2>
+</div>`}
+            />
+            <h4 class="doc-variants-label">Variants</h4>
+            <table class="table">
+              <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>.eyebrow</code></td><td>Purple label — default, for light backgrounds</td></tr>
+                <tr><td><code>.eyebrow--dark</code></td><td>White — for dark / purple backgrounds</td></tr>
+              </tbody>
+            </table>
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Font size</td><td>10px</td></tr>
+                <tr><td>Font weight</td><td>600 (semibold)</td></tr>
+                <tr><td>Letter spacing</td><td>2px</td></tr>
+                <tr><td>Text transform</td><td>uppercase</td></tr>
+                <tr><td>Layout</td><td><code>display: flex; gap: 10px</code></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- BADGE -->
+          <section id="badge">
+            <span class="eyebrow">Atom</span>
+            <h2 class="doc-h2">Badge</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Inline status indicator or category tag. Shares the
+              10px uppercase label treatment. Includes semantic color variants.
+            </p>
+            <ComponentPreview
+              title="Badge variants"
+              html={`<span class="badge badge--toolkit">Toolkit</span>
+<span class="badge badge--npm">NPM</span>
+<span class="badge badge--ok">OK</span>
+<span class="badge badge--warn">Warning</span>
+<span class="badge badge--planned">Planned</span>`}
+            />
+            <h4 class="doc-variants-label">Variants</h4>
+            <table class="table">
+              <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>.badge</code></td><td>Base badge styling (10px uppercase, 1px border)</td></tr>
+                <tr><td><code>.badge--toolkit</code></td><td>Dark blue — UI toolkit items</td></tr>
+                <tr><td><code>.badge--npm</code></td><td>Purple — NPM package items</td></tr>
+                <tr><td><code>.badge--ok</code></td><td>Purple tint — passing / complete</td></tr>
+                <tr><td><code>.badge--warn</code></td><td>Coral tint — warning / attention</td></tr>
+                <tr><td><code>.badge--planned</code></td><td>Gray — future / not yet available</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- LINK ITEM -->
+          <section id="link-item">
+            <span class="eyebrow">Atom</span>
+            <h2 class="doc-h2">Link item</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> An arrow-annotated navigation link used inside cards,
+              lists, and content blocks. The arrow translates right on hover.
+            </p>
+            <ComponentPreview
+              title="Link item"
+              layout="stack"
+              html={`<a href="#" style="display:inline-flex; align-items:center; gap:8px; color:var(--solidigm-purple); text-decoration:none; font-weight:var(--font-weight-semibold); font-size:14px;">
+  Learn more
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>
+              <tbody>
+                <tr><td>Gap</td><td>24px</td><td>30px</td></tr>
+                <tr><td>Arrow icon</td><td>24 &times; 24px</td><td>24 &times; 24px</td></tr>
+                <tr><td>Hover</td><td colspan="2"><code>translateX(4px)</code> on arrow, 0.3s ease</td></tr>
+                <tr><td>Underline</td><td colspan="2">Width grows 0 &rarr; 100% on hover</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- INLINE LINKS -->
+          <section id="inline-links">
+            <span class="eyebrow">Atom</span>
+            <h2 class="doc-h2">Inline links</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Directional navigation links with a &raquo; arrow indicator.
+              Sora ExtraLight at 24px (section) or 16px (body). From Figma Dotcom 3.0 — Buttons + Links page.
+            </p>
+            <ComponentPreview
+              title="Arrow links (on light)"
+              layout="stack"
+              html={`<a href="#" class="link-arrow">Support center</a>
+<a href="#" class="link-arrow">Explore webinars</a>
+<a href="#" class="link-arrow link-arrow--sm">Sign up for updates</a>`}
+            />
+            <ComponentPreview
+              title="Arrow links (on dark)"
+              html={`<div style="background:var(--ultra-dark-purple); padding:var(--space-6); display:flex; flex-direction:column; gap:var(--space-4);">
+  <a href="#" class="link-arrow link-arrow--on-dark">Support center</a>
+  <a href="#" class="link-arrow link-arrow--on-dark link-arrow--sm">Sign up for updates</a>
+</div>`}
+            />
+            <h4 class="doc-variants-label">Variants</h4>
+            <table class="table">
+              <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>.link-arrow</code></td><td>Base — Sora ExtraLight 24px, purple &raquo; arrow, underline on hover</td></tr>
+                <tr><td><code>.link-arrow--on-dark</code></td><td>White text + Electric Teal arrow (for dark backgrounds)</td></tr>
+                <tr><td><code>.link-arrow--sm</code></td><td>Body size — 16px / 20px line-height</td></tr>
+              </tbody>
+            </table>
+            <h4 class="doc-variants-label">Figma specs</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>On light</th><th>On dark</th></tr></thead>
+              <tbody>
+                <tr><td>Text color</td><td>#160231 Ultra Dark Purple</td><td>#FFFFFF White</td></tr>
+                <tr><td>Arrow color</td><td>#4F00B5 Solidigm Purple</td><td>#00FFEC Electric Teal</td></tr>
+                <tr><td>Font</td><td colspan="2">Sora ExtraLight, 24px / 28px (section) or 16px / 20px (body)</td></tr>
+                <tr><td>Hover</td><td colspan="2">Underline appears, arrow translateX(4px)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- CHECKBOX -->
+          <section id="checkbox">
+            <span class="eyebrow">Atom</span>
+            <h2 class="doc-h2">Checkbox</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Toggle selection in filters and forms. Custom-styled
+              with a Solidigm Purple check mark.
+            </p>
+            <ComponentPreview
+              title="Checkbox"
+              layout="stack"
+              html={`<label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px;">
+  <input type="checkbox" style="accent-color:var(--solidigm-purple); width:16px; height:16px;" />
+  Option label
+</label>
+<label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-size:14px;">
+  <input type="checkbox" checked style="accent-color:var(--solidigm-purple); width:16px; height:16px;" />
+  Selected option
+</label>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Container height</td><td>54px</td></tr>
+                <tr><td>Gap</td><td>10px</td></tr>
+                <tr><td>Check mark</td><td>13 &times; 13px (unchecked) / 15 &times; 13px (checked)</td></tr>
+                <tr><td>Border</td><td>1px solid</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ALERT -->
+          <section id="alert">
+            <span class="eyebrow">Atom</span>
+            <h2 class="doc-h2">Alert</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Notification banner for success, warning, or error
+              states. Icon&nbsp;+&nbsp;message in a tinted container.
+            </p>
+            <ComponentPreview
+              title="Alert"
+              layout="stack"
+              html={`<div style="display:flex; align-items:center; gap:12px; padding:10px 20px; background:rgba(0,255,236,0.08); border-left:3px solid var(--electric-teal); font-size:14px;">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--electric-teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+  This is an informational alert message.
+</div>
+<div style="display:flex; align-items:center; gap:12px; padding:10px 20px; background:rgba(186,54,64,0.08); border-left:3px solid #ba3640; font-size:14px; margin-top:var(--space-3);">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ba3640" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+  This is an error alert message.
+</div>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>
+              <tbody>
+                <tr><td>Padding block</td><td>10px</td><td>20px</td></tr>
+                <tr><td>Padding inline</td><td>20px</td><td>30px</td></tr>
+                <tr><td>Icon size</td><td>24 &times; 24px</td><td>32 &times; 32px</td></tr>
+              </tbody>
+            </table>
           </section>
 
           <!-- FORM FIELD -->
@@ -139,6 +383,260 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
             />
           </section>
 
+          <!-- TABLE -->
+          <section id="table">
+            <span class="eyebrow">Molecule</span>
+            <h2 class="doc-h2">Table</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Display structured data in rows and columns. Header
+              row uses the 10px uppercase label treatment; rows highlight on hover.
+            </p>
+            <ComponentPreview
+              title="Data table"
+              layout="stack"
+              html={`<table class="table" style="max-width:560px;">
+  <thead>
+    <tr><th>Product</th><th>Form factor</th><th>Capacity</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>D5-P5336</td><td>E1.L</td><td>61.44 TB</td></tr>
+    <tr><td>D7-P5520</td><td>U.2</td><td>7.68 TB</td></tr>
+    <tr><td>D7-PS1010</td><td>E3.S</td><td>15.36 TB</td></tr>
+  </tbody>
+</table>`}
+            />
+            <h4 class="doc-variants-label">Variants</h4>
+            <table class="table">
+              <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>.table</code></td><td>Base table — full width, collapse borders, 14px body</td></tr>
+                <tr><td><code>.table th</code></td><td>Header cell — 10px uppercase, light-gray background</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- DO / DON'T -->
+          <section id="dodont">
+            <span class="eyebrow">Molecule</span>
+            <h2 class="doc-h2">Do / Don't</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Show correct and incorrect usage side by side.
+              Each item has a preview area, colored label, and explanatory note.
+            </p>
+            <ComponentPreview
+              title="Do / Don't pair"
+              layout="stack"
+              html={`<div class="dodont">
+  <div class="dodont__item dodont__item--do">
+    <div class="dodont__preview" style="font-size:14px; color:var(--ultra-dark-purple);">Solidigm&trade; D5-P5336</div>
+    <div class="dodont__label">Do</div>
+    <div class="dodont__note">Include &trade; on first mention of Solidigm per page.</div>
+  </div>
+  <div class="dodont__item dodont__item--dont">
+    <div class="dodont__preview" style="font-size:14px; color:var(--ultra-dark-purple);">Solidigm&reg; D5-P5336</div>
+    <div class="dodont__label">Don&apos;t</div>
+    <div class="dodont__note">Never use &reg; — Solidigm is not a registered trademark.</div>
+  </div>
+</div>`}
+            />
+            <h4 class="doc-variants-label">Variants</h4>
+            <table class="table">
+              <thead><tr><th>Class</th><th>Purpose</th></tr></thead>
+              <tbody>
+                <tr><td><code>.dodont</code></td><td>Grid container — auto-fit 260px min columns</td></tr>
+                <tr><td><code>.dodont__item</code></td><td>Single item wrapper</td></tr>
+                <tr><td><code>.dodont__item--do</code></td><td>Correct usage — green label</td></tr>
+                <tr><td><code>.dodont__item--dont</code></td><td>Incorrect usage — red label</td></tr>
+                <tr><td><code>.dodont__preview</code></td><td>Preview area (light-gray background, 140px min-height)</td></tr>
+                <tr><td><code>.dodont__label</code></td><td>Colored status label (10px uppercase)</td></tr>
+                <tr><td><code>.dodont__note</code></td><td>Explanatory text below the label</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ACCORDION -->
+          <section id="accordion">
+            <span class="eyebrow">Molecule</span>
+            <h2 class="doc-h2">Accordion</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Collapse content sections to manage page length.
+              Uses a chevron icon that rotates 180° on open. Defined in the
+              corporate Storybook.
+            </p>
+            <ComponentPreview
+              title="Accordion"
+              layout="stack"
+              html={`<details style="border-top:1px solid rgba(0,0,0,0.1); padding:20px 0;">
+  <summary style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:var(--font-weight-semibold); font-size:16px; list-style:none;">
+    What capacities are available?
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </summary>
+  <div style="padding-top:20px; color:var(--medium-gray); font-size:14px; line-height:1.6;">
+    Solidigm&trade; SSDs are available from 960 GB up to 61.44 TB depending on the product line and form factor.
+  </div>
+</details>
+<details style="border-top:1px solid rgba(0,0,0,0.1); padding:20px 0;">
+  <summary style="cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:var(--font-weight-semibold); font-size:16px; list-style:none;">
+    What form factors are supported?
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </summary>
+  <div style="padding-top:20px; color:var(--medium-gray); font-size:14px; line-height:1.6;">
+    E1.L, E3.S, U.2, and M.2 form factors are supported across the product portfolio.
+  </div>
+</details>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>
+              <tbody>
+                <tr><td>Inter-item margin</td><td>30px</td><td>40px</td></tr>
+                <tr><td>Content gap</td><td>30px</td><td>40px</td></tr>
+                <tr><td>Chevron icon</td><td>16px</td><td>24px</td></tr>
+                <tr><td>Transition</td><td colspan="2">0.5s ease-in-out, rotate(180°)</td></tr>
+                <tr><td>Image max-width</td><td>475px</td><td>min(80%, 573px)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- BREADCRUMB -->
+          <section id="breadcrumb">
+            <span class="eyebrow">Molecule</span>
+            <h2 class="doc-h2">Breadcrumb</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Show the user their position in the site hierarchy.
+              Items separated by a 1px vertical rule. Defined in the corporate Storybook.
+            </p>
+            <ComponentPreview
+              title="Breadcrumb"
+              layout="stack"
+              html={`<nav style="display:flex; align-items:center; gap:12px; font-size:14px; padding:12px 0;">
+  <a href="#" style="color:var(--solidigm-purple); text-decoration:none;">Home</a>
+  <span style="display:inline-block; width:1px; height:11px; background:var(--medium-gray);"></span>
+  <a href="#" style="color:var(--solidigm-purple); text-decoration:none;">Products</a>
+  <span style="display:inline-block; width:1px; height:11px; background:var(--medium-gray);"></span>
+  <span style="color:var(--medium-gray);">D7-PS1010</span>
+</nav>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>
+              <tbody>
+                <tr><td>Padding inline</td><td>20px</td><td>Responsive ($inlinePaddings)</td></tr>
+                <tr><td>Padding top</td><td>12px</td><td>12px</td></tr>
+                <tr><td>Padding bottom</td><td>12px</td><td>24px</td></tr>
+                <tr><td>Separator</td><td colspan="2">1px wide &times; 11.2px tall</td></tr>
+                <tr><td>Max width</td><td colspan="2">1920px</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- MODAL -->
+          <section id="modal">
+            <span class="eyebrow">Molecule</span>
+            <h2 class="doc-h2">Modal</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Overlay dialog for confirmations, media, or
+              supplementary content. Includes header, scrollable content area, and
+              footer with actions. Defined in the corporate Storybook.
+            </p>
+            <ComponentPreview
+              title="Modal structure"
+              layout="stack"
+              html={`<div style="border:1px solid rgba(0,0,0,0.12); max-width:480px; background:var(--color-neutral-0);">
+  <div style="display:flex; justify-content:space-between; align-items:center; padding:20px; border-bottom:1px solid rgba(0,0,0,0.08);">
+    <h3 style="margin:0; font-size:18px;">Dialog title</h3>
+    <button style="background:none; border:none; cursor:pointer; font-size:20px; color:var(--medium-gray);">&times;</button>
+  </div>
+  <div style="padding:20px; color:var(--medium-gray); font-size:14px; line-height:1.6;">
+    Modal body content goes here. This area scrolls when content exceeds the max-height.
+  </div>
+  <div style="display:flex; justify-content:flex-end; gap:16px; padding:20px; border-top:1px solid rgba(0,0,0,0.08);">
+    <button class="tk-btn tk-btn--secondary" style="min-width:auto; padding:12px 24px;">Cancel</button>
+    <button class="tk-btn tk-btn--primary" style="min-width:auto; padding:12px 24px;">Confirm</button>
+  </div>
+</div>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>
+              <tbody>
+                <tr><td>Max width</td><td colspan="2">1098px</td></tr>
+                <tr><td>Header / content padding</td><td colspan="2">20px</td></tr>
+                <tr><td>Content max-height</td><td>80vh</td><td>60vh</td></tr>
+                <tr><td>Footer gap</td><td colspan="2">16px</td></tr>
+                <tr><td>Close button</td><td>30 &times; 30px</td><td>40 &times; 40px</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- TABS -->
+          <section id="tabs">
+            <span class="eyebrow">Molecule</span>
+            <h2 class="doc-h2">Tabs</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Switch between content panels without navigating
+              away. Active tab is indicated by a 4px bottom bar. Defined in the
+              corporate Storybook.
+            </p>
+            <ComponentPreview
+              title="Tab bar"
+              layout="stack"
+              html={`<div style="display:flex; gap:24px; border-bottom:1px solid rgba(0,0,0,0.1);">
+  <button style="padding:20px 0; border:none; background:none; font-weight:var(--font-weight-semibold); font-size:14px; color:var(--solidigm-purple); border-bottom:4px solid var(--electric-teal); cursor:pointer;">Overview</button>
+  <button style="padding:20px 0; border:none; background:none; font-size:14px; color:var(--medium-gray); border-bottom:4px solid transparent; cursor:pointer;">Specifications</button>
+  <button style="padding:20px 0; border:none; background:none; font-size:14px; color:var(--medium-gray); border-bottom:4px solid transparent; cursor:pointer;">Resources</button>
+</div>
+<div style="padding:24px 0; color:var(--medium-gray); font-size:14px;">
+  Tab panel content for the active tab.
+</div>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Tab gap</td><td>24px</td></tr>
+                <tr><td>Padding block</td><td>20–25px</td></tr>
+                <tr><td>Active indicator</td><td>4px height, Electric Teal (#00FFEC)</td></tr>
+                <tr><td>Dropdown max-height</td><td>300px</td></tr>
+                <tr><td>Dropdown shadow</td><td><code>0 4px 4px 0 rgba(0,0,0,0.25)</code></td></tr>
+                <tr><td>Transition</td><td>0.3s ease</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- IN-PAGE NAV -->
+          <section id="inpage-nav">
+            <span class="eyebrow">Molecule</span>
+            <h2 class="doc-h2">In-page nav</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Sticky sectional navigation on dark background.
+              Active item is indicated by a 4px Electric Teal bottom bar.
+              From Figma Design System 3.0 — Interactivity page.
+            </p>
+            <ComponentPreview
+              title="In-page nav bar"
+              layout="stack"
+              html={`<nav class="inpage-nav">
+  <a href="#" class="inpage-nav__item inpage-nav__item--active">At the Edge</a>
+  <a href="#" class="inpage-nav__item">Overview</a>
+  <a href="#" class="inpage-nav__item">Benefits</a>
+  <a href="#" class="inpage-nav__item">Why Solidigm?</a>
+</nav>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Figma)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Background</td><td>#21201F Dark Grey</td></tr>
+                <tr><td>Height</td><td>70px</td></tr>
+                <tr><td>Font</td><td>Sora SemiBold, 14px, 2px tracking, uppercase</td></tr>
+                <tr><td>Active text</td><td>White (#FFFFFF)</td></tr>
+                <tr><td>Inactive text</td><td>White at 50% opacity</td></tr>
+                <tr><td>Active indicator</td><td>4px bottom bar, Electric Teal (#00FFEC)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
           <!-- HERO -->
           <section id="hero">
             <span class="eyebrow">Organism</span>
@@ -158,6 +656,95 @@ import ComponentPreview from '~/components/islands/ComponentPreview.astro';
   <button class="tk-btn tk-btn--secondary" style="margin-left:var(--space-2);">Read whitepaper</button>
 </section>`}
             />
+          </section>
+
+          <!-- NAVBAR -->
+          <section id="navbar">
+            <span class="eyebrow">Organism</span>
+            <h2 class="doc-h2">Navbar</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Primary site navigation. Fixed height,
+              brand logo left, links center/right, CTA button. Collapses to a
+              hamburger drawer on mobile. Defined in the corporate Storybook.
+            </p>
+            <ComponentPreview
+              title="Navbar anatomy"
+              layout="stack"
+              html={`<nav style="display:flex; align-items:center; justify-content:space-between; padding:0 20px; height:58px; background:var(--color-neutral-0); border-bottom:1px solid rgba(0,0,0,0.08);">
+  <div style="display:flex; align-items:center; gap:24px;">
+    <svg width="120" height="24" viewBox="0 0 120 24"><text x="0" y="18" style="font-family:Sora; font-size:16px; font-weight:600; fill:var(--solidigm-purple);">Solidigm&trade;</text></svg>
+  </div>
+  <div style="display:flex; align-items:center; gap:30px; font-size:14px;">
+    <a href="#" style="color:var(--ultra-dark-purple); text-decoration:none; font-weight:500;">Products</a>
+    <a href="#" style="color:var(--ultra-dark-purple); text-decoration:none; font-weight:500;">Solutions</a>
+    <a href="#" style="color:var(--ultra-dark-purple); text-decoration:none; font-weight:500;">Support</a>
+    <button class="tk-btn tk-btn--primary" style="padding:8px 16px; font-size:10px;">Contact sales</button>
+  </div>
+</nav>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>
+              <tbody>
+                <tr><td>Height</td><td>58px</td><td>92px</td></tr>
+                <tr><td>Logo max-width</td><td>156px</td><td>192px</td></tr>
+                <tr><td>Menu gap</td><td>30px</td><td><code>vwDesktop(70)</code></td></tr>
+                <tr><td>Nav link gap</td><td colspan="2">8px</td></tr>
+                <tr><td>Chevron icon</td><td colspan="2">16 &times; 16px</td></tr>
+                <tr><td>Mobile drawer padding</td><td>40px 60px</td><td>&mdash;</td></tr>
+                <tr><td>Mega menu gap</td><td>&mdash;</td><td>40px</td></tr>
+                <tr><td>Search border-radius</td><td>&mdash;</td><td>4px (exception to 0 default)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- FOOTER -->
+          <section id="footer">
+            <span class="eyebrow">Organism</span>
+            <h2 class="doc-h2">Footer</h2>
+            <p class="muted" style="max-width:720px;">
+              <strong>Purpose:</strong> Site-wide footer with link columns,
+              social icons, legal copy, and optional newsletter sign-up.
+              Ultra Dark Purple background, teal accent on hover.
+            </p>
+            <ComponentPreview
+              title="Footer anatomy"
+              layout="stack"
+              html={`<footer style="background:var(--ultra-dark-purple); color:rgba(255,255,255,0.7); padding:var(--space-12) var(--space-6) var(--space-6); font-size:14px;">
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:40px; margin-bottom:var(--space-8);">
+    <div>
+      <h4 style="color:var(--color-neutral-0); font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:var(--space-3);">Products</h4>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+        <li><a href="#" style="color:rgba(255,255,255,0.7); text-decoration:none;">Data center SSDs</a></li>
+        <li><a href="#" style="color:rgba(255,255,255,0.7); text-decoration:none;">Client SSDs</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--color-neutral-0); font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:var(--space-3);">Company</h4>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+        <li><a href="#" style="color:rgba(255,255,255,0.7); text-decoration:none;">About</a></li>
+        <li><a href="#" style="color:rgba(255,255,255,0.7); text-decoration:none;">Careers</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,0.15); padding-top:var(--space-5); font-size:12px; color:rgba(255,255,255,0.45);">
+    &copy; 2026 Solidigm. All rights reserved.
+  </div>
+</footer>`}
+            />
+            <h4 class="doc-variants-label">Specs (from Storybook)</h4>
+            <table class="table">
+              <thead><tr><th>Property</th><th>Mobile</th><th>Desktop</th></tr></thead>
+              <tbody>
+                <tr><td>Section padding-bottom</td><td>40px</td><td>70px</td></tr>
+                <tr><td>Social icons gap</td><td>32px</td><td>24px</td></tr>
+                <tr><td>Social icon size</td><td>32 &times; 32px</td><td>24 &times; 24px</td></tr>
+                <tr><td>Logo max-width</td><td>277px</td><td>252px</td></tr>
+                <tr><td>Link group gap</td><td>16px</td><td>20px</td></tr>
+                <tr><td>Bottom bar padding</td><td>20px</td><td>40px</td></tr>
+                <tr><td>Notch (with image)</td><td>128 &times; 128px</td><td>357 &times; 357px</td></tr>
+              </tbody>
+            </table>
           </section>
         </div>
       </div>

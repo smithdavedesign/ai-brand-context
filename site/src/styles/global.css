@@ -20,6 +20,13 @@
   --medium-gray:        #52514f;
   --light-gray:         #f5f3f1;
 
+  /* Neutral scale (legacy aliases used across global.css) */
+  --color-neutral-0:    #ffffff;
+  --color-neutral-50:   #f4f3f1;
+  --color-neutral-600:  #52514f;
+  --color-neutral-800:  #21201f;
+  --color-neutral-900:  #000000;
+
   /* Accents — sparingly, highlights only */
   --electric-teal:      #00ffec;
   --electric-pink:      #ea11bc;
@@ -140,7 +147,7 @@ a:hover { color: var(--dark-purple); }
   margin-bottom: var(--space-3, 12px);
 }
 
-.eyebrow--dark { color: var(--light-purple); }
+.eyebrow--dark { color: var(--color-neutral-0); }
 
 .section-title {
   font-family: 'Sora', sans-serif;
@@ -457,12 +464,13 @@ a:hover { color: var(--dark-purple); }
 }
 
 /* ---------- Buttons ---------- */
+/* Figma canonical: Button (Large) — 276×54, Sora SemiBold 10/14, 2px tracking */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 14px 22px;
+  padding: 18px 55px;
   border-radius: 0;
   font-weight: var(--font-weight-semibold);
   font-size: 10px;
@@ -476,31 +484,32 @@ a:hover { color: var(--dark-purple); }
               color var(--dur-fast) var(--ease-standard),
               border-color var(--dur-fast) var(--ease-standard);
 }
+/* Primary: Solidigm Purple fill → hover Dark Purple */
 .btn--primary { background: var(--solidigm-purple); color: var(--color-neutral-0); }
 .btn--primary:hover { background: var(--dark-purple); color: var(--color-neutral-0); }
-/* Secondary: white fill / purple border / ultra-dark text → hover = light gray, no flip */
+/* Secondary (on light): transparent/white fill, purple border+text → hover Dark Purple fill */
 .btn--secondary {
   background: var(--color-neutral-0);
-  color: var(--ultra-dark-purple);
+  color: var(--solidigm-purple);
   border-color: var(--solidigm-purple);
 }
 .btn--secondary:hover {
-  background: var(--light-gray);
-  color: var(--ultra-dark-purple);
-  border-color: var(--solidigm-purple);
+  background: var(--dark-purple);
+  color: var(--color-neutral-0);
+  border-color: var(--dark-purple);
 }
-/* Ghost — for use on dark/purple backgrounds */
+/* Ghost / secondary-on-dark: transparent, solid white border → hover Dark Purple fill */
 .btn--ghost {
   background: transparent;
   color: var(--color-neutral-0);
-  border-color: rgba(255, 255, 255, 0.5);
-}
-.btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--color-neutral-0);
   border-color: var(--color-neutral-0);
 }
-/* On-dark — site-specific variant: white fill for dark/purple section CTAs */
+.btn--ghost:hover {
+  background: var(--dark-purple);
+  color: var(--color-neutral-0);
+  border-color: var(--dark-purple);
+}
+/* On-dark — white fill for dark/purple section CTAs */
 .btn--on-dark {
   background: var(--color-neutral-0);
   color: var(--ultra-dark-purple);
@@ -509,6 +518,71 @@ a:hover { color: var(--dark-purple); }
 .btn--on-dark:hover { background: var(--light-gray); color: var(--ultra-dark-purple); }
 /* Small — compact variant for nav / pagination */
 .btn--sm { padding: var(--space-2, 8px) 14px; font-size: 10px; }
+
+/* ---------- Inline Links (Figma: Buttons + Links page) ---------- */
+/* Arrow link — Sora ExtraLight with >> indicator */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: 24px;
+  line-height: 28px;
+  text-decoration: none;
+  color: var(--ultra-dark-purple);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+.link-arrow::after {
+  content: '\00BB';  /* » character as >> arrow */
+  font-size: 1.2em;
+  color: var(--solidigm-purple);
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+.link-arrow:hover { text-decoration: underline; }
+.link-arrow:hover::after { transform: translateX(4px); }
+/* On dark: white text + Electric Teal arrow */
+.link-arrow--on-dark { color: var(--color-neutral-0); }
+.link-arrow--on-dark::after { color: var(--electric-teal); }
+/* Body-size variant (16px) */
+.link-arrow--sm { font-size: 16px; line-height: 20px; }
+
+/* ---------- In-page Nav (Figma: Sticky In-page nav) ---------- */
+/* Dark-bg sectional tabs — Sora SemiBold, Electric Teal active indicator */
+.inpage-nav {
+  display: flex;
+  align-items: stretch;
+  background: var(--dark-grey);
+  height: 70px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.inpage-nav__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 0;
+  padding: 0 var(--space-4, 16px);
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+  border-bottom: 4px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard);
+}
+.inpage-nav__item:hover { color: rgba(255, 255, 255, 0.8); }
+.inpage-nav__item--active {
+  color: var(--color-neutral-0);
+  border-bottom-color: var(--electric-teal);
+}
 
 /* ---------- Code blocks ---------- */
 pre, code {

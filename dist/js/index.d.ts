@@ -275,3 +275,82 @@ export declare const typography: {
     };
   };
 };
+
+export declare const space: {
+  readonly 0: string;
+  readonly 1: string;
+  readonly 2: string;
+  readonly 3: string;
+  readonly 4: string;
+  readonly 5: string;
+  readonly 6: string;
+  readonly 8: string;
+  readonly 10: string;
+  readonly 12: string;
+  readonly 14: string;
+  readonly 16: string;
+  readonly 18: string;
+  readonly 20: string;
+  readonly 24: string;
+  readonly 25: string;
+  readonly 30: string;
+  readonly 38: string;
+};
+
+export declare const breakpoints: {
+  readonly breakpoint: {
+    readonly xs: string;
+    readonly sm: string;
+    readonly md: string;
+    readonly lg: string;
+    readonly xl: string;
+    readonly 2xl: string;
+  };
+  readonly container: {
+    readonly max: string;
+    readonly artwork: string;
+  };
+};
+
+export declare const radius: {
+  readonly none: string;
+  readonly sm: string;
+  readonly md: string;
+  readonly lg: string;
+  readonly pill: string;
+  readonly circle: string;
+};
+
+export declare const motion: {
+  readonly duration: {
+    readonly instant: string;
+    readonly fast: string;
+    readonly base: string;
+    readonly slow: string;
+    readonly expressive: string;
+  };
+  readonly easing: {
+    readonly linear: string;
+    readonly standard: string;
+    readonly emphasized: string;
+    readonly decelerate: string;
+    readonly accelerate: string;
+  };
+};
+
+export declare const shadows: {
+  readonly none: string;
+  readonly card: string;
+  readonly dropdown: string;
+  readonly overlay: string;
+  readonly feature: string;
+  readonly indicator: string;
+};
+
+export declare const iconSizes: {
+  readonly xs: string;
+  readonly sm: string;
+  readonly md: string;
+  readonly lg: string;
+  readonly xl: string;
+};

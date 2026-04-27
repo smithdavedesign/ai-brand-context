@@ -277,4 +277,83 @@ const typography = {
   }
 };
 
-module.exports = { colors, typography };
+const space = {
+  0: '0px',
+  1: '4px',
+  2: '8px',
+  3: '12px',
+  4: '16px',
+  5: '20px',
+  6: '24px',
+  8: '32px',
+  10: '40px',
+  12: '48px',
+  14: '56px',
+  16: '64px',
+  18: '72px',
+  20: '80px',
+  24: '96px',
+  25: '100px',
+  30: '120px',
+  38: '150px'
+};
+
+const breakpoints = {
+  breakpoint: {
+    xs: '0px',
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+    2xl: '1440px'
+  },
+  container: {
+    max: '1920px',
+    artwork: '2400px'
+  }
+};
+
+const radius = {
+  none: '0px',
+  sm: '4px',
+  md: '8px',
+  lg: '16px',
+  pill: '9999px',
+  circle: '50%'
+};
+
+const motion = {
+  duration: {
+    instant: '100ms',
+    fast: '200ms',
+    base: '300ms',
+    slow: '500ms',
+    expressive: '800ms'
+  },
+  easing: {
+    linear: 'cubic-bezier(0, 0, 1, 1)',
+    standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    emphasized: 'cubic-bezier(0.2, 0, 0, 1)',
+    decelerate: 'cubic-bezier(0, 0, 0.2, 1)',
+    accelerate: 'cubic-bezier(0.4, 0, 1, 1)'
+  }
+};
+
+const shadows = {
+  none: 'none',
+  card: '0px 4px 20px 0px rgba(0, 0, 0, 0.10)',
+  dropdown: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+  overlay: '0px 4px 4px 0px rgba(0, 0, 0, 0.50)',
+  feature: '0px 16px 40px 20px rgba(255, 255, 255, 0.16)',
+  indicator: '0px -2px 0px 0px {Dark.Solidigm Purple}'
+};
+
+const iconSizes = {
+  xs: '16px',
+  sm: '24px',
+  md: '32px',
+  lg: '48px',
+  xl: '64px'
+};
+
+module.exports = { colors, typography, space, breakpoints, radius, motion, shadows, iconSizes };
