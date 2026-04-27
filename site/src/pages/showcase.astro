@@ -221,45 +221,47 @@ const illustrations = [
        6. BRAND ANGLE
   ═══════════════════════════════════════════════════════════════ -->
   <section class="sc-angle">
-    <div class="container">
-      <p class="sc-eyebrow sc-eyebrow--teal">The Brand Angle</p>
-      <h2 class="sc-section-title">45° and 90°. That's the DNA.</h2>
-      <p class="sc-section-lede">
-        The S mark is built from interlocking SSD shapes — geometric, precise, purposeful.
-        Those same angles generate every corner treatment, crop, and graphic motif in the system.
-      </p>
-    </div>
-    <div class="sc-angle__demo">
-      <!-- Large S mark -->
-      <div class="sc-angle__mark-wrap">
+    <div class="sc-angle__inner">
+      <!-- Left: large S mark — the demonstration IS the geometry -->
+      <div class="sc-angle__left">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 358 406 366" class="sc-angle__mark" aria-label="Solidigm S mark" role="img">
           <polygon fill="#4F00B5" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
           <polygon fill="#4F00B5" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
         </svg>
       </div>
-      <!-- Angle tiles -->
-      <div class="sc-angle__tiles">
-        <div class="sc-angle__tile sc-angle__tile--a" aria-hidden="true"></div>
-        <div class="sc-angle__tile sc-angle__tile--b" aria-hidden="true"></div>
-        <div class="sc-angle__tile sc-angle__tile--c" aria-hidden="true"></div>
-        <div class="sc-angle__tile sc-angle__tile--d" aria-hidden="true"></div>
-      </div>
-      <!-- Rules -->
-      <div class="sc-angle__rules">
-        <div class="sc-angle__rule-item">
-          <span class="sc-angle__rule-num" style="color:#4f00b5;">45°</span>
-          <span class="sc-angle__rule-text">All diagonal cuts, crop angles, brand marks</span>
+
+      <!-- Right: header + rules + accent tiles -->
+      <div class="sc-angle__right">
+        <p class="sc-eyebrow sc-eyebrow--teal">The Brand Angle</p>
+        <h2 class="sc-section-title">45° and 90°.<br/>That's the DNA.</h2>
+        <p class="sc-section-lede">
+          The S mark is built from interlocking SSD shapes — geometric, precise, purposeful.
+          Those same angles generate every corner treatment, crop, and graphic motif in the system.
+        </p>
+
+        <div class="sc-angle__rules">
+          <div class="sc-angle__rule-item">
+            <span class="sc-angle__rule-num" style="color:#4f00b5;">45°</span>
+            <span class="sc-angle__rule-text">All diagonal cuts, crop angles, brand marks</span>
+          </div>
+          <div class="sc-angle__rule-item">
+            <span class="sc-angle__rule-num" style="color:#4f00b5;">90°</span>
+            <span class="sc-angle__rule-text">All containers, cards, buttons — sharp, never rounded</span>
+          </div>
+          <!-- brand-audit:exempt -->
+          <div class="sc-angle__rule-item">
+            <span class="sc-angle__rule-num" style="color:var(--color-semantic-error,#ba3640);">0</span>
+            <span class="sc-angle__rule-text">Border radius — the brand has no soft corners</span>
+          </div>
+          <!-- /brand-audit:exempt -->
         </div>
-        <div class="sc-angle__rule-item">
-          <span class="sc-angle__rule-num" style="color:#4f00b5;">90°</span>
-          <span class="sc-angle__rule-text">All containers, cards, buttons — sharp, never rounded</span>
+
+        <!-- Small accent tiles showing the angle motif in application -->
+        <div class="sc-angle__tiles" aria-hidden="true">
+          <div class="sc-angle__tile sc-angle__tile--a"></div>
+          <div class="sc-angle__tile sc-angle__tile--b"></div>
+          <div class="sc-angle__tile sc-angle__tile--c"></div>
         </div>
-        <!-- brand-audit:exempt -->
-        <div class="sc-angle__rule-item">
-          <span class="sc-angle__rule-num" style="color:var(--color-semantic-error,#ba3640);">0</span>
-          <span class="sc-angle__rule-text">Border radius — the brand has no soft corners</span>
-        </div>
-        <!-- /brand-audit:exempt -->
       </div>
     </div>
   </section>
@@ -766,64 +768,91 @@ const illustrations = [
 ══════════════════════════════════════════════════════════ */
 .sc-angle {
   background: #000;
-  padding: var(--space-16) 0;
+  overflow: hidden;
 }
-.sc-angle__demo {
-  margin-top: var(--space-10);
+.sc-angle__inner {
   display: grid;
-  grid-template-columns: 240px 1fr 280px;
-  gap: var(--space-8);
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  min-height: 640px;
 }
-@media (max-width: 900px) { .sc-angle__demo { grid-template-columns: 1fr; } }
-.sc-angle__mark-wrap {
+@media (max-width: 860px) {
+  .sc-angle__inner { grid-template-columns: 1fr; }
+}
+
+/* Left: S mark fills the panel */
+.sc-angle__left {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--space-16) var(--space-10);
+  background: #000;
+  position: relative;
 }
-.sc-angle__mark { width: 200px; height: auto; display: block; }
-.sc-angle__tiles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: var(--space-2);
-  aspect-ratio: 1;
-  max-width: 320px;
-  margin: 0 auto;
-}
-.sc-angle__tile {
+.sc-angle__left::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 1px;
   background: rgba(79,0,181,0.3);
-  transition: background var(--dur-base);
 }
-.sc-angle__tile:hover { background: rgba(79,0,181,0.6); }
-.sc-angle__tile--a { clip-path: polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 60px)); }
-.sc-angle__tile--b { clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%); }
-.sc-angle__tile--c { background: rgba(141,89,207,0.25); }
-.sc-angle__tile--d { clip-path: polygon(60px 0, 100% 0, 100% 100%, 0 100%, 0 60px); background: rgba(79,0,181,0.5); }
+.sc-angle__mark {
+  width: min(420px, 80%);
+  height: auto;
+  display: block;
+}
+
+/* Right: content */
+.sc-angle__right {
+  padding: var(--space-16) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+.sc-angle__right .sc-section-title { font-size: clamp(28px, 3.5vw, 52px); }
+.sc-angle__right .sc-section-lede  { margin-bottom: var(--space-8); }
+
 .sc-angle__rules {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: var(--space-6);
 }
 .sc-angle__rule-item {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-4);
-  border-left: 3px solid rgba(79,0,181,0.4);
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-4);
+  background: #000;
+  transition: background var(--dur-fast);
 }
+.sc-angle__rule-item:hover { background: rgba(79,0,181,0.12); }
 .sc-angle__rule-num {
-  font-size: 32px;
+  font-size: clamp(28px, 3vw, 48px);
   font-weight: var(--font-weight-extralight);
   font-family: var(--font-family-primary);
   line-height: 1;
+  min-width: 72px;
+  flex-shrink: 0;
 }
 .sc-angle__rule-text {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: var(--font-weight-light);
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.6);
   line-height: 1.5;
 }
+
+/* Accent tiles — small strip to show the motif in application */
+.sc-angle__tiles {
+  display: flex;
+  gap: var(--space-2);
+  height: 48px;
+}
+.sc-angle__tile { flex: 1; background: rgba(79,0,181,0.35); }
+.sc-angle__tile--a { clip-path: polygon(0 0, 100% 0, 100% 100%, 36px 100%, 0 calc(100% - 36px)); }
+.sc-angle__tile--b { clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%); background: rgba(79,0,181,0.55); }
+.sc-angle__tile--c { clip-path: polygon(36px 0, 100% 0, 100% 100%, 0 100%, 0 36px); background: rgba(141,89,207,0.4); }
 
 /* ══════════════════════════════════════════════════════════
    7. ICON LIBRARY
@@ -1179,14 +1208,18 @@ const illustrations = [
 #sc-root[data-theme="light"] .sc-type__rule           { border-color: rgba(0,0,0,0.08); color: var(--medium-gray); }
 #sc-root[data-theme="light"] .sc-type__specimen       { border-bottom-color: rgba(0,0,0,0.08); }
 
-/* 6. Brand Angle */
-#sc-root[data-theme="light"] .sc-angle                { background: var(--light-gray); }
-#sc-root[data-theme="light"] .sc-angle__tile          { background: rgba(79,0,181,0.1); }
-#sc-root[data-theme="light"] .sc-angle__tile--c       { background: rgba(79,0,181,0.06); }
-#sc-root[data-theme="light"] .sc-angle__tile--d       { background: rgba(79,0,181,0.18); }
-#sc-root[data-theme="light"] .sc-angle__tile:hover    { background: rgba(79,0,181,0.22); }
-#sc-root[data-theme="light"] .sc-angle__rule-item     { border-left-color: rgba(79,0,181,0.2); }
+/* 6. Brand Angle — left stays black (S mark on black is non-negotiable) */
+#sc-root[data-theme="light"] .sc-angle__right         { background: var(--light-gray); }
+#sc-root[data-theme="light"] .sc-angle__right .sc-section-title { color: var(--ultra-dark-purple); }
+#sc-root[data-theme="light"] .sc-angle__right .sc-section-lede  { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-angle__right .sc-eyebrow       { color: var(--solidigm-purple); }
+#sc-root[data-theme="light"] .sc-angle__rules         { background: rgba(0,0,0,0.05); }
+#sc-root[data-theme="light"] .sc-angle__rule-item     { background: var(--light-gray); }
+#sc-root[data-theme="light"] .sc-angle__rule-item:hover { background: rgba(79,0,181,0.06); }
 #sc-root[data-theme="light"] .sc-angle__rule-text     { color: var(--medium-gray); }
+#sc-root[data-theme="light"] .sc-angle__tile          { background: rgba(79,0,181,0.15); }
+#sc-root[data-theme="light"] .sc-angle__tile--b       { background: rgba(79,0,181,0.28); }
+#sc-root[data-theme="light"] .sc-angle__tile--c       { background: rgba(141,89,207,0.2); }
 
 /* 7. Icons */
 #sc-root[data-theme="light"] .sc-icons                { background: #fff; }
