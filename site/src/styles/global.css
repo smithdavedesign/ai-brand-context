@@ -254,17 +254,7 @@ a:hover { color: var(--dark-purple); }
   background: var(--electric-teal);
   border-radius: 0;
 }
-.nav__cta {
-  display: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.75);
-  border-color: rgba(255, 255, 255, 0.4);
-}
-.nav__cta:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: #fff;
-}
+.nav__cta { display: none; }
 @media (min-width: 990px) { .nav__cta { display: inline-flex; } }
 
 /* --- Hamburger button --- */
@@ -518,6 +508,13 @@ a:hover { color: var(--dark-purple); }
 .btn--on-dark:hover { background: var(--light-gray); color: var(--ultra-dark-purple); }
 /* Small — compact variant for nav / pagination */
 .btn--sm { padding: var(--space-2, 8px) 14px; font-size: 10px; }
+
+/* Toolkit secondary hover override — match Figma: dark purple fill + white text */
+.tk-btn--secondary:hover {
+  background-color: var(--dark-purple);
+  color: var(--color-neutral-0);
+  border-color: var(--dark-purple);
+}
 
 /* ---------- Inline Links (Figma: Buttons + Links page) ---------- */
 /* Arrow link — Sora ExtraLight with >> indicator */
