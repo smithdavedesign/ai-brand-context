@@ -1,116 +1,1064 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import SectionHeader from '~/components/SectionHeader.astro';
+
+const values = [
+  { icon: 'customer-inspired', word: 'Customer Inspired', sub: 'Everything starts with the people we serve' },
+  { icon: 'invention',         word: 'Invention',         sub: 'We relish the unsolved problem' },
+  { icon: 'excellence',        word: 'Excellence',        sub: 'Precision in everything we ship' },
+  { icon: 'openness',          word: 'Openness',          sub: 'Transparent by default' },
+  { icon: 'agility',           word: 'Agility',           sub: 'Move fast without losing form' },
+  { icon: 'partnership',       word: 'Partnership',       sub: 'Together we go further' },
+];
+
+const voice = [
+  { word: 'Optimistic',   note: 'Upbeat — never a day-dreamer' },
+  { word: 'Analytical',   note: 'Thoughtful — never robotic' },
+  { word: 'Passionate',   note: 'Spirited — never argumentative' },
+  { word: 'Genuine',      note: 'Authentic — never trivial' },
+  { word: 'Ambitious',    note: 'Confident — never arrogant' },
+];
+
+const stats = [
+  { value: '14', unit: '',   label: 'Brand colors' },
+  { value: '28', unit: '',   label: 'Type styles' },
+  { value: '55', unit: '',   label: 'Custom icons' },
+  { value: '16', unit: '',   label: 'Quality gates' },
+];
+
+const palette = [
+  { name: 'Solidigm Purple', hex: '#4F00B5', bg: '#4f00b5', text: '#fff', note: 'Lead — always first' },
+  { name: 'Ultra Dark Purple', hex: '#160231', bg: '#160231', text: '#fff', note: 'Brand dark backgrounds' },
+  { name: 'Dark Blue', hex: '#00083F', bg: '#00083f', text: '#fff', note: 'Depth, overlays' },
+  { name: 'Light Purple', hex: '#8D59CF', bg: '#8d59cf', text: '#fff', note: 'Tonal depth' },
+  { name: 'Dark Grey', hex: '#21201F', bg: '#21201f', text: '#fff', note: 'Dark UI surfaces' },
+  { name: 'Electric Teal', hex: '#00FFEC', bg: '#00ffec', text: '#160231', note: 'Accent — sparingly' },
+];
+
+const icons = [
+  'achieve','agility','ascend','award-1','award-2',
+  'community','customer-inspired','cycle','desktop','download',
+  'drive','excellence','exchange','exploration','firmware',
+  'focus','folder','frame','globe','growth-1',
+  'hardware','invention','laptop','learning-1','learning-2',
+  'openness','operating-system','optimized-1','partner','partnership',
+  'performance-1','performance-2','personalization','power-1','quality',
+  'reliability','scroll','search','security','share',
+  'signal','speed','storage','switch','target',
+];
+
+const illustrations = [
+  { file: '25_solidigm_components_illustration_library_ssd.png',          label: 'SSD' },
+  { file: '25_solidigm_components_illustration_library_gpu.png',          label: 'GPU' },
+  { file: '25_solidigm_components_illustration_library_dpu.png',          label: 'DPU' },
+  { file: '25_solidigm_components_illustration_library_dram.png',         label: 'DRAM' },
+  { file: '25_solidigm_components_illustration_library_network.png',      label: 'Network' },
+  { file: '25_solidigm_components_illustration_library_storage_node.png', label: 'Storage Node' },
+];
 ---
-<BaseLayout title="Showcase" activeNav="home">
-  <section class="page-hero">
+
+<BaseLayout
+  title="Showcase — Brand in Motion"
+  description="The Solidigm design system expressed at its most powerful — colors, type, icons, and motion, fully dark."
+  activeNav="home"
+>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       1. HERO
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-hero">
+    <div class="sc-hero__bg" aria-hidden="true"></div>
+    <div class="container sc-hero__inner">
+      <p class="sc-eyebrow">Brand Showcase · Solidigm Design System</p>
+      <h1 class="sc-hero__headline">
+        Design<br/>with<br/>purpose.
+      </h1>
+      <p class="sc-hero__sub">
+        Every pixel, token, and decision traces back to one source of truth.<br/>
+        This is the brand at full expression.
+      </p>
+      <div class="sc-hero__ctas">
+        <a href="/tokens" class="btn btn--on-dark">Explore tokens</a>
+        <a href="/toolkit" class="btn btn--ghost">Browse toolkit</a>
+      </div>
+    </div>
+    <!-- S mark watermark -->
+    <svg class="sc-hero__mark" xmlns="http://www.w3.org/2000/svg" viewBox="30 358 406 366" aria-hidden="true" focusable="false">
+      <polygon fill="currentColor" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+      <polygon fill="currentColor" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+    </svg>
+    <!-- Brand angle accent bar -->
+    <div class="sc-hero__angle" aria-hidden="true"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       2. MISSION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-mission">
     <div class="container">
-      <span class="eyebrow">Showcase</span>
-      <h1 class="page-hero__title">Real examples.</h1>
-      <p class="page-hero__lede">
-        Every surface on this very site is built with the Solidigm Design System. The best
-        proof is the site you're reading.
+      <p class="sc-eyebrow sc-eyebrow--teal">Who we are</p>
+      <blockquote class="sc-mission__quote">
+        Unlock data's virtually unlimited potential through advancements in storage technology.
+      </blockquote>
+      <p class="sc-mission__sub">
+        From solid + paradigm — Solidigm™ (思得). The Seasoned Challenger.
+        Confident experts who are genuinely excited about solving the hardest problems in storage.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <!-- ═══════════════════════════════════════════════════════════════
+       3. BRAND VALUES
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-values">
     <div class="container">
-      <SectionHeader
-        eyebrow="Self-referential"
-        title="This site eats its own dog food."
-        lede="No custom CSS snowflakes, no hardcoded colors, no one-off fonts. Every pixel traces back to a token."
-      />
-      <div class="grid grid--2">
-        <div class="card">
-          <h3 style="margin:0 0 var(--space-2); font-size:var(--fluid-h5);">What you see</h3>
-          <ul class="text-small muted" style="padding-left:var(--space-4);">
-            <li>Hero typography: <code>DT Hero</code>, <code>DT Headline 1</code></li>
-            <li>All purples: <code>--solidigm-purple</code>, <code>--ultra-dark-purple</code></li>
-            <li>Spacing: <code>--space-*</code> 4pt scale</li>
-            <li>Buttons: <code>.btn--primary</code>, <code>.tk-btn</code> from the toolkit</li>
-            <li>Corners: <code>--border-radius-sm: 0</code> — always square</li>
-          </ul>
+      <p class="sc-eyebrow sc-eyebrow--teal">Six values</p>
+      <h2 class="sc-section-title">The character behind the brand.</h2>
+      <div class="sc-values__grid">
+        {values.map((v) => (
+          <div class="sc-value-card">
+            <img
+              src={`/assets/icons/${v.icon}.svg`}
+              alt=""
+              width="40"
+              height="40"
+              class="sc-value-card__icon"
+            />
+            <strong class="sc-value-card__word">{v.word}</strong>
+            <span class="sc-value-card__sub">{v.sub}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       4. COLOR PALETTE
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-color">
+    <div class="container">
+      <p class="sc-eyebrow sc-eyebrow--teal">Color</p>
+      <h2 class="sc-section-title">Lead with purple. Always.</h2>
+      <p class="sc-section-lede">
+        Solidigm Purple is the brand. Every other color exists to support it —
+        depth, contrast, and moments of energy.
+      </p>
+    </div>
+    <!-- brand-audit:exempt -->
+    <div class="sc-palette">
+      {palette.map((c) => (
+        <div class="sc-palette__band" style={`background: ${c.bg};`}>
+          <div class="sc-palette__info">
+            <span class="sc-palette__name" style={`color: ${c.text};`}>{c.name}</span>
+            <span class="sc-palette__hex" style={`color: ${c.text}; opacity: 0.6;`}>{c.hex}</span>
+          </div>
+          <span class="sc-palette__note" style={`color: ${c.text}; opacity: 0.5;`}>{c.note}</span>
         </div>
-        <div class="card">
-          <h3 style="margin:0 0 var(--space-2); font-size:var(--fluid-h5);">What you don't see</h3>
-          <ul class="text-small muted" style="padding-left:var(--space-4);">
-            <li>Any hardcoded hex values</li>
-            <li>Any magic numbers for spacing</li>
-            <li>Any font beyond Sora</li>
-            <li>Any one-off breakpoint hacks</li>
-          </ul>
+      ))}
+    </div>
+    <!-- /brand-audit:exempt -->
+    <!-- Electric teal accent rule -->
+    <div class="sc-palette__rule" aria-hidden="true"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       5. TYPOGRAPHY
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-type">
+    <div class="container">
+      <p class="sc-eyebrow sc-eyebrow--teal">Typography · Sora</p>
+      <h2 class="sc-section-title">Weight is hierarchy.</h2>
+
+      <!-- Hero type specimen -->
+      <div class="sc-type__specimen">
+        <span class="sc-type__sample sc-type__sample--hero">Paradigm<br/>shift.</span>
+        <div class="sc-type__spec">
+          <span class="sc-type__spec-label">DT Hero · Sora ExtraLight 200 · 112px</span>
+          <span class="sc-type__spec-note">Headlines live here. Never bold mid-sentence. Weight and color create emphasis.</span>
+        </div>
+      </div>
+
+      <!-- Weight ramp -->
+      <div class="sc-type__weights">
+        {[
+          { w: 200, label: 'ExtraLight', use: 'Headlines & display' },
+          { w: 300, label: 'Light',      use: 'Body copy' },
+          { w: 400, label: 'Regular',    use: 'Secondary body' },
+          { w: 600, label: 'SemiBold',   use: 'Buttons, labels, eyebrows' },
+          { w: 700, label: 'Bold',       use: 'Breadcrumbs only' },
+        ].map(s => (
+          <div class="sc-type__weight-row">
+            <span class="sc-type__weight-sample" style={`font-weight: ${s.w};`}>Aa</span>
+            <div class="sc-type__weight-meta">
+              <strong class="sc-type__weight-name">{s.label} {s.w}</strong>
+              <span class="sc-type__weight-use">{s.use}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Rules callout -->
+      <div class="sc-type__rules">
+        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--electric-teal);">✓</span> Title Case for headlines</div>
+        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--electric-teal);">✓</span> Sentence case for long subheads</div>
+        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--color-semantic-error);">✕</span> ALL CAPS headlines — never</div>
+        <div class="sc-type__rule"><span class="sc-type__rule-mark" style="color:var(--color-semantic-error);">✕</span> Bold mid-sentence for emphasis — never</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       6. BRAND ANGLE
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-angle">
+    <div class="container">
+      <p class="sc-eyebrow sc-eyebrow--teal">The Brand Angle</p>
+      <h2 class="sc-section-title">45° and 90°. That's the DNA.</h2>
+      <p class="sc-section-lede">
+        The S mark is built from interlocking SSD shapes — geometric, precise, purposeful.
+        Those same angles generate every corner treatment, crop, and graphic motif in the system.
+      </p>
+    </div>
+    <div class="sc-angle__demo">
+      <!-- Large S mark -->
+      <div class="sc-angle__mark-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="30 358 406 366" class="sc-angle__mark" aria-label="Solidigm S mark" role="img">
+          <polygon fill="#4F00B5" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+          <polygon fill="#4F00B5" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+        </svg>
+      </div>
+      <!-- Angle tiles -->
+      <div class="sc-angle__tiles">
+        <div class="sc-angle__tile sc-angle__tile--a" aria-hidden="true"></div>
+        <div class="sc-angle__tile sc-angle__tile--b" aria-hidden="true"></div>
+        <div class="sc-angle__tile sc-angle__tile--c" aria-hidden="true"></div>
+        <div class="sc-angle__tile sc-angle__tile--d" aria-hidden="true"></div>
+      </div>
+      <!-- Rules -->
+      <div class="sc-angle__rules">
+        <div class="sc-angle__rule-item">
+          <span class="sc-angle__rule-num" style="color:#4f00b5;">45°</span>
+          <span class="sc-angle__rule-text">All diagonal cuts, crop angles, brand marks</span>
+        </div>
+        <div class="sc-angle__rule-item">
+          <span class="sc-angle__rule-num" style="color:#4f00b5;">90°</span>
+          <span class="sc-angle__rule-text">All containers, cards, buttons — sharp, never rounded</span>
+        </div>
+        <div class="sc-angle__rule-item">
+          <span class="sc-angle__rule-num" style="color:var(--color-semantic-error);">0</span>
+          <span class="sc-angle__rule-text">Border radius — the brand has no soft corners</span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section section--light">
+  <!-- ═══════════════════════════════════════════════════════════════
+       7. ICON LIBRARY
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-icons">
     <div class="container">
-      <SectionHeader
-        eyebrow="Before / After"
-        title="Consistency you can feel."
-        lede="Two versions of the same page. One ad-hoc, one on-system."
-      />
-      <div class="ba-showcase">
-        <!-- brand-audit:exempt -->
-        <div class="ba-mock ba-mock--before">
-          <div class="ba-mock__header">Before — ad-hoc</div>
-          <div style="padding:24px;">
-            <div style="font-family:Arial; font-size:28px; color:#5a00a0; font-weight:700;">Storage, done right</div>
-            <div style="font-family:Arial; font-size:13px; color:#333; margin-top:8px;">Lorem ipsum dolor sit amet.</div>
-            <button style="margin-top:14px; background:#6600cc; color:#fff; border:0; padding:10px 18px; border-radius:3px; font-family:Arial; font-size:13px;">CLICK HERE</button>
+      <p class="sc-eyebrow sc-eyebrow--teal">Iconography</p>
+      <h2 class="sc-section-title">{icons.length} icons. One geometry system.</h2>
+      <p class="sc-section-lede">
+        Every icon is built on 45° and 90° angles, single line weight, inside a 72px container.
+        No gradients, no fills, no emoji substitutes.
+      </p>
+      <div class="sc-icon-grid">
+        {icons.map((name) => (
+          <div class="sc-icon-item">
+            <img
+              src={`/assets/icons/${name}.svg`}
+              alt={name}
+              width="32"
+              height="32"
+              class="sc-icon-img"
+            />
+            <span class="sc-icon-label">{name}</span>
           </div>
-        </div>
-        <!-- /brand-audit:exempt -->
+        ))}
+      </div>
+    </div>
+  </section>
 
-        <div class="ba-mock ba-mock--after">
-          <div class="ba-mock__header">After — on-system</div>
-          <div style="padding:var(--space-6);">
-            <div style="font-weight:var(--font-weight-extralight); font-size:var(--fluid-h3); color:var(--ultra-dark-purple); line-height:1.1;">Storage, done right.</div>
-            <div style="font-weight:var(--font-weight-light); color:var(--medium-gray); margin-top:var(--space-3); line-height:1.5;">Unlock data's virtually unlimited potential through Solidigm storage.</div>
-            <button class="tk-btn tk-btn--primary" style="margin-top:var(--space-4);">Explore products</button>
+  <!-- ═══════════════════════════════════════════════════════════════
+       8. INFRASTRUCTURE ILLUSTRATIONS
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-infra">
+    <div class="container">
+      <p class="sc-eyebrow sc-eyebrow--teal">Illustration library</p>
+      <h2 class="sc-section-title">Built for what's next.</h2>
+      <p class="sc-section-lede">
+        22 infrastructure illustrations — SSD, GPU, DPU, and the full data center stack.
+        Same line-art DNA as the icon system.
+      </p>
+      <div class="sc-infra__grid">
+        {illustrations.map((il) => (
+          <div class="sc-infra__card">
+            <img
+              src={`/assets/illustrations/${il.file}`}
+              alt={il.label}
+              class="sc-infra__img"
+            />
+            <span class="sc-infra__label">{il.label}</span>
           </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       9. NUMBERS (stat band — solidigm.com style)
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-stats">
+    <div class="sc-stats__accent" aria-hidden="true"></div>
+    <div class="container">
+      <h2 class="sc-section-title" style="max-width:720px;">
+        One system. Zero compromises.
+      </h2>
+      <div class="sc-stats__grid">
+        {stats.map((s) => (
+          <div class="sc-stat">
+            <div class="sc-stat__value">
+              {s.value}<span class="sc-stat__unit" style="color:var(--electric-teal);">{s.unit}</span>
+            </div>
+            <div class="sc-stat__label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       10. VOICE & TONE
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-voice">
+    <div class="container">
+      <p class="sc-eyebrow sc-eyebrow--teal">Voice & Tone</p>
+      <h2 class="sc-section-title">The Seasoned Challenger.</h2>
+      <p class="sc-section-lede">
+        Every headline, button label, and error message should sound like the same brand.
+        Confident. Expert. Genuinely interested in solving the reader's problem.
+      </p>
+      <div class="sc-voice__grid">
+        {voice.map((v) => (
+          <div class="sc-voice__card">
+            <strong class="sc-voice__word">{v.word}</strong>
+            <span class="sc-voice__note">{v.note}</span>
+          </div>
+        ))}
+      </div>
+      <!-- Do / Don't -->
+      <div class="sc-voice__example">
+        <div class="sc-voice__eg sc-voice__eg--do">
+          <span class="sc-voice__eg-label" style="color:var(--electric-teal);">Do</span>
+          <p class="sc-voice__eg-text">"We see current limitations as future opportunities."</p>
+        </div>
+        <div class="sc-voice__eg sc-voice__eg--dont">
+          <span class="sc-voice__eg-label" style="color:var(--color-semantic-error);">Don't</span>
+          <p class="sc-voice__eg-text">"Our industry-leading, best-in-class, cutting-edge solutions leverage synergies."</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section section--purple">
-    <div class="container" style="text-align:center;">
-      <h2 class="section-title">Ready to build on-brand?</h2>
-      <p class="section-lede" style="margin: 0 auto var(--space-8, 32px);">
-        The system is live, documented, and enforced. Your turn.
+  <!-- ═══════════════════════════════════════════════════════════════
+       11. MOTION PRINCIPLES
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-motion">
+    <div class="container">
+      <p class="sc-eyebrow sc-eyebrow--teal">Motion</p>
+      <h2 class="sc-section-title">Restrained. Purposeful. Never playful.</h2>
+      <div class="sc-motion__grid">
+        <div class="sc-motion__card">
+          <div class="sc-motion__demo sc-motion__demo--fast"></div>
+          <strong class="sc-motion__name">Fast · 120ms</strong>
+          <span class="sc-motion__use">State changes, hover</span>
+        </div>
+        <div class="sc-motion__card">
+          <div class="sc-motion__demo sc-motion__demo--base"></div>
+          <strong class="sc-motion__name">Base · 200ms</strong>
+          <span class="sc-motion__use">Most transitions</span>
+        </div>
+        <div class="sc-motion__card">
+          <div class="sc-motion__demo sc-motion__demo--slow"></div>
+          <strong class="sc-motion__name">Slow · 320ms</strong>
+          <span class="sc-motion__use">Reveals, overlays</span>
+        </div>
+        <div class="sc-motion__card sc-motion__card--rule">
+          <span class="sc-motion__no" style="color:var(--color-semantic-error);">No bouncy springs.</span>
+          <span class="sc-motion__no" style="color:var(--color-semantic-error);">No confetti.</span>
+          <span class="sc-motion__no" style="color:var(--color-semantic-error);">No elaborate entrances.</span>
+          <span class="sc-motion__yes" style="color:var(--electric-teal);">Standard ease. Linear reveals. Respect for reduced-motion.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       12. CTA
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="sc-cta">
+    <div class="sc-cta__angle" aria-hidden="true"></div>
+    <div class="container" style="text-align:center; position:relative; z-index:2;">
+      <p class="sc-eyebrow sc-eyebrow--teal">Start building</p>
+      <h2 class="sc-section-title" style="font-size:clamp(36px,5vw,80px);">
+        Ready to ship on-brand?
+      </h2>
+      <p class="sc-section-lede" style="margin: 0 auto var(--space-8); text-align:center;">
+        The tokens are live. The toolkit is ready. The rules are documented.<br/>
+        Your turn.
       </p>
-      <div style="display:inline-flex; gap:var(--space-4); flex-wrap:wrap; justify-content:center;">
+      <div class="sc-cta__buttons">
         <a href="/tokens/usage" class="btn btn--on-dark">Install the tokens</a>
-        <a href="/toolkit" class="btn btn--ghost">Use the toolkit</a>
-        <a href="https://github.com/solidigm/ai-brand-context" class="btn btn--ghost">View the source ↗</a>
+        <a href="/toolkit/components" class="btn btn--ghost">Browse components</a>
+        <a href="/brand" class="btn btn--ghost">Brand guidelines</a>
       </div>
     </div>
+    <!-- Large S mark background -->
+    <svg class="sc-cta__mark" xmlns="http://www.w3.org/2000/svg" viewBox="30 358 406 366" aria-hidden="true" focusable="false">
+      <polygon fill="currentColor" points="170.83,362.38 34.41,498.81 34.41,584.28 77.4,627.28 246.85,627.28 324.57,549.56 324.57,505.06 233.81,595.81 65.87,595.81 65.87,511.84 183.86,393.85 324.57,393.85 324.57,362.38"/>
+      <polygon fill="currentColor" points="217.95,452.72 140.24,530.44 140.24,574.94 230.99,484.19 398.93,484.19 398.93,568.16 280.94,686.15 140.24,686.15 140.24,717.62 293.97,717.62 430.4,581.19 430.4,495.72 387.4,452.72"/>
+    </svg>
   </section>
+
 </BaseLayout>
 
 <style>
-.ba-showcase {
+/* ══════════════════════════════════════════════════════════
+   SHARED TOKENS (all sections are dark)
+══════════════════════════════════════════════════════════ */
+.sc-eyebrow {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: var(--space-4);
+  display: block;
+}
+.sc-eyebrow--teal { color: var(--electric-teal); }
+
+.sc-section-title {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: clamp(32px, 4.5vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0 0 var(--space-5);
+}
+
+.sc-section-lede {
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: var(--font-weight-light);
+  line-height: 1.6;
+  color: rgba(255,255,255,0.65);
+  max-width: 680px;
+  margin-bottom: var(--space-10);
+}
+
+/* ══════════════════════════════════════════════════════════
+   1. HERO
+══════════════════════════════════════════════════════════ */
+.sc-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  background: #0c0120;
+  overflow: hidden;
+  padding: var(--space-16) 0;
+}
+.sc-hero__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 1000px 700px at 80% 110%, rgba(79,0,181,0.6) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 400px at 10% -10%, rgba(141,89,207,0.2) 0%, transparent 55%);
+  pointer-events: none;
+}
+.sc-hero__inner {
+  position: relative;
+  z-index: 2;
+}
+.sc-hero__headline {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: clamp(72px, 12vw, 160px);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin: 0 0 var(--space-8);
+}
+.sc-hero__sub {
+  font-size: clamp(16px, 1.5vw, 22px);
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.65);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: var(--space-10);
+}
+.sc-hero__ctas {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.sc-hero__mark {
+  position: absolute;
+  right: -80px;
+  bottom: -100px;
+  width: 55vw;
+  max-width: 700px;
+  color: rgba(79,0,181,0.18);
+  pointer-events: none;
+  z-index: 1;
+}
+.sc-hero__angle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--solidigm-purple) 0%, var(--electric-teal) 100%);
+}
+
+/* ══════════════════════════════════════════════════════════
+   2. MISSION
+══════════════════════════════════════════════════════════ */
+.sc-mission {
+  background: var(--ultra-dark-purple);
+  padding: var(--space-16) 0;
+  border-left: 8px solid var(--solidigm-purple);
+}
+.sc-mission__quote {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: clamp(28px, 4vw, 56px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #fff;
+  border: 0;
+  padding: 0;
+  margin: 0 0 var(--space-6);
+  max-width: 900px;
+}
+.sc-mission__sub {
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.55);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════════════════════
+   3. VALUES
+══════════════════════════════════════════════════════════ */
+.sc-values {
+  background: var(--dark-blue);
+  padding: var(--space-16) 0;
+}
+.sc-values__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.sc-value-card {
+  background: var(--dark-blue);
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: background var(--dur-base) var(--ease-standard);
+}
+.sc-value-card:hover { background: rgba(79,0,181,0.2); }
+.sc-value-card__icon {
+  filter: brightness(0) invert(1);
+  width: 36px;
+  height: 36px;
+  opacity: 0.9;
+}
+.sc-value-card__word {
+  font-size: var(--fluid-h5);
+  font-weight: var(--font-weight-extralight);
+  color: #fff;
+}
+.sc-value-card__sub {
+  font-size: 13px;
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════════════════
+   4. COLOR PALETTE
+══════════════════════════════════════════════════════════ */
+.sc-color {
+  background: #000;
+  padding: var(--space-16) 0 0;
+}
+.sc-palette {
+  margin-top: var(--space-10);
+  display: flex;
+  flex-direction: column;
+}
+.sc-palette__band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-6) var(--space-8);
+  transition: padding var(--dur-base) var(--ease-standard);
+  min-height: 80px;
+}
+.sc-palette__band:hover { padding-left: var(--space-10); }
+.sc-palette__info {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+.sc-palette__name {
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: var(--font-weight-extralight);
+}
+.sc-palette__hex {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+.sc-palette__note {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.sc-palette__rule {
+  height: 4px;
+  background: linear-gradient(90deg, var(--solidigm-purple), var(--electric-teal));
+}
+
+/* ══════════════════════════════════════════════════════════
+   5. TYPOGRAPHY
+══════════════════════════════════════════════════════════ */
+.sc-type {
+  background: var(--ultra-dark-purple);
+  padding: var(--space-16) 0;
+}
+.sc-type__specimen {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-8);
+  align-items: end;
+  margin-bottom: var(--space-12);
+  padding-bottom: var(--space-10);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+@media (max-width: 767px) { .sc-type__specimen { grid-template-columns: 1fr; } }
+.sc-type__sample--hero {
+  font-family: var(--font-family-primary);
+  font-weight: 200;
+  font-size: clamp(64px, 10vw, 140px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: #fff;
+  display: block;
+}
+.sc-type__spec-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--electric-teal);
+  margin-bottom: var(--space-3);
+}
+.sc-type__spec-note {
+  font-size: 13px;
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+}
+.sc-type__weights {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: var(--space-10);
+}
+.sc-type__weight-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  background: var(--ultra-dark-purple);
+  padding: var(--space-4) var(--space-5);
+  transition: background var(--dur-fast);
+}
+.sc-type__weight-row:hover { background: rgba(79,0,181,0.2); }
+.sc-type__weight-sample {
+  font-family: var(--font-family-primary);
+  font-size: 48px;
+  color: #fff;
+  line-height: 1;
+  width: 80px;
+  flex-shrink: 0;
+}
+.sc-type__weight-name {
+  font-size: 14px;
+  color: #fff;
+  display: block;
+  font-weight: var(--font-weight-regular);
+}
+.sc-type__weight-use {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+}
+.sc-type__rules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+.sc-type__rule {
+  font-size: 13px;
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.65);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.sc-type__rule-mark { font-weight: 700; flex-shrink: 0; }
+
+/* ══════════════════════════════════════════════════════════
+   6. BRAND ANGLE
+══════════════════════════════════════════════════════════ */
+.sc-angle {
+  background: #000;
+  padding: var(--space-16) 0;
+}
+.sc-angle__demo {
+  margin-top: var(--space-10);
+  display: grid;
+  grid-template-columns: 240px 1fr 280px;
+  gap: var(--space-8);
+  align-items: center;
+}
+@media (max-width: 900px) { .sc-angle__demo { grid-template-columns: 1fr; } }
+.sc-angle__mark-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sc-angle__mark { width: 200px; height: auto; display: block; }
+.sc-angle__tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--space-2);
+  aspect-ratio: 1;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.sc-angle__tile {
+  background: rgba(79,0,181,0.3);
+  transition: background var(--dur-base);
+}
+.sc-angle__tile:hover { background: rgba(79,0,181,0.6); }
+.sc-angle__tile--a { clip-path: polygon(0 0, 100% 0, 100% 100%, 60px 100%, 0 calc(100% - 60px)); }
+.sc-angle__tile--b { clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%); }
+.sc-angle__tile--c { background: rgba(141,89,207,0.25); }
+.sc-angle__tile--d { clip-path: polygon(60px 0, 100% 0, 100% 100%, 0 100%, 0 60px); background: rgba(79,0,181,0.5); }
+.sc-angle__rules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.sc-angle__rule-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-left: 3px solid rgba(79,0,181,0.4);
+}
+.sc-angle__rule-num {
+  font-size: 32px;
+  font-weight: var(--font-weight-extralight);
+  font-family: var(--font-family-primary);
+  line-height: 1;
+}
+.sc-angle__rule-text {
+  font-size: 13px;
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.55);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════════════════
+   7. ICON LIBRARY
+══════════════════════════════════════════════════════════ */
+.sc-icons {
+  background: var(--dark-blue);
+  padding: var(--space-16) 0;
+}
+.sc-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-top: var(--space-8);
+}
+.sc-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-2);
+  background: var(--dark-blue);
+  transition: background var(--dur-fast);
+}
+.sc-icon-item:hover { background: rgba(79,0,181,0.3); }
+.sc-icon-img {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+.sc-icon-item:hover .sc-icon-img { opacity: 1; }
+.sc-icon-label {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ══════════════════════════════════════════════════════════
+   8. ILLUSTRATIONS
+══════════════════════════════════════════════════════════ */
+.sc-infra {
+  background: var(--ultra-dark-purple);
+  padding: var(--space-16) 0;
+}
+.sc-infra__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+.sc-infra__card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: var(--space-8) var(--space-6) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  transition: border-color var(--dur-base), background var(--dur-base);
+}
+.sc-infra__card:hover {
+  border-color: rgba(79,0,181,0.5);
+  background: rgba(79,0,181,0.08);
+}
+.sc-infra__img {
+  width: 100%;
+  max-height: 140px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+}
+.sc-infra__label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ══════════════════════════════════════════════════════════
+   9. STATS
+══════════════════════════════════════════════════════════ */
+.sc-stats {
+  background: linear-gradient(180deg, #000 0%, var(--ultra-dark-purple) 100%);
+  padding: var(--space-16) 0;
+  position: relative;
+  overflow: hidden;
+}
+.sc-stats__accent {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 6px;
+  background: var(--solidigm-purple);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 80px), 0 100%);
+}
+.sc-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-10);
+}
+.sc-stat__value {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: clamp(64px, 8vw, 120px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+.sc-stat__label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ══════════════════════════════════════════════════════════
+   10. VOICE
+══════════════════════════════════════════════════════════ */
+.sc-voice {
+  background: var(--dark-blue);
+  padding: var(--space-16) 0;
+}
+.sc-voice__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  margin-bottom: var(--space-10);
+}
+.sc-voice__card {
+  background: var(--dark-blue);
+  padding: var(--space-8) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: background var(--dur-base);
+}
+.sc-voice__card:hover { background: rgba(79,0,181,0.25); }
+.sc-voice__word {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-extralight);
+  font-size: clamp(24px, 3vw, 40px);
+  color: #fff;
+  line-height: 1;
+  display: block;
+}
+.sc-voice__note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  font-weight: var(--font-weight-light);
+  line-height: 1.4;
+}
+.sc-voice__example {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-5);
 }
-@media (max-width: 767px) { .ba-showcase { grid-template-columns: 1fr; } }
-.ba-mock {
-  overflow: hidden;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: var(--color-neutral-0);
+@media (max-width: 640px) { .sc-voice__example { grid-template-columns: 1fr; } }
+.sc-voice__eg {
+  padding: var(--space-6);
+  border-left: 3px solid rgba(255,255,255,0.1);
 }
-.ba-mock__header {
-  padding: var(--space-2) var(--space-4);
+.sc-voice__eg--do { border-left-color: var(--electric-teal); }
+.sc-voice__eg--dont { border-left-color: #ba3640; }
+.sc-voice__eg-label {
+  display: block;
   font-size: 10px;
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-neutral-0);
+  margin-bottom: var(--space-3);
 }
-.ba-mock--before .ba-mock__header { background: var(--color-semantic-error); }
-.ba-mock--after .ba-mock__header { background: #187e7b; }
+.sc-voice__eg-text {
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: var(--font-weight-light);
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════════════
+   11. MOTION
+══════════════════════════════════════════════════════════ */
+.sc-motion {
+  background: #000;
+  padding: var(--space-16) 0;
+}
+.sc-motion__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+.sc-motion__card {
+  padding: var(--space-6);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.sc-motion__demo {
+  height: 4px;
+  background: var(--solidigm-purple);
+  width: 0%;
+  animation: motion-bar 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.sc-motion__demo--fast  { animation-duration: 0.8s; }
+.sc-motion__demo--base  { animation-duration: 1.2s; }
+.sc-motion__demo--slow  { animation-duration: 1.8s; }
+@keyframes motion-bar {
+  0%   { width: 0%; opacity: 1; }
+  80%  { width: 100%; opacity: 1; }
+  100% { width: 100%; opacity: 0; }
+}
+.sc-motion__name {
+  font-size: 14px;
+  color: #fff;
+  font-weight: var(--font-weight-regular);
+}
+.sc-motion__use {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+.sc-motion__card--rule {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  justify-content: center;
+}
+.sc-motion__no, .sc-motion__yes {
+  font-size: 13px;
+  font-weight: var(--font-weight-light);
+  line-height: 1.4;
+}
+
+/* ══════════════════════════════════════════════════════════
+   12. CTA
+══════════════════════════════════════════════════════════ */
+.sc-cta {
+  background: var(--ultra-dark-purple);
+  padding: var(--space-16) 0;
+  position: relative;
+  overflow: hidden;
+}
+.sc-cta__angle {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--electric-teal), var(--solidigm-purple));
+}
+.sc-cta__buttons {
+  display: inline-flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.sc-cta__mark {
+  position: absolute;
+  right: -120px;
+  bottom: -80px;
+  width: 500px;
+  color: rgba(79,0,181,0.1);
+  pointer-events: none;
+}
 </style>
