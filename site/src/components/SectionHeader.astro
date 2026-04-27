@@ -8,10 +8,27 @@ interface Props {
 }
 const { eyebrow, title, lede, align = 'left', theme = 'light' } = Astro.props;
 ---
-<div style={`text-align: ${align}; max-width: ${align === 'center' ? '780px' : '860px'}; margin: ${align === 'center' ? '0 auto' : '0'}; margin-bottom: var(--space-10, 48px);`}>
+<div class={`section-header${align === 'center' ? ' section-header--center' : ''}`}>
   {eyebrow && (
     <span class={`eyebrow ${theme !== 'light' ? 'eyebrow--dark' : ''}`}>{eyebrow}</span>
   )}
   <h2 class="section-title">{title}</h2>
-  {lede && <p class="section-lede" style={align === 'center' ? 'margin-left: auto; margin-right: auto;' : ''}>{lede}</p>}
+  {lede && <p class="section-lede">{lede}</p>}
 </div>
+
+<style>
+.section-header {
+  max-width: 860px;
+  margin-bottom: var(--space-10);
+}
+.section-header--center {
+  text-align: center;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-header--center .section-lede {
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

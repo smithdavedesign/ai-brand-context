@@ -88,6 +88,17 @@ python scripts/smoke_test.py
 | `get_brand_system_prompt` | Drop-in system prompt for brand-aware LLM calls |
 | `validate_brand_output` | Verify generated copy/markup passes brand quality gates |
 
+## Prompts exposed
+
+MCP Prompts are pre-built workflows that agents can discover and invoke. They chain tools together for common brand tasks.
+
+| Prompt | Description |
+|--------|-------------|
+| `brand_check` | Validate any content string against all 16 quality gates — returns pass/fail with per-gate detail |
+| `generate_brand_compliant_copy` | Full composer flow: fetch context → build system prompt → generate → validate |
+| `audit_built_site` | Invoke the brand-compliance Skill against `site/dist/` — equivalent to running the audit script |
+| `propose_color` | Fuzzy color lookup with disambiguation — returns the best match + WCAG contrast info |
+
 ## Resources exposed
 
 | URI | Content |
@@ -100,6 +111,25 @@ python scripts/smoke_test.py
 | `brand://guidelines/main` | `docs/brand-guidelines.md` |
 | `brand://toolkit/css` | `docs/ui-toolkit.min.css` |
 | `brand://assets/manifest` | Walk of `site/public/assets/` with parsed metadata |
+
+## SharePoint — optional
+
+SharePoint integration requires the `.env` setup in the prerequisites section. **Local assets work immediately without it** — logos, illustrations, icons, and docs in `site/public/assets/` are all served offline. SharePoint unlocks the full brand library (product renders, templates, photography) but is not required to run the server.
+
+## Telemetry — opt-in
+
+The server includes JSONL telemetry to track which tools, colors, and assets are actually used.
+
+```bash
+# Enable in .env
+BRAND_MCP_TELEMETRY_ENABLED=1        # default: 0 (off)
+BRAND_MCP_TELEMETRY_RETENTION_DAYS=30  # default: 30
+```
+
+- Logs rotate daily under `brand_mcp/telemetry/`
+- Format: one JSON object per line — `{ "ts", "tool", "args_summary", "duration_ms" }`
+- View aggregate stats: `GET /api/stats` (returns top tools, colors, assets by call count)
+- Files are `.gitignore`d — telemetry never leaves the host
 
 ## Wire into an MCP client
 
