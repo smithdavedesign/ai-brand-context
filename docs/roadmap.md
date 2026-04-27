@@ -97,7 +97,7 @@ Status key: `[x]` complete · `[~]` in progress · `[ ]` not started · `[!]` ne
 - [x] Tool: `get_brand_context(platform?, task?)` — scoped brand context
 - [x] Tool: `validate_brand_output(content, platform?)` — pass/fail quality gates
 - [x] Tool: `get_brand_system_prompt(platform?, include_design_rules?)` — pre-built system prompt
-- [x] All 10 tools registered and smoke tested locally
+- [x] All 15 tools registered and smoke tested locally
 - [x] CI workflow updated for new modules and tool assertions
 
 ---
@@ -109,7 +109,7 @@ Status key: `[x]` complete · `[~]` in progress · `[ ]` not started · `[!]` ne
 - [x] `.github/prompts/brand-check.prompt.md` — `/brand-check <target>` single-shot validator
 - [x] `.github/skills/brand-compliance/SKILL.md` + `scripts/audit-pages.mjs` — full site audit workflow
 - [x] New HTTP route `POST /api/validate` on the MCP server (wraps `validate_brand_output`)
-- [x] First full site audit executed — **site grade B** (11/16 pages A+); report at `docs/brand-audit-2026-04-23.md`
+- [x] First full site audit executed — **site grade B** (11/16 pages A+)
 - [x] README + architecture diagram refreshed to show the Skill layer
 - [x] `sharepoint-mcp-handoff/` removed (twins verified)
 
@@ -155,7 +155,7 @@ which tools/colors/components are actually used.
 
 - [x] `brand_mcp/utils/telemetry.py` — JSONL logger with daily rotation
 - [x] Env flag: `BRAND_MCP_TELEMETRY_ENABLED=1` (default off — privacy)
-- [x] Instrument all 10 tools at registration time
+- [x] Instrument all 15 tools at registration time
 - [x] `GET /api/stats` route — aggregates last 30 days
 - [x] `site/src/pages/admin/stats.astro` — top-tools / top-colors tables + headline metrics
 - [ ] Document the data model + retention in `brand_mcp/README.md` _(pending — small doc add)_

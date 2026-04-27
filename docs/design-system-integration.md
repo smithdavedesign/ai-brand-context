@@ -22,7 +22,7 @@ this doc (not `_archive/figma-token-diff.md`).
   • Dotcom 3.0 file        • Live, themed UI        • Tokens (W3C DTCG)
   • Design System 3.0      • Used by solidigm.com   • Brand guidelines
     component library      • Protected URL          • UI toolkit CSS
-  • Figma variables        • Stack: corporate       • MCP server (10 tools)
+  • Figma variables        • Stack: corporate       • MCP server (15 tools)
     drive published                                 • Astro docs site
     tokens
 

@@ -33,6 +33,11 @@ modernizes legacy Bootstrap defaults (576→640, 992→1024) per audit evidence.
 
 ---
 
+> **Note:** Everything below is preserved as historical context. All priorities
+> and implementation phases were completed in Phase 10. Actual file names differ
+> from the proposals below (e.g. `space.json` not `spacing.json`, `radius.json`
+> not `radii.json`). See `tokens/` for the canonical files.
+
 ## Priority 1 — Spacing tokens
 
 **Source:** Section 01 (DT + MB Grid) + Button/Link padding + Form Field layout.

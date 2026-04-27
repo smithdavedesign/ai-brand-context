@@ -12,7 +12,7 @@ Map of every document in `docs/`. Start here.
 | [`design-system-integration.md`](./design-system-integration.md) | How this repo maps to the Solidigm Storybook + Figma 3.0 component library |
 | [`one-stop-shop-brand-system.md`](./one-stop-shop-brand-system.md) | Full essay: why a modern brand belongs in one repo |
 | [`one-stop-shop-brand-system.exec.md`](./one-stop-shop-brand-system.exec.md) | One-page TL;DR of the essay |
-| [`figma-variable-audit-2025-04-25.md`](./figma-variable-audit-2025-04-25.md) | Live Figma MCP audit: variables, color comparison, gap analysis |
+| [`figma-variable-audit-2026-04-25.md`](./figma-variable-audit-2026-04-25.md) | Live Figma MCP audit: variables, color comparison, gap analysis |
 | [`token-expansion-strategy.md`](./token-expansion-strategy.md) | Token expansion plan — all 10 categories now implemented (Phase 10) |
 | [`storybook-scss-audit.md`](./storybook-scss-audit.md) | SCSS audit of Storybook source — evidence base for tokens/space, breakpoints |
 | [`aem-vs-storybook-audit.md`](./aem-vs-storybook-audit.md) | Cross-repo audit comparing AEM and Storybook implementations |

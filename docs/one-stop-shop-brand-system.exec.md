@@ -18,7 +18,7 @@ A modern brand system is **a codebase, not a document library.** Inside it, six 
 | 2 | **Toolkit** | CSS utilities & components built from tokens | Web engineers |
 | 3 | **Assets** | Logos, illustrations, iconography | Designers, marketers, partners |
 | 4 | **Guidelines** | Topic-scoped markdown (voice, logo, color, do-nots) | Humans, LLMs, brand briefs |
-| 5 | **MCP** | Unified API — 10 tools, one URL | AI agents, site, internal tools |
+| 5 | **MCP** | Unified API — 15 tools, 8 resources, 4 prompts | AI agents, site, internal tools |
 | 6 | **Skills** | On-demand workflows (audit, validate, system prompt) | Every developer, every CI run, every LLM |
 
 Each outer layer is built from the ones beneath it. **One PR to layer 1 propagates to all six.**
@@ -46,7 +46,7 @@ AI agents are a first-class consumer, not a bolt-on.
 - **Toolkit** — CSS utility library (`tk-*` classes), consumed by the site
 - **Assets** — 87 local + 373 SharePoint files, federated through one manifest
 - **Guidelines** — 11 topic markdown files under `brand/`, 16 quality gates in YAML
-- **MCP** — 10 tools, 5 resources, 3 HTTP routes — Python FastMCP on `:8080`
+- **MCP** — 15 tools, 8 resources, 4 prompts, 7 HTTP routes — Python FastMCP on `:8080`
 - **Skills** — `copilot-instructions.md` (always-on), `solidigm-brand.instructions.md` (scoped), `/brand-check` prompt, `brand-compliance` audit Skill
 - **Audit** — Current site grade: **B** (11/16 pages A+, 5 pages with 1-5 hex-palette violations, all on pages that intentionally display off-brand colors as examples)
 

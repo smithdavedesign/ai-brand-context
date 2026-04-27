@@ -135,6 +135,10 @@ npm run build
 | `/tokens/colors` | Live color swatches with WCAG badges |
 | `/tokens/typography` | Interactive type specimen (Desktop/Mobile) |
 | `/tokens/spacing` | Spacing scale and grid specs |
+| `/tokens/breakpoints` | Responsive breakpoint scale |
+| `/tokens/elevation` | Elevation / shadow token scale |
+| `/tokens/motion` | Duration and easing tokens |
+| `/tokens/spacing` | Spacing scale and grid specs |
 | `/tokens/usage` | Install and integration guide |
 | `/toolkit` | UI toolkit overview |
 | `/toolkit/foundations` | Typography, color, and spacing utilities |
@@ -145,6 +149,7 @@ npm run build
 | `/usage` | Audience-tabbed guide (Designers/Engineers/Business) |
 | `/governance` | Contribution, versioning, and ownership |
 | `/showcase` | Before/after proof the site eats its own dog food |
+| `/admin/stats` | Telemetry dashboard (tool call analytics) |
 
 ### Brand Assets
 

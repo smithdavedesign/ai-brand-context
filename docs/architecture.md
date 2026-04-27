@@ -27,8 +27,8 @@ flowchart TB
         direction TB
         tokensSrc["tokens/*.json (10)<br/>W3C DTCG<br/>colors · typography · space<br/>breakpoints · radius · shape<br/>motion · elevation · semantic · icons"]
         brandSrc["brand/<br/>*.md · colors.json<br/>quality-gates.yaml<br/>platforms/"]
-        guidelinesSrc["docs/brand-guidelines.md"]
-        toolkitSrc["docs/ui-toolkit.min.css"]
+        guidelinesSrc["brand/*.md<br/>topic guidelines"]
+        toolkitSrc["site/public/<br/>ui-toolkit.min.css"]
         localAssets["site/public/assets/<br/>logos · illustrations · docs"]
         sharepointSrc[("SharePoint<br/>Brand Library")]
     end
@@ -52,17 +52,17 @@ flowchart TB
     %% -------------------- MCP Server --------------------
     subgraph MCP["🧠 Solidigm Brand MCP (Python · FastMCP)"]
         direction TB
-        mcpTools["Tools (14)<br/>get_design_tokens · get_color<br/>get_spacing · get_breakpoints<br/>get_motion · get_icon<br/>get_brand_guidelines · get_ui_toolkit_class<br/>list_assets · get_asset · get_logo<br/>search_brand_source_documents<br/><b>get_brand_context</b> · <b>get_brand_system_prompt</b><br/><b>validate_brand_output</b>"]
+        mcpTools["Tools (15)<br/>get_design_tokens · get_color<br/>get_spacing · get_breakpoints<br/>get_motion · get_icon<br/>get_brand_guidelines · get_ui_toolkit_class<br/>list_assets · get_asset · get_logo<br/>search_brand_source_documents<br/><b>get_brand_context</b> · <b>get_brand_system_prompt</b><br/><b>validate_brand_output</b>"]
         mcpResources["Resources (8)<br/>brand://tokens/{colors,typography,space,motion,icons}<br/>brand://guidelines/main<br/>brand://toolkit/css<br/>brand://assets/manifest"]
         mcpComposer["Composer<br/>colors · context · prompts<br/>validation · assets · cache"]
-        mcpHttp["HTTP routes<br/>/mcp · /api/assets · /api/validate<br/>/api/health · /microsoft/authorize"]
+        mcpHttp["HTTP routes (7)<br/>/api/assets · /api/validate · /api/health<br/>/api/stats · /api/thumb<br/>/microsoft/authorize · /microsoft/callback"]
         graphClient["Graph API client<br/>OAuth2 PKCE + client credentials<br/>TTL cache · 429 retry"]
     end
 
     tokensSrc -.read.-> mcpTools
     brandSrc -.read.-> mcpComposer
     mcpComposer --> mcpTools
-    guidelinesSrc -.read.-> mcpTools
+    guidelinesSrc -.read.-> mcpComposer
     toolkitSrc -.read.-> mcpTools
     localAssets -.walk.-> mcpResources
     graphClient -->|Microsoft Graph| sharepointSrc
@@ -217,7 +217,7 @@ The MCP server's public URL is injected into the Astro build via the
 - `brand_mcp/server.py` — FastMCP app wiring tools, resources, and HTTP routes
 - `brand_mcp/composer/` — colors, context, prompts, validation, assets, cache
 - `brand_mcp/utils/m365_oauth.py` — Graph API client, OAuth flows
-- `brand_mcp/tools/brand.py` — 10 tool implementations
+- `brand_mcp/tools/brand.py` — tool implementations (tokens, guidelines, assets)
 - `.github/copilot-instructions.md` — always-on Copilot rules
 - `.github/instructions/solidigm-brand.instructions.md` — scoped file-instruction rules
 - `.github/prompts/brand-check.prompt.md` — `/brand-check` prompt
@@ -225,7 +225,7 @@ The MCP server's public URL is injected into the Astro build via the
 - `.vscode/mcp.json` — VS Code Copilot MCP registration
 - `site/src/pages/assets.astro` — browser asset-library UI
 - `tokens/*.json` — canonical design tokens (W3C DTCG)
-- `docs/brand-guidelines.md` — canonical brand guidelines (legacy, split across `brand/*.md`)
+- `brand/*.md` — canonical brand guidelines (voice, color, typography, logo, do-nots, etc.)
 
 ## Roadmap
 

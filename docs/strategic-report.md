@@ -50,7 +50,7 @@ what a 2026-era enterprise brand system should look like:
 | 2 | **Toolkit** | `tk-*` CSS utility classes, consumed by the site | **B+** | Works. Still hand-maintained as `docs/ui-toolkit.min.css`; should be compiled from tokens. (Already on the deferred list.) |
 | 3 | **Assets** | 87 local + ~373 SharePoint files, federated through one `list_assets` manifest with category inference, fuzzy `get_asset`, Graph thumbnail URLs, server-side proxy fallback | **A−** | Federation works. Cache pre-warming + Graph `$expand=thumbnails` is current best practice. Still missing write-back. |
 | 4 | **Guidelines** | 11 topic markdown files (`brand/*.md`), narrative split out of the 120-page PDF; 16 quality gates as YAML | **A** | Topic-scoped markdown is exactly the right shape for both human reading and LLM ingestion. Quality gates as YAML are durable. |
-| 5 | **MCP server** | 10 tools, 5 resources, 4 HTTP routes; Python FastMCP; OAuth client-credentials + delegated PKCE; cache pre-warm; CI smoke test | **A−** | This is the spine. Read-only by design. Not yet exposing the more advanced MCP primitives (Prompts, Sampling, Elicitation). |
+| 5 | **MCP server** | 15 tools, 8 resources, 4 prompts, 7 HTTP routes; Python FastMCP; OAuth client-credentials + delegated PKCE; cache pre-warm; CI smoke test | **A−** | This is the spine. Read-only by design. Prompts shipped (Phase 9); Sampling and Elicitation are future primitives. |
 | 6 | **Skill / agent layer** | `copilot-instructions.md` (always-on), scoped `instructions/*.md`, `/brand-check` prompt, `brand-compliance` audit Skill | **A−** | Every Copilot interaction in this repo is brand-grounded by default. Skill audit emits a graded markdown report. Could go further with auto-fix workflows. |
 
 **Overall stack grade: A−.** The bones are excellent. The gaps are mostly
@@ -83,15 +83,16 @@ for AI–system integration. The 2025-06 spec defines six core primitives:
 
 | Direction | Primitive | What it is | Solidigm status |
 |-----------|-----------|-----------|-----------------|
-| Server → Client | **Resources** | URIs the model can read | ✅ 5 (`brand://...`) |
-| Server → Client | **Tools** | Functions the model can call | ✅ 10 |
-| Server → Client | **Prompts** | Templated workflows the user can invoke | ❌ none yet |
+| Server → Client | **Resources** | URIs the model can read | ✅ 8 (`brand://tokens/*`, `brand://guidelines/*`, `brand://toolkit/*`, `brand://assets/*`) |
+| Server → Client | **Tools** | Functions the model can call | ✅ 15 |
+| Server → Client | **Prompts** | Templated workflows the user can invoke | ✅ 4 (`brand_check`, `generate_brand_compliant_copy`, `audit_built_site`, `propose_color`) |
 | Client → Server | **Sampling** | Server-initiated recursive LLM calls (e.g. for reasoning sub-tasks) | ❌ none |
 | Client → Server | **Roots** | Filesystem/URI boundaries the server may operate in | n/a (read-only) |
 | Client → Server | **Elicitation** | Server-initiated requests for user input mid-flow | ❌ none |
 
-We've shipped the lower half of that table. The upper half is where the next
-wave of differentiation lives — see §5.
+We've shipped the three server → client primitives. The remaining client → server
+primitives (Sampling, Elicitation) are where the next wave of differentiation
+lives — see §5.
 
 ### 3.2 What Figma did with their MCP server (June 2025)
 
@@ -166,10 +167,11 @@ Reading current Anthropic, OpenAI, GitHub, and Figma roadmaps + the MCP spec:
   generates a hero image with DALL·E or Midjourney, "is this on-brand?" is
   the first question. CLIP-style embedding similarity to the approved
   illustration set is becoming the standard answer. We don't have this.
-- **Token spaces explode.** Motion tokens, sound tokens, voice tokens (LLM
+- **Token spaces explode.** Sound tokens, voice tokens (LLM
   tone), and density tokens are all becoming part of the design system. We
-  have color + type. The schema is ready (DTCG); we just haven't filled in
-  the cells.
+  now have 10 categories (color, type, space, breakpoints, radius, shape,
+  motion, elevation, semantic, icons). The schema is ready (DTCG); remaining
+  gaps are sound, voice, and density.
 - **Telemetry is table stakes.** The next conversation in every brand-system
   team is "which tools are agents calling, which guidelines are getting
   cited, which rules are getting violated?". If we can't answer those, we
@@ -241,12 +243,14 @@ CLIP embeddings + a vector DB of approved imagery is the industry-standard
 answer. It's a 2-week build, not a 2-quarter build, and it punches well above
 its weight.
 
-### 4.5 No motion / voice / density tokens
+### 4.5 No voice / density tokens
 
-DTCG supports them. Our schema is ready. The narrative (`brand/`) doesn't
-yet have authoritative content for them, so we shouldn't fake tokens that
-don't exist. But this is a flag for the brand team: **the schema is waiting
-on the policy**, not the other way around.
+Motion tokens shipped in Phase 10 (10 categories total). Remaining gaps:
+voice tokens (LLM tone calibration) and density tokens. DTCG supports them;
+the schema is ready. The narrative (`brand/`) doesn't yet have authoritative
+content for them, so we shouldn't fake tokens that don't exist. This is a
+flag for the brand team: **the schema is waiting on the policy**, not the
+other way around.
 
 ### 4.6 Single-instance MCP, no Redis, no horizontal scale
 
@@ -279,72 +283,35 @@ ships" so we never let ambition outrun delivery.
 These are high-leverage, low-cost plays where the foundation already does
 80% of the work.
 
-#### N1. Add MCP **Prompts** (the missing primitive)
+#### N1. ~~Add MCP **Prompts**~~ ✅ Shipped (Phase 9)
 
-The MCP spec defines Prompts as templated workflows the user can invoke
-("/brand-check", "/generate-hero-copy", "/audit-this-page"). We have one
-prompt today (`/brand-check`); we should ship 4–6 more as MCP-native prompts
-so they're available across every MCP client (Claude, Cursor, ChatGPT), not
-just VS Code Copilot.
+Four prompts shipped as MCP `@mcp.prompt()`: `brand_check`,
+`generate_brand_compliant_copy`, `audit_built_site`, `propose_color`.
+Available across every MCP client.
 
-**SMV (Smallest Viable Version):** ship 4 prompts as MCP `@mcp.prompt()`:
-- `brand_check` — validate a snippet
-- `generate_brand_compliant_copy` — rewrite copy to match voice
-- `audit_built_site` — kick off the Skill audit
-- `propose_color` — agent-mediated suggestion of a new palette entry
+#### N2. ~~Implement **Code Connect for assets**~~ ✅ Shipped (Phase 9)
 
-**Why now:** zero infra cost, ~2 days of work, instantly multiplies adoption
-across non-VS-Code agents.
+Every asset record now includes `code_paths` — an array of every file in the
+repo that references it. Built by `scripts/build-asset-index.mjs`, consumed
+by the MCP's `_build_asset_record()` composer.
 
-#### N2. Implement **Code Connect for assets**
+#### N3. ~~Ship **telemetry behind a flag**~~ ✅ Shipped (Phase 9)
 
-Add a `code_path` field to every asset record returned by `list_assets`. For
-each local logo / illustration / icon, look up which Astro components and
-CSS classes reference it, and surface those paths. For SharePoint assets,
-emit `null` for now.
+JSONL telemetry logs every tool call. `GET /api/stats` aggregates last
+30 days. `/admin/stats` page visualizes top tools, colors, and headline
+metrics. Controlled by `BRAND_MCP_TELEMETRY_ENABLED=1` (default off).
 
-**SMV:** a `scripts/build-asset-index.mjs` that greps `site/src/` and
-`docs/ui-toolkit.min.css` for references, dumps to `brand/asset-index.json`,
-and is read by `_build_asset_record()` in the composer.
+#### N4. ~~Write **`AGENTS.md`** at the repo root~~ ✅ Shipped (Phase 9)
 
-**Why now:** this is the single biggest quality-of-life upgrade for agents.
-Halves the time-to-correct-output for any "use the X illustration" prompt.
+Created `/AGENTS.md` — identity, MCP tool table, no-go zones, validation
+flow, PR checklist. Cross-linked from `.github/copilot-instructions.md`
+and root `README.md`.
 
-#### N3. Ship **telemetry behind a flag**
+#### N5. ~~**Auto-fix mode** in the audit Skill~~ ✅ Shipped (Phase 9)
 
-Log every MCP tool call as a JSON line: `{tool, args_hash, latency_ms,
-success, ts, agent_id}` to a rolling file. Build a tiny `/api/stats` endpoint
-that reads it. Add a `/admin` page on the site (auth-gated) that visualizes.
-
-**SMV:** ~150 lines of Python + a single Astro page with `<canvas>` charts.
-
-**Why now:** every other prioritization decision in this list gets sharper
-once we have data. We're flying blind without it.
-
-#### N4. Write **`AGENTS.md`** at the repo root
-
-The convention is converging across the industry (Anthropic publishes one,
-OpenAI publishes one, growing list of open-source projects). It's the
-canonical "what should AI agents working in this repo know" file.
-
-**SMV:** a 2-page markdown that says: "this is the brand repo, here are the
-MCP tools, here's the validation flow, here are the no-go zones, here's the
-PR review checklist." Linked from `copilot-instructions.md`.
-
-**Why now:** zero cost, signals leadership, makes the repo work better with
-the next generation of agents that haven't been written yet.
-
-#### N5. **Auto-fix mode** in the audit Skill
-
-Today the audit produces a markdown report. Add `--fix` mode that, for
-mechanical violations (off-palette hex, uppercase headlines, missing ™),
-opens a PR with the fix. Human still approves; agent does the typing.
-
-**SMV:** extend `audit-pages.mjs` to write a unified diff per violation
-class; wrap with a `gh pr create` call.
-
-**Why now:** turns the Skill from a *report* into a *workflow*. This is the
-shape every brand-system audit tool is moving toward.
+`audit-pages.mjs` now supports `--fix` (preview patch) and `--apply` (apply
+auto-class fixes). Handles trademark, off-palette hex, and headline-case
+violations.
 
 ### 🟡 NEXT (3–6 months)
 
@@ -367,11 +334,12 @@ image in one call.
 **Tech:** OpenAI CLIP or open-source SigLIP for embeddings, ~500MB model,
 runs on the same host as the MCP. No new infra.
 
-#### X2. **Motion & voice tokens**
+#### X2. **Voice tokens**
 
-Brand team writes `brand/motion.md` and `brand/voice.md`. We add `motion`
-and `voice` collections to `tokens/`. The validator gets `check: motion_ease`
-and `check: voice_alignment` rules. The site gets a `/tokens/motion` page.
+Brand team writes `brand/voice.md`. We add a `voice` collection to
+`tokens/`. The validator gets a `check: voice_alignment` rule.
+Motion tokens already shipped (Phase 10 — `tokens/motion.json`,
+`/tokens/motion` page, `get_motion` tool).
 
 **Why next, not now:** the schema is trivial — the *content* is what matters,
 and that's a brand-team decision, not an engineering one. We should put it

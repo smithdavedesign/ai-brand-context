@@ -68,7 +68,7 @@ Topic-scoped markdown: `brand.md`, `color.md`, `typography.md`, `voice.md`, `do-
 
 ### Layer 5 — MCP (the unified API)
 
-A single backend service that exposes layers 1-4 as tools and resources over the Model Context Protocol. One URL, ten tools: `get_design_tokens`, `get_color`, `get_brand_guidelines`, `get_ui_toolkit_class`, `list_assets`, `get_logo`, `search_brand_source_documents`, `get_brand_context`, `get_brand_system_prompt`, `validate_brand_output`. **Who consumes this**: AI agents (Claude, Cursor, Copilot, ChatGPT), the public documentation site, internal tools, downstream services. The MCP is the compiler of the brand system — it takes the source layers and emits whatever the consumer needs.
+A single backend service that exposes layers 1-4 as tools and resources over the Model Context Protocol. One URL, 15 tools, 8 resources, 4 prompts: `get_design_tokens`, `get_color`, `get_spacing`, `get_breakpoints`, `get_motion`, `get_icon`, `get_brand_guidelines`, `get_ui_toolkit_class`, `list_assets`, `get_asset`, `get_logo`, `search_brand_source_documents`, `get_brand_context`, `get_brand_system_prompt`, `validate_brand_output`. **Who consumes this**: AI agents (Claude, Cursor, Copilot, ChatGPT), the public documentation site, internal tools, downstream services. The MCP is the compiler of the brand system — it takes the source layers and emits whatever the consumer needs.
 
 ### Layer 6 — Skills / agents (the workflows)
 
