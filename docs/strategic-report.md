@@ -404,10 +404,10 @@ collateral against Solidigm gates.
 
 The validators today assume English. A globalized version:
 
-- validates Mandarin / Japanese / German product names against locale-
+- validates Mandarin / Japanese / Korean / Chinese product names against locale-
   specific naming rules
 - validates locale-specific typography (Noto Sans regional variants)
-- understands locale-specific tone (German formal `Sie`, Japanese `keigo`)
+- understands locale-specific tone (Chinese, Japanese `keigo`)
 
 This is *significant* work. Worth deferring until we have telemetry showing
 non-English usage.
