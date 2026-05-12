@@ -1,0 +1,629 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import SectionHeader from '~/components/SectionHeader.astro';
+---
+<BaseLayout
+  title="Brand Compliance"
+  description="Check copy, markup, or content against Solidigm brand quality gates using the live MCP validator or the AI brand assistant."
+  activeNav="compliance"
+>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Compliance</span>
+      <h1 class="page-hero__title">Check before you ship.</h1>
+      <p class="page-hero__lede">
+        Two tools, one goal: keep every surface on-brand. The validator runs
+        your copy or markup through 16 mechanical quality gates instantly.
+        The brand assistant handles the nuanced questions.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── LIVE MCP VALIDATOR ─────────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Quality gates"
+        title="Validate copy or markup."
+        body="Paste anything — an email subject, a headline, a chunk of HTML — and see exactly which brand rules it passes or fails."
+      />
+
+      <div class="compliance-validator">
+        <div class="compliance-validator__input-area">
+          <label for="validate-input" class="compliance-validator__label">
+            Content to validate
+          </label>
+          <textarea
+            id="validate-input"
+            class="compliance-validator__textarea"
+            placeholder="Paste copy, HTML, or markdown here…&#10;&#10;Example:&#10;Welcome to the revolutionary future of storage. Solidigm® DC PS1010 offers game-changing performance."
+            rows="8"
+          ></textarea>
+          <div class="compliance-validator__controls">
+            <select id="validate-platform" class="compliance-validator__select">
+              <option value="web">Platform: Web</option>
+              <option value="email">Platform: Email</option>
+              <option value="presentation">Platform: Presentation</option>
+              <option value="social">Platform: Social</option>
+              <option value="print">Platform: Print</option>
+            </select>
+            <button id="validate-btn" class="btn btn--primary" type="button">
+              Run check
+            </button>
+          </div>
+          <p class="compliance-validator__note text-small muted">
+            Calls the Solidigm Brand MCP server at
+            <code>http://localhost:8080/api/validate</code>. Start the MCP
+            server locally before using this tool.
+          </p>
+        </div>
+
+        <div class="compliance-validator__results" id="validate-results" hidden>
+          <div class="compliance-results-inner" id="validate-results-inner"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── QUALITY GATES REFERENCE ───────────────────────────────────── -->
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader
+        eyebrow="16 gates"
+        title="What gets checked."
+      />
+      <div class="grid grid--3">
+        <div class="card">
+          <h3 style="margin:0 0 6px; font-size:15px; font-weight:600;">Trademark</h3>
+          <p class="text-small muted" style="margin:0;">First mention uses <code>Solidigm™</code>. Never <code>®</code>. Product names follow same rule.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 6px; font-size:15px; font-weight:600;">Color palette</h3>
+          <p class="text-small muted" style="margin:0;">Only the 14 approved hex values. Accents limited to ≤ 10% of any composition.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 6px; font-size:15px; font-weight:600;">Typography</h3>
+          <p class="text-small muted" style="margin:0;">Sora for headlines, Noto Sans for body. No Arial, Helvetica, Roboto, or system-ui alone.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 6px; font-size:15px; font-weight:600;">Heading case</h3>
+          <p class="text-small muted" style="margin:0;">Title case or sentence case. Never all-caps. No <code>text-transform: uppercase</code> on headings.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 6px; font-size:15px; font-weight:600;">Voice</h3>
+          <p class="text-small muted" style="margin:0;">No "revolutionary", "game-changing", "disruptor". Concrete numbers over marketing superlatives.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 6px; font-size:15px; font-weight:600;">Accent ratio</h3>
+          <p class="text-small muted" style="margin:0;">Electric Teal, Electric Pink, and Orange are emphasis-only. Not for backgrounds or borders.</p>
+        </div>
+      </div>
+      <p style="margin-top: 24px;" class="text-small muted">
+        Full gate definitions live in <code>brand/quality-gates.yaml</code> in the repo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── BRAND ASSISTANT BOT ───────────────────────────────────────── -->
+  <section class="section">
+    <div class="container">
+      <SectionHeader
+        eyebrow="Brand assistant"
+        title="Ask the brand bot."
+        body="The Solidigm brand assistant handles questions the validator can't: nuanced voice questions, logo usage guidance, asset recommendations, and more."
+      />
+
+      <div class="bot-widget-wrap" id="bot-widget-wrap">
+        <!-- State: needs auth token -->
+        <div class="bot-auth-prompt" id="bot-auth-prompt">
+          <div class="bot-auth-prompt__inner">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true" style="margin-bottom:16px; opacity:0.6;">
+              <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M20 10v12M20 26v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <h3 style="margin:0 0 8px; font-size:17px; font-weight:600;">Internal access required</h3>
+            <p class="text-small muted" style="margin:0 0 20px; max-width: 380px; text-align: center;">
+              The brand assistant is available to Solidigm employees. Sign in
+              with your Microsoft account to start a conversation.
+            </p>
+            <button id="bot-signin-btn" class="btn btn--primary" type="button">
+              Sign in with Microsoft
+            </button>
+          </div>
+        </div>
+
+        <!-- State: bot chat frame (shown after auth) -->
+        <div class="bot-chat-frame" id="bot-chat-frame" hidden>
+          <div id="webchat" role="main" style="height: 520px; width: 100%;"></div>
+        </div>
+
+        <!-- State: loading -->
+        <div class="bot-loading" id="bot-loading" hidden>
+          <span class="bot-loading__spinner" aria-hidden="true"></span>
+          <span class="text-small muted">Connecting to brand assistant…</span>
+        </div>
+
+        <!-- State: error -->
+        <div class="bot-error" id="bot-error" hidden>
+          <p class="text-small muted" id="bot-error-msg">
+            Could not connect to the brand assistant. Try signing in again.
+          </p>
+          <button id="bot-retry-btn" class="btn btn--ghost btn--sm" type="button" style="margin-top:12px;">
+            Try again
+          </button>
+        </div>
+      </div>
+
+      <p class="text-small muted" style="margin-top: 16px;">
+        Questions the bot can answer: "What's the correct trademark usage for
+        our product names?", "Which logo should I use on a dark background?",
+        "Write a compliant press release headline."
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── FOR DEVELOPERS ────────────────────────────────────────────── -->
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeader
+        eyebrow="For developers"
+        title="Automate compliance in CI."
+        body="The brand-compliance Skill audits a fully built site directory and emits a letter-graded markdown report. Wire it into your PR checks and compliance becomes a gate, not an afterthought."
+      />
+      <div class="grid grid--2">
+        <div class="card">
+          <h3 style="margin:0 0 8px; font-size:15px; font-weight:600;">Run the audit</h3>
+          <pre class="code-block" style="margin:0; font-size:13px;"><code>node .github/skills/brand-compliance/scripts/audit-pages.mjs</code></pre>
+          <p class="text-small muted" style="margin:8px 0 0;">Scans <code>site/dist/</code> after a production build. Target grade ≥ B before merging.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 8px; font-size:15px; font-weight:600;">API validation</h3>
+          <pre class="code-block" style="margin:0; font-size:13px;"><code>POST http://localhost:8080/api/validate
+Content-Type: application/json
+
+&#123;"content": "...", "platform": "web"&#125;</code></pre>
+          <p class="text-small muted" style="margin:8px 0 0;">Returns <code>&#123;"pass": true, "score": 98, "violations": []&#125;</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<!-- ─── BOT: BotFramework WebChat from CDN ─────────────────────────── -->
+<!--
+  TOKEN SETUP — HAND-OFF CHECKLIST FOR YOUR TEAMMATE
+  ────────────────────────────────────────────────────
+  Option A (recommended):
+    In Copilot Studio → Settings → Channels → Custom website
+    Copy the "token endpoint" URL (looks like https://...powerva.microsoft.com/...)
+    Set it as DIRECT_LINE_TOKEN_ENDPOINT below.
+
+  Option B (quick POC only — rotate frequently):
+    In Copilot Studio → Settings → Security → Direct Line secret
+    Set it as DIRECT_LINE_SECRET below (omit token endpoint).
+
+  DIRECT LINE ENDPOINT (from your POC SDK string):
+    https://default4bb44aac867a4be0aa3430794e8470.dd.environment.api.powerplatform.com
+    /copilotstudio/dataverse-backed/authenticated/bots/crcce_agentQZ-sfB/conversations
+-->
+<script
+  src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"
+  crossorigin="anonymous"
+></script>
+
+<script is:inline>
+  // ── Configuration ──────────────────────────────────────────────────────────
+  // SETUP REQUIRED — two steps before the bot will work:
+  //
+  // 1. In Copilot Studio → Settings → Security → Authentication
+  //    Set to "No authentication" (so the /authenticated/ path becomes /unauthenticated/)
+  //
+  // 2. In Copilot Studio → Channels → Custom website
+  //    Copy the token endpoint URL and paste it as TOKEN_ENDPOINT below.
+  //    Alternatively paste the Direct Line secret as DIRECT_LINE_SECRET (rotate after POC).
+  //
+  // ⚠️  NEVER commit real secrets here. Use a .env or token proxy for anything beyond POC.
+  const TOKEN_ENDPOINT = '';        // e.g. https://...powerva.microsoft.com/.../token
+  const DIRECT_LINE_SECRET = '';    // Direct Line secret — rotate if previously exposed
+
+  const DIRECT_LINE_DOMAIN =
+    'https://default4bb44aac867a4be0aa3430794e8470.dd.environment.api.powerplatform.com' +
+    '/copilotstudio/dataverse-backed/unauthenticated/bots/crcce_agentQZ-sfB';
+
+  // ── DOM refs ────────────────────────────────────────────────────────────────
+  const signinBtn   = document.getElementById('bot-signin-btn');
+  const authPrompt  = document.getElementById('bot-auth-prompt');
+  const chatFrame   = document.getElementById('bot-chat-frame');
+  const loadingEl   = document.getElementById('bot-loading');
+  const errorEl     = document.getElementById('bot-error');
+  const errorMsg    = document.getElementById('bot-error-msg');
+  const retryBtn    = document.getElementById('bot-retry-btn');
+
+  function showState(state) {
+    authPrompt.hidden  = state !== 'prompt';
+    loadingEl.hidden   = state !== 'loading';
+    chatFrame.hidden   = state !== 'chat';
+    errorEl.hidden     = state !== 'error';
+  }
+
+  async function fetchToken() {
+    if (TOKEN_ENDPOINT) {
+      const res = await fetch(TOKEN_ENDPOINT);
+      if (!res.ok) throw new Error(`Token endpoint returned ${res.status}`);
+      const json = await res.json();
+      return json.token;
+    }
+    if (DIRECT_LINE_SECRET) {
+      // Exchange secret for a short-lived token (avoids exposing the secret
+      // in WebChat state, but only marginally safer for internal POC use)
+      const res = await fetch('https://directline.botframework.com/v3/directline/tokens/generate', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${DIRECT_LINE_SECRET}` },
+      });
+      if (!res.ok) throw new Error(`Direct Line token exchange failed: ${res.status}`);
+      const json = await res.json();
+      return json.token;
+    }
+    throw new Error('No token endpoint or Direct Line secret configured.');
+  }
+
+  async function launchBot() {
+    showState('loading');
+    try {
+      const token = await fetchToken();
+      // @ts-ignore — WebChat loaded from CDN
+      const { createDirectLine, renderWebChat, createStore } = window.WebChat;
+
+      const directLine = createDirectLine({
+        token,
+        domain: `${DIRECT_LINE_DOMAIN}/conversations`,
+      });
+
+      const store = createStore();
+
+      // @ts-ignore
+      renderWebChat(
+        {
+          directLine,
+          store,
+          styleOptions: {
+            // ── Solidigm brand colours ──────────────────────────────────
+            accent:                     '#4f00b5',
+            primaryFont:                '"Noto Sans", system-ui, sans-serif',
+            bubbleBackground:           '#f5f3f1',
+            bubbleBorderRadius:         8,
+            bubbleFromUserBackground:   '#4f00b5',
+            bubbleFromUserTextColor:    '#ffffff',
+            bubbleFromUserBorderRadius: 8,
+            sendBoxBackground:          '#ffffff',
+            sendBoxBorderTop:           '1px solid #a5a29d',
+            backgroundColor:            '#ffffff',
+            botAvatarBackgroundColor:   '#2f006b',
+            botAvatarInitials:          'SB',
+          },
+        },
+        document.getElementById('webchat'),
+      );
+
+      showState('chat');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      errorMsg.textContent = TOKEN_ENDPOINT || DIRECT_LINE_SECRET
+        ? `Could not connect: ${msg}`
+        : 'Brand assistant is not yet configured. Check back soon.';
+      showState('error');
+    }
+  }
+
+  signinBtn.addEventListener('click', launchBot);
+  retryBtn.addEventListener('click', launchBot);
+</script>
+
+<!-- ─── VALIDATOR script ─────────────────────────────────────────────── -->
+<script is:inline>
+  const MCP_VALIDATE_URL = 'http://localhost:8080/api/validate';
+
+  const runBtn     = document.getElementById('validate-btn');
+  const inputEl    = document.getElementById('validate-input');
+  const platformEl = document.getElementById('validate-platform');
+  const resultsEl  = document.getElementById('validate-results');
+  const innerEl    = document.getElementById('validate-results-inner');
+
+  function badge(pass) {
+    return pass
+      ? '<span class="compliance-badge compliance-badge--pass">Pass</span>'
+      : '<span class="compliance-badge compliance-badge--fail">Fail</span>';
+  }
+
+  function renderResults(data) {
+    const score = typeof data.score === 'number' ? data.score : null;
+    const violations = Array.isArray(data.violations) ? data.violations : [];
+    const passed = data.pass === true;
+
+    let html = `
+      <div class="compliance-summary ${passed ? 'compliance-summary--pass' : 'compliance-summary--fail'}">
+        <div class="compliance-summary__status">
+          ${badge(passed)}
+          ${score !== null ? `<span class="compliance-summary__score">Score: ${score}/100</span>` : ''}
+        </div>
+        <p class="compliance-summary__message text-small">${
+          passed
+            ? 'All quality gates passed. This content is on-brand.'
+            : `${violations.length} violation${violations.length !== 1 ? 's' : ''} found.`
+        }</p>
+      </div>`;
+
+    if (violations.length) {
+      html += '<ul class="compliance-violations">';
+      for (const v of violations) {
+        html += `
+          <li class="compliance-violation">
+            <span class="compliance-violation__gate">${v.gate ?? v.rule ?? 'Rule'}</span>
+            <span class="compliance-violation__detail">${v.message ?? v.detail ?? v.description ?? JSON.stringify(v)}</span>
+          </li>`;
+      }
+      html += '</ul>';
+    }
+
+    innerEl.innerHTML = html;
+    resultsEl.hidden = false;
+  }
+
+  function renderError(msg) {
+    innerEl.innerHTML = `<div class="compliance-summary compliance-summary--fail">
+      <p class="text-small" style="margin:0;">${msg}</p>
+    </div>`;
+    resultsEl.hidden = false;
+  }
+
+  runBtn.addEventListener('click', async () => {
+    const content = inputEl.value.trim();
+    if (!content) return;
+
+    runBtn.disabled = true;
+    runBtn.textContent = 'Checking…';
+    resultsEl.hidden = true;
+
+    try {
+      const res = await fetch(MCP_VALIDATE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content, platform: platformEl.value }),
+      });
+      if (!res.ok) throw new Error(`MCP server returned ${res.status}`);
+      const data = await res.json();
+      renderResults(data);
+    } catch (err) {
+      renderError(
+        'Could not reach the MCP server at <code>localhost:8080</code>. ' +
+        'Please start it with: <code>cd brand_mcp && source .venv/bin/activate && python -m brand_mcp.server</code>'
+      );
+    } finally {
+      runBtn.disabled = false;
+      runBtn.textContent = 'Run check';
+    }
+  });
+</script>
+
+<style>
+  /* ── Validator layout ───────────────────────────────────────────────────── */
+  .compliance-validator {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .compliance-validator { grid-template-columns: 1fr; }
+  }
+
+  .compliance-validator__label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--solidigm-color-medium-gray, #52514f);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .compliance-validator__textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 14px 16px;
+    border: 1px solid var(--solidigm-color-gray, #a5a29d);
+    border-radius: 8px;
+    font-family: 'Noto Sans', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    box-sizing: border-box;
+    background: #fff;
+    color: var(--solidigm-color-dark-grey, #21201f);
+    transition: border-color 0.15s;
+  }
+  .compliance-validator__textarea:focus {
+    outline: none;
+    border-color: var(--solidigm-color-solidigm-purple, #4f00b5);
+    box-shadow: 0 0 0 3px rgba(79, 0, 181, 0.12);
+  }
+
+  .compliance-validator__controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .compliance-validator__select {
+    padding: 8px 12px;
+    border: 1px solid var(--solidigm-color-gray, #a5a29d);
+    border-radius: 6px;
+    font-family: 'Noto Sans', system-ui, sans-serif;
+    font-size: 13px;
+    background: #fff;
+    color: var(--solidigm-color-dark-grey, #21201f);
+    cursor: pointer;
+  }
+
+  .compliance-validator__note {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .compliance-validator__results {
+    background: var(--solidigm-color-light-gray, #f5f3f1);
+    border: 1px solid #e0ddd9;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 200px;
+  }
+
+  /* ── Result states ───────────────────────────────────────────────────────── */
+  .compliance-summary {
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .compliance-summary--pass {
+    background: rgba(0, 83, 32, 0.07);
+    border: 1px solid rgba(0, 83, 32, 0.2);
+  }
+  .compliance-summary--fail {
+    background: rgba(181, 0, 36, 0.07);
+    border: 1px solid rgba(181, 0, 36, 0.2);
+  }
+  .compliance-summary__status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .compliance-summary__score {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--solidigm-color-dark-grey, #21201f);
+  }
+  .compliance-summary__message {
+    margin: 0;
+  }
+
+  .compliance-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .compliance-badge--pass {
+    background: rgba(0, 83, 32, 0.12);
+    color: #005320;
+  }
+  .compliance-badge--fail {
+    background: rgba(181, 0, 36, 0.12);
+    color: #b50024;
+  }
+
+  .compliance-violations {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .compliance-violation {
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #e0ddd9;
+    border-radius: 6px;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    font-size: 13px;
+  }
+  .compliance-violation__gate {
+    font-weight: 600;
+    color: var(--solidigm-color-solidigm-purple, #4f00b5);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .compliance-violation__detail {
+    color: var(--solidigm-color-dark-grey, #21201f);
+    line-height: 1.5;
+  }
+
+  /* ── Bot widget ─────────────────────────────────────────────────────────── */
+  .bot-widget-wrap {
+    border: 1px solid #e0ddd9;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    min-height: 300px;
+  }
+
+  .bot-auth-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 40px;
+    text-align: center;
+  }
+  .bot-auth-prompt__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bot-chat-frame {
+    height: 520px;
+  }
+
+  .bot-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 300px;
+  }
+
+  .bot-loading__spinner {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(79, 0, 181, 0.15);
+    border-top-color: var(--solidigm-color-solidigm-purple, #4f00b5);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .bot-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 40px;
+    text-align: center;
+  }
+
+  /* ── Code block ─────────────────────────────────────────────────────────── */
+  .code-block {
+    background: var(--solidigm-color-ultra-dark-purple, #160231);
+    color: #e8e8e8;
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  }
+</style>
