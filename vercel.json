@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd site && npm install && npm run build",
+  "buildCommand": "node build.js && cd site && npm install && npm run build",
   "installCommand": "echo 'deps handled in buildCommand'",
   "outputDirectory": "site/dist",
   "framework": null,
