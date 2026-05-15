@@ -105,7 +105,7 @@ import SectionHeader from '~/components/SectionHeader.astro';
     </div>
   </section>
 
-  <!-- ─── BRAND ASSISTANT BOT ───────────────────────────────────────── -->
+  <!-- ─── BRAND ASSISTANT BOT (Teams) ────────────────────────────────── -->
   <section class="section">
     <div class="container">
       <SectionHeader
@@ -114,52 +114,55 @@ import SectionHeader from '~/components/SectionHeader.astro';
         body="The Solidigm brand assistant handles questions the validator can't: nuanced voice questions, logo usage guidance, asset recommendations, and more."
       />
 
-      <div class="bot-widget-wrap" id="bot-widget-wrap">
-        <!-- State: needs auth token -->
-        <div class="bot-auth-prompt" id="bot-auth-prompt">
-          <div class="bot-auth-prompt__inner">
-            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true" style="margin-bottom:16px; opacity:0.6;">
-              <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M20 10v12M20 26v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <h3 style="margin:0 0 8px; font-size:17px; font-weight:600;">Internal access required</h3>
-            <p class="text-small muted" style="margin:0 0 20px; max-width: 380px; text-align: center;">
-              The brand assistant is available to Solidigm employees. Sign in
-              with your Microsoft account to start a conversation.
-            </p>
-            <button id="bot-signin-btn" class="btn btn--primary" type="button">
-              Sign in with Microsoft
-            </button>
-          </div>
-        </div>
-
-        <!-- State: bot chat frame (shown after auth) -->
-        <div class="bot-chat-frame" id="bot-chat-frame" hidden>
-          <div id="webchat" role="main" style="height: 520px; width: 100%;"></div>
-        </div>
-
-        <!-- State: loading -->
-        <div class="bot-loading" id="bot-loading" hidden>
-          <span class="bot-loading__spinner" aria-hidden="true"></span>
-          <span class="text-small muted">Connecting to brand assistant…</span>
-        </div>
-
-        <!-- State: error -->
-        <div class="bot-error" id="bot-error" hidden>
-          <p class="text-small muted" id="bot-error-msg">
-            Could not connect to the brand assistant. Try signing in again.
+      <div class="bot-teams-card">
+        <div class="bot-teams-card__inner">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true" class="bot-teams-card__icon">
+            <rect width="40" height="40" rx="8" fill="#4f00b5"/>
+            <path d="M26.5 14.5h-4v-2a2.5 2.5 0 0 0-5 0v2h-4A1.5 1.5 0 0 0 12 16v10a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 28 26V16a1.5 1.5 0 0 0-1.5-1.5ZM19 12.5a1 1 0 1 1 2 0v2h-2v-2Zm1 14a4.5 4.5 0 0 1-4.5-4.5h2a2.5 2.5 0 0 0 5 0h2A4.5 4.5 0 0 1 20 26.5Z" fill="#fff"/>
+          </svg>
+          <h3 class="bot-teams-card__title">Available in Microsoft Teams</h3>
+          <p class="text-small muted bot-teams-card__desc">
+            The brand assistant runs inside Teams with your Solidigm Microsoft
+            account. Ask about trademark usage, logo guidance, compliant
+            headlines, and more.
           </p>
-          <button id="bot-retry-btn" class="btn btn--ghost btn--sm" type="button" style="margin-top:12px;">
-            Try again
-          </button>
+          <div class="bot-teams-card__actions">
+            <a
+              href="https://teams.microsoft.com/l/app/?titleId=T_6c83d448-1f15-0d91-6c19-73ff73a83268"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--primary"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="margin-right:8px; vertical-align: -4px;">
+                <path d="M17.42 6.76a1.71 1.71 0 1 0 0-3.42 1.71 1.71 0 0 0 0 3.42Z" fill="currentColor"/>
+                <path d="M18.56 7.9h-2.97a1.89 1.89 0 0 1 .27.96v4.28a2.62 2.62 0 0 1-.08.62H17.7c.48 0 .86-.39.86-.86V8.76a.86.86 0 0 0-.86-.86h.86Z" fill="currentColor"/>
+                <path d="M13.14 5.9a2.29 2.29 0 1 0 0-4.57 2.29 2.29 0 0 0 0 4.57Z" fill="currentColor"/>
+                <path d="M15.43 7.05h-4.58a1.14 1.14 0 0 0-1.14 1.14v5.14a2.86 2.86 0 0 0 5.71 0V8.19c0-.63-.44-1.14-.99-1.14Z" fill="currentColor"/>
+                <path d="M8.86 6.47a2.86 2.86 0 1 0 0-5.71 2.86 2.86 0 0 0 0 5.71Z" fill="currentColor"/>
+                <path d="M11.71 7.62H6a1.14 1.14 0 0 0-1.14 1.14v5.71a3.43 3.43 0 0 0 6.86 0V8.76c0-.63-.44-1.14-1.01-1.14Z" fill="currentColor"/>
+              </svg>
+              Open in Teams
+            </a>
+          </div>
+          <p class="text-small muted bot-teams-card__note">
+            Requires a Solidigm Microsoft account. If you don't see the bot,
+            ask your Teams admin to enable the Copilot Studio agent channel.
+          </p>
         </div>
       </div>
 
-      <p class="text-small muted" style="margin-top: 16px;">
-        Questions the bot can answer: "What's the correct trademark usage for
-        our product names?", "Which logo should I use on a dark background?",
-        "Write a compliant press release headline."
-      </p>
+      <details class="bot-examples" style="margin-top: 20px;">
+        <summary class="text-small" style="cursor:pointer; font-weight:600; color: var(--solidigm-color-solidigm-purple, #4f00b5);">
+          Example questions you can ask
+        </summary>
+        <ul class="text-small muted" style="margin-top:8px; padding-left:20px; line-height:1.9;">
+          <li>"What's the correct trademark usage for our product names?"</li>
+          <li>"Which logo should I use on a dark background?"</li>
+          <li>"Write a compliant press release headline."</li>
+          <li>"Can I use Electric Teal as a background color?"</li>
+          <li>"What are the approved fonts for PowerPoint?"</li>
+        </ul>
+      </details>
     </div>
   </section>
 
@@ -190,136 +193,6 @@ Content-Type: application/json
   </section>
 
 </BaseLayout>
-
-<!-- ─── BOT: BotFramework WebChat from CDN ─────────────────────────── -->
-<!--
-  TOKEN SETUP — HAND-OFF CHECKLIST FOR YOUR TEAMMATE
-  ────────────────────────────────────────────────────
-  Option A (recommended):
-    In Copilot Studio → Settings → Channels → Custom website
-    Copy the "token endpoint" URL (looks like https://...powerva.microsoft.com/...)
-    Set it as DIRECT_LINE_TOKEN_ENDPOINT below.
-
-  Option B (quick POC only — rotate frequently):
-    In Copilot Studio → Settings → Security → Direct Line secret
-    Set it as DIRECT_LINE_SECRET below (omit token endpoint).
-
-  DIRECT LINE ENDPOINT (from your POC SDK string):
-    https://default4bb44aac867a4be0aa3430794e8470.dd.environment.api.powerplatform.com
-    /copilotstudio/dataverse-backed/authenticated/bots/crcce_agentQZ-sfB/conversations
--->
-<script
-  src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"
-  crossorigin="anonymous"
-></script>
-
-<script is:inline>
-  // ── Configuration ──────────────────────────────────────────────────────────
-  // SETUP REQUIRED — two steps before the bot will work:
-  //
-  // 1. In Copilot Studio → Settings → Security → Authentication
-  //    Set to "No authentication" (so the /authenticated/ path becomes /unauthenticated/)
-  //
-  // 2. In Copilot Studio → Channels → Custom website
-  //    Copy the token endpoint URL and paste it as TOKEN_ENDPOINT below.
-  //    Alternatively paste the Direct Line secret as DIRECT_LINE_SECRET (rotate after POC).
-  //
-  // ⚠️  NEVER commit real secrets here. Use a .env or token proxy for anything beyond POC.
-  const TOKEN_ENDPOINT = '';        // e.g. https://...powerva.microsoft.com/.../token
-  const DIRECT_LINE_SECRET = '';    // Direct Line secret — rotate if previously exposed
-
-  const DIRECT_LINE_DOMAIN =
-    'https://default4bb44aac867a4be0aa3430794e8470.dd.environment.api.powerplatform.com' +
-    '/copilotstudio/dataverse-backed/unauthenticated/bots/crcce_agentQZ-sfB';
-
-  // ── DOM refs ────────────────────────────────────────────────────────────────
-  const signinBtn   = document.getElementById('bot-signin-btn');
-  const authPrompt  = document.getElementById('bot-auth-prompt');
-  const chatFrame   = document.getElementById('bot-chat-frame');
-  const loadingEl   = document.getElementById('bot-loading');
-  const errorEl     = document.getElementById('bot-error');
-  const errorMsg    = document.getElementById('bot-error-msg');
-  const retryBtn    = document.getElementById('bot-retry-btn');
-
-  function showState(state) {
-    authPrompt.hidden  = state !== 'prompt';
-    loadingEl.hidden   = state !== 'loading';
-    chatFrame.hidden   = state !== 'chat';
-    errorEl.hidden     = state !== 'error';
-  }
-
-  async function fetchToken() {
-    if (TOKEN_ENDPOINT) {
-      const res = await fetch(TOKEN_ENDPOINT);
-      if (!res.ok) throw new Error(`Token endpoint returned ${res.status}`);
-      const json = await res.json();
-      return json.token;
-    }
-    if (DIRECT_LINE_SECRET) {
-      // Exchange secret for a short-lived token (avoids exposing the secret
-      // in WebChat state, but only marginally safer for internal POC use)
-      const res = await fetch('https://directline.botframework.com/v3/directline/tokens/generate', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${DIRECT_LINE_SECRET}` },
-      });
-      if (!res.ok) throw new Error(`Direct Line token exchange failed: ${res.status}`);
-      const json = await res.json();
-      return json.token;
-    }
-    throw new Error('No token endpoint or Direct Line secret configured.');
-  }
-
-  async function launchBot() {
-    showState('loading');
-    try {
-      const token = await fetchToken();
-      // @ts-ignore — WebChat loaded from CDN
-      const { createDirectLine, renderWebChat, createStore } = window.WebChat;
-
-      const directLine = createDirectLine({
-        token,
-        domain: `${DIRECT_LINE_DOMAIN}/conversations`,
-      });
-
-      const store = createStore();
-
-      // @ts-ignore
-      renderWebChat(
-        {
-          directLine,
-          store,
-          styleOptions: {
-            // ── Solidigm brand colours ──────────────────────────────────
-            accent:                     '#4f00b5',
-            primaryFont:                '"Noto Sans", system-ui, sans-serif',
-            bubbleBackground:           '#f5f3f1',
-            bubbleBorderRadius:         8,
-            bubbleFromUserBackground:   '#4f00b5',
-            bubbleFromUserTextColor:    '#ffffff',
-            bubbleFromUserBorderRadius: 8,
-            sendBoxBackground:          '#ffffff',
-            sendBoxBorderTop:           '1px solid #a5a29d',
-            backgroundColor:            '#ffffff',
-            botAvatarBackgroundColor:   '#2f006b',
-            botAvatarInitials:          'SB',
-          },
-        },
-        document.getElementById('webchat'),
-      );
-
-      showState('chat');
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      errorMsg.textContent = TOKEN_ENDPOINT || DIRECT_LINE_SECRET
-        ? `Could not connect: ${msg}`
-        : 'Brand assistant is not yet configured. Check back soon.';
-      showState('error');
-    }
-  }
-
-  signinBtn.addEventListener('click', launchBot);
-  retryBtn.addEventListener('click', launchBot);
-</script>
 
 <!-- ─── VALIDATOR script ─────────────────────────────────────────────── -->
 <script is:inline>
@@ -558,61 +431,39 @@ Content-Type: application/json
     line-height: 1.5;
   }
 
-  /* ── Bot widget ─────────────────────────────────────────────────────────── */
-  .bot-widget-wrap {
+  /* ── Teams bot card ───────────────────────────────────────────────────── */
+  .bot-teams-card {
     border: 1px solid #e0ddd9;
     border-radius: 12px;
     overflow: hidden;
     background: #fff;
-    min-height: 300px;
   }
-
-  .bot-auth-prompt {
+  .bot-teams-card__inner {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 300px;
-    padding: 40px;
     text-align: center;
+    padding: 48px 40px;
   }
-  .bot-auth-prompt__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .bot-teams-card__icon {
+    margin-bottom: 20px;
   }
-
-  .bot-chat-frame {
-    height: 520px;
+  .bot-teams-card__title {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 600;
   }
-
-  .bot-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    min-height: 300px;
+  .bot-teams-card__desc {
+    margin: 0 0 24px;
+    max-width: 420px;
   }
-
-  .bot-loading__spinner {
-    display: block;
-    width: 28px;
-    height: 28px;
-    border: 3px solid rgba(79, 0, 181, 0.15);
-    border-top-color: var(--solidigm-color-solidigm-purple, #4f00b5);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+  .bot-teams-card__actions {
+    margin-bottom: 16px;
   }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .bot-error {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-    padding: 40px;
-    text-align: center;
+  .bot-teams-card__note {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.7;
   }
 
   /* ── Code block ─────────────────────────────────────────────────────────── */
