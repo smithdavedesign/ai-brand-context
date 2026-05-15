@@ -47,11 +47,11 @@ what a 2026-era enterprise brand system should look like:
 | # | Layer | What we have | Grade | Why |
 |---|-------|--------------|-------|-----|
 | 1 | **Tokens** | W3C DTCG JSON, compiles to CSS / SCSS / TS / Tailwind / Figma; published as `@solidigm/brand-tokens` on GitHub Packages | **A** | DTCG is the right standard. Multi-format compile is the right output. NPM-distributed is the right delivery. |
-| 2 | **Toolkit** | `tk-*` CSS utility classes, consumed by the site | **B+** | Works. Still hand-maintained as `docs/ui-toolkit.min.css`; should be compiled from tokens. (Already on the deferred list.) |
+| 2 | **Toolkit** | `tk-*` CSS utility classes, consumed by the site | **A−** | Now compiled from tokens via `build.js` → `dist/ui-toolkit.min.css`; `sync-toolkit.mjs` pulls the generated file into the site prebuild. The hand-maintained `docs/ui-toolkit.min.css` is archived. Still missing write-back from Figma. |
 | 3 | **Assets** | 87 local + ~373 SharePoint files, federated through one `list_assets` manifest with category inference, fuzzy `get_asset`, Graph thumbnail URLs, server-side proxy fallback | **A−** | Federation works. Cache pre-warming + Graph `$expand=thumbnails` is current best practice. Still missing write-back. |
 | 4 | **Guidelines** | 11 topic markdown files (`brand/*.md`), narrative split out of the 120-page PDF; 16 quality gates as YAML | **A** | Topic-scoped markdown is exactly the right shape for both human reading and LLM ingestion. Quality gates as YAML are durable. |
 | 5 | **MCP server** | 15 tools, 8 resources, 4 prompts, 7 HTTP routes; Python FastMCP; OAuth client-credentials + delegated PKCE; cache pre-warm; CI smoke test | **A−** | This is the spine. Read-only by design. Prompts shipped (Phase 9); Sampling and Elicitation are future primitives. |
-| 6 | **Skill / agent layer** | `copilot-instructions.md` (always-on), scoped `instructions/*.md`, `/brand-check` prompt, `brand-compliance` audit Skill | **A−** | Every Copilot interaction in this repo is brand-grounded by default. Skill audit emits a graded markdown report. Could go further with auto-fix workflows. |
+| 6 | **Skill / agent layer** | `copilot-instructions.md` (always-on), scoped `instructions/*.md`, `/brand-check` prompt, `brand-compliance` audit Skill with `--fix` / `--apply` modes | **A−** | Every Copilot interaction in this repo is brand-grounded by default. Skill audit emits a graded markdown report. Auto-fix mode shipped (Phase 9 N5): handles trademark, off-palette hex, and headline-case violations. |
 
 **Overall stack grade: A−.** The bones are excellent. The gaps are mostly
 about *depth in primitives we haven't yet adopted* and *write-side workflows
@@ -61,8 +61,8 @@ we deliberately deferred*, not about anything that's broken.
 
 - The Astro site dogfoods the system: it imports tokens from the package and
   calls the MCP at runtime for the assets browser.
-- The audit Skill runs end-to-end and produces a graded markdown report;
-  current site grade is **B** (11/16 pages A+).
+- The audit Skill runs end-to-end and produces a graded markdown report.
+  Last recorded site grade: **B** (11/16 pages A+, 5 pages with hex-palette violations on pages that intentionally display off-brand colors as examples). N5 auto-fix has since shipped; re-run the audit to get the current grade.
 - A 24-test Playwright suite covers the asset MCP + UI; CI runs a smoke test
   on every PR.
 - The brand quality gates YAML is the *only* place certain rules
@@ -119,9 +119,7 @@ What they built (and what we should learn from):
   returns. The server doesn't have one global verbosity; each tool is dialed
   individually.
 
-The Solidigm parallel: **our `list_assets` returns names, categories, and
-URLs — but it doesn't yet return the Tailwind class, CSS custom property, or
-component path that *uses* that asset**. That's the next gap to close (§5).
+The Solidigm parallel: N2 (Phase 9) shipped `code_paths` — every asset record now includes an array of every file in the repo that references it, built by `scripts/build-asset-index.mjs`. What we still lack is the inverse: given a *component* or *toolkit class*, return which assets, tokens, and design decisions are bound to it. That deeper bidirectional map remains the next gap (§4.1).
 
 ### 3.3 What other design-system leaders are doing
 
@@ -140,8 +138,7 @@ last 12 months:
 5. **Audit-as-a-service** — Polaris ships a CLI that audits a built site
    against the design system. We have the `brand-compliance` Skill.
 6. **Code Connect / component-path mapping** — Figma (and now Polaris) map
-   design components to code import paths. **We don't have this yet.** This
-   is the biggest competitive gap.
+   design components to code import paths. **Partially closed:** N2 ships `code_paths` on every asset record (asset → referencing files). The inverse — component → canonical tokens + assets — is still open.
 7. **Bi-directional Figma sync** — every leading system is wiring this up;
    currently one-way (code → Figma) for everyone, including Solidigm.
 8. **Skill packs / Slash commands** — GitHub, Atlassian, and Anthropic all
@@ -172,10 +169,7 @@ Reading current Anthropic, OpenAI, GitHub, and Figma roadmaps + the MCP spec:
   now have 10 categories (color, type, space, breakpoints, radius, shape,
   motion, elevation, semantic, icons). The schema is ready (DTCG); remaining
   gaps are sound, voice, and density.
-- **Telemetry is table stakes.** The next conversation in every brand-system
-  team is "which tools are agents calling, which guidelines are getting
-  cited, which rules are getting violated?". If we can't answer those, we
-  can't prioritize.
+- **Telemetry is table stakes.** ✅ Shipped (Phase 9 N3): JSONL telemetry behind `BRAND_MCP_TELEMETRY_ENABLED=1`, `GET /api/stats` aggregates last 30 days, `/admin/stats` page visualizes top tools and colors. The question now is whether the flag is enabled in production and whether the data is being read.
 - **Provenance / C2PA on AI-generated content.** Increasing regulatory
   pressure (EU AI Act, US executive orders) requires AI-generated marketing
   imagery to carry cryptographic provenance metadata. Adobe, Microsoft, and
@@ -188,19 +182,18 @@ Reading current Anthropic, OpenAI, GitHub, and Figma roadmaps + the MCP spec:
 These are the gaps that, if we don't address them in the next 6–12 months,
 will turn into liabilities.
 
-### 4.1 No Code Connect–style mapping (high impact)
+### 4.1 Partial Code Connect–style mapping (gap narrowed, not closed)
 
-When an agent asks "give me the hero illustration for the HPC use case,"
-`list_assets` returns a filename and a URL. It doesn't return:
+**✅ Partially closed (Phase 9 N2):** Every asset record now includes `code_paths` — the list of every repo file that references that asset. `list_assets` and `get_asset` both return this array.
 
-- the Astro/React component path that already uses it
-- the `tk-*` CSS class that's the canonical wrapper
-- the design token(s) that color it
-- whether there's an existing variant for dark mode
+What's still missing:
 
-This is the single biggest "agent asks the right question, gets a half-useful
-answer" problem we have today. Closing it transforms the MCP from a *catalog*
-into a *system map*.
+- the `tk-*` CSS class that is the *canonical wrapper* for an asset
+- the design token(s) that color or size a component
+- the inverse direction: given a *component*, return its bound assets and tokens
+- dark mode variants linked to their light-mode counterparts
+
+The MCP is now closer to a *system map* than a plain catalog, but the component ↔ token ↔ asset triangle still lacks a closing edge.
 
 ### 4.2 No write-side workflows (medium impact, high political cost)
 
@@ -215,19 +208,11 @@ The right answer is *not* "let agents YOLO into the brand repo." The right
 answer is **agent-mediated change requests** with structured proposals,
 approval gates, and audit logs. This is a 2026 problem, not a 2027 problem.
 
-### 4.3 No telemetry (medium impact, low cost)
+### 4.3 ~~No telemetry~~ ✅ Closed (Phase 9 N3)
 
-We don't know:
+Telemetry shipped. JSONL logger with daily rotation, `BRAND_MCP_TELEMETRY_ENABLED=1` env flag (default off), `GET /api/stats` aggregates last 30 days, `/admin/stats` page visualizes top tools and colors.
 
-- which tools agents call most (and which we could deprecate)
-- which guidelines are most-read (and which need rewriting)
-- which quality-gate rules trigger most violations (and which need clarification)
-- which assets are most-downloaded (and which are dead weight)
-
-A tiny amount of structured logging on the MCP — written to a SQLite/Parquet
-file behind a feature flag — would unlock prioritization for the next two
-phases of work. We should build this before we build anything else
-ambitious.
+Open follow-up: enable the flag in the production deployment and review the first 30 days of data to validate which tools and colors are being called most. That observation loop is what makes telemetry useful — shipping it is not enough.
 
 ### 4.4 No image / generative-content brand compliance (high future impact)
 
@@ -462,10 +447,9 @@ telemetry play (N3) to land first.
 
 ### Quality
 
-- **Site brand grade** — current site grade is **B**; target is **A within
-  one quarter** of N5 (auto-fix) shipping.
+- **Site brand grade** — last recorded grade: **B** (11/16 pages A+). N5 auto-fix shipped in Phase 9; re-run `node .github/skills/brand-compliance/scripts/audit-pages.mjs` to measure current grade. The one-quarter window to reach A has passed — this is now overdue.
 - **Median time-to-fix** for a flagged brand violation. Target: **<1 day
-  with auto-fix; <1 week without.** Should drop sharply when N5 lands.
+  with auto-fix; <1 week without.** Auto-fix (N5) now live; measuring actuals requires telemetry to be enabled.
 
 ### Velocity
 
@@ -480,8 +464,7 @@ telemetry play (N3) to land first.
 - **% of brand-facing PRs reviewed by `/brand-check`.** Target: **>80%.**
   Requires a GitHub Action that auto-comments on every PR touching
   `.astro/.css/.tsx/.md`.
-- **% of brand assets with `code_path` populated.** Target: **>60%** after
-  N2 ships.
+- **% of brand assets with `code_path` populated.** N2 shipped; `brand/asset-index.json` exists. Current coverage unknown — run `npm run index:assets` and inspect the output to get a baseline count.
 
 ### Trust
 
@@ -523,11 +506,9 @@ That's the win. The rest is execution.
 
 To unblock the next 6 weeks of work:
 
-1. **Greenlight N1–N5** (Now plays) as the next sprint's content. Cost: ~3
-   engineering weeks. Output: 4 new MCP prompts, asset code-path index,
-   telemetry, `AGENTS.md`, audit auto-fix.
+1. ~~**Greenlight N1–N5**~~ ✅ **Resolved** — all five Now plays shipped in Phase 9 (commit `45b1848`): MCP prompts, asset code-path index, telemetry, `AGENTS.md`, audit auto-fix.
 2. **Sponsor the brand team to write `brand/motion.md` and `brand/voice.md`.**
-   Tokens are blocked on policy, not engineering.
+   `brand/motion.md` ✅ written (Phase 10). `brand/voice.md` still pending — tokens are blocked on brand-team policy, not engineering.
 3. **Confirm appetite for X3 (Figma plugin) in Q3.** It's the largest of the
    "Next" investments and needs design-team buy-in before we start.
 4. **Defer L1–L4 explicitly.** Not committing to them this year is a decision;
