@@ -1,0 +1,115 @@
+{
+  "$description": "Solidigm voice tokens. Machine-readable encoding of the five brand voice traits and their guardrails. Consumed by validate_brand_output and get_brand_context.",
+  "voice": {
+    "personality": {
+      "$type": "string",
+      "$value": "The Seasoned Challenger",
+      "$description": "Core brand personality archetype."
+    },
+    "traits": {
+      "optimistic": {
+        "$type": "string",
+        "$value": "upbeat and enthusiastic devotees of possibility thinking",
+        "$description": "Lead with what is possible. Forward-looking language. Acknowledge challenges then pivot to solutions.",
+        "$extensions": {
+          "com.solidigm.brand": {
+            "guardrail": "but not unrealistic day-dreamers",
+            "avoid": ["best", "unmatched", "revolutionary", "most amazing", "incredible"],
+            "prefer": ["possibility-forward phrasing", "solution-led constructions", "active voice"]
+          }
+        }
+      },
+      "analytical": {
+        "$type": "string",
+        "$value": "thoughtful, intelligent and deliberate in everything we do and say",
+        "$description": "Back claims with specifics: specs, ratios, densities, benchmarks. Numbers over filler adjectives.",
+        "$extensions": {
+          "com.solidigm.brand": {
+            "guardrail": "but not robotic or staid",
+            "avoid": ["state-of-the-art", "cutting-edge", "incredibly fast", "industry-leading (without metric)"],
+            "prefer": ["specific measurements", "benchmark citations", "feature → benefit structure"]
+          }
+        }
+      },
+      "passionate": {
+        "$type": "string",
+        "$value": "spirited and energized by technology, excited to engage",
+        "$description": "Show care through specificity. No combat metaphors. No punching at competitors.",
+        "$extensions": {
+          "com.solidigm.brand": {
+            "guardrail": "but not argumentative or confrontational",
+            "avoid": ["crushed", "destroyed", "obliterated", "competitors simply can't", "dominate"],
+            "prefer": ["technology-driven enthusiasm", "engineering pride", "customer benefit framing"]
+          }
+        }
+      },
+      "genuine": {
+        "$type": "string",
+        "$value": "authentic, honest and straightforward, human and dynamic",
+        "$description": "Write like a knowledgeable colleague. Plain language. Admit uncertainty when it exists. No hollow emotion.",
+        "$extensions": {
+          "com.solidigm.brand": {
+            "guardrail": "but not trivial or unprepared",
+            "avoid": [
+              "It is our pleasure to announce",
+              "We are thrilled to share",
+              "We are excited to announce",
+              "We are delighted",
+              "seamless",
+              "synergy",
+              "leverage (verb)"
+            ],
+            "prefer": ["plain subject-verb-object", "first-person plural (we)", "honest qualifications"]
+          }
+        }
+      },
+      "ambitious": {
+        "$type": "string",
+        "$value": "confident and determined, appreciative of the hard work",
+        "$description": "Name targets and back them. Pride in what is built. No arrogance or dismissiveness toward competitors.",
+        "$extensions": {
+          "com.solidigm.brand": {
+            "guardrail": "but not arrogant or dismissive",
+            "avoid": ["world-class", "unique (standalone)", "solutions (standalone)", "we dominate"],
+            "prefer": ["evidence-backed confidence", "named milestones", "forward-looking targets with metrics"]
+          }
+        }
+      }
+    }
+  },
+  "prohibited_phrases": {
+    "$description": "Phrases that fail the brand-voice quality gate regardless of context.",
+    "$type": "string",
+    "$value": "see $extensions for list",
+    "$extensions": {
+      "com.solidigm.brand": {
+        "phrases": [
+          "revolutionary",
+          "world-class",
+          "cutting-edge",
+          "state-of-the-art",
+          "seamless",
+          "synergy",
+          "leverage (verb)",
+          "thrilled to announce",
+          "excited to announce",
+          "pleased to announce",
+          "delighted to announce",
+          "it is our pleasure",
+          "unique solution",
+          "best-in-class (without metric)",
+          "industry-leading (without metric)",
+          "unmatched (without metric)"
+        ]
+      }
+    }
+  },
+  "$extensions": {
+    "com.solidigm.brand": {
+      "source": "Solidigm Brand Overview deck, slide 6 — Brand Tone and Voice. ©2026, Solidigm.",
+      "validation_gate": "brand-voice",
+      "narrative": "brand/voice.md",
+      "rationale": "Encodes the five voice traits as machine-readable tokens so validate_brand_output and get_brand_context can enforce them programmatically. The prohibited_phrases list drives the tone_alignment quality gate check."
+    }
+  }
+}

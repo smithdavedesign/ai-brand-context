@@ -59,6 +59,7 @@ function readSourceTokens() {
     elevationRaw:  readJSON('elevation'),
     iconsRaw:      readJSON('icons'),
     semanticRaw:   readJSON('semantic'),
+    voiceRaw:      readJSON('voice'),
   };
 }
 
@@ -970,7 +971,7 @@ function main() {
 
   const {
     colorsRaw, typographyRaw, spaceRaw, breakpointsRaw, radiusRaw,
-    shapeRaw, motionRaw, elevationRaw, iconsRaw, semanticRaw,
+    shapeRaw, motionRaw, elevationRaw, iconsRaw, semanticRaw, voiceRaw,
   } = readSourceTokens();
   const colors = transformColors(colorsRaw);
   const typography = transformTypography(typographyRaw);
@@ -1005,6 +1006,7 @@ function main() {
     elevation:   elevationRaw,
     icons:       iconsRaw,
     semantic:    semanticRaw,
+    voice:       voiceRaw,
   };
   writeFile(path.join(root, 'tokens', 'index.json'), JSON.stringify(combined, null, 2) + '\n');
 

@@ -91,6 +91,18 @@ def get_motion() -> Dict[str, Any]:
 
 
 @mcp.tool()
+def get_voice(trait: str | None = None) -> Dict[str, Any]:
+    """Return Solidigm brand voice tokens and copy guidelines.
+
+    Pass ``trait`` ∈ {optimistic, analytical, passionate, genuine, ambitious}
+    for a single trait's value, guardrail, and avoid/prefer lists.
+    Omit for the full voice token set including prohibited phrases.
+    """
+    telemetry.record("tool_call", "get_voice", meta={"trait": trait} if trait else None)
+    return brand_tools.get_voice(trait)
+
+
+@mcp.tool()
 def get_icon(name: str) -> Dict[str, Any]:
     """Look up a Solidigm UI atom icon specification by name.
 
@@ -247,6 +259,11 @@ def _resource_space() -> str:
 @mcp.resource("brand://tokens/motion")
 def _resource_motion() -> str:
     return json.dumps(brand_tools.get_design_tokens("motion")["tokens"], indent=2)
+
+
+@mcp.resource("brand://tokens/voice")
+def _resource_voice() -> str:
+    return json.dumps(brand_tools.get_design_tokens("voice")["tokens"], indent=2)
 
 
 @mcp.resource("brand://tokens/icons")

@@ -36,7 +36,7 @@ def _read_text(path: str) -> str:
 
 _TOKEN_CATEGORIES = (
     "colors", "typography", "space", "breakpoints", "radius",
-    "shape", "motion", "elevation", "semantic", "icons",
+    "shape", "motion", "elevation", "semantic", "icons", "voice",
 )
 
 
@@ -168,6 +168,25 @@ def get_icon(name: str) -> Dict[str, Any]:
         "name": name,
         "available": list(atoms.keys()),
     }
+
+
+def get_voice(trait: Optional[str] = None) -> Dict[str, Any]:
+    """Return Solidigm brand voice tokens and copy guidelines.
+
+    Parameters
+    ----------
+    trait : str, optional
+        One of: ``optimistic``, ``analytical``, ``passionate``, ``genuine``,
+        ``ambitious``. Omit for the full voice token set.
+    """
+    data = _read_json(os.path.join(config.tokens_dir, "voice.json"))
+    if trait:
+        t = data.get("voice", {}).get("traits", {}).get(trait.lower())
+        if t is None:
+            available = list(data.get("voice", {}).get("traits", {}).keys())
+            return {"status": "not_found", "trait": trait, "available": available}
+        return {"status": "ok", "trait": trait, "token": t}
+    return {"status": "ok", "tokens": data}
 
 
 def _normalize_color_key(s: str) -> str:

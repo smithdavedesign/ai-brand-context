@@ -70,7 +70,7 @@ def test_get_design_tokens_all() -> None:
         "get_design_tokens() — all categories",
         r,
         status="ok",
-        tokens=lambda t: isinstance(t, dict) and len(t) == 10,
+        tokens=lambda t: isinstance(t, dict) and len(t) == 11,
     )
 
 
@@ -114,6 +114,37 @@ def test_get_breakpoints() -> None:
         status="ok",
         breakpoints=lambda b: isinstance(b, dict) and "lg" in b and "xl" in b,
         containers=lambda c: isinstance(c, dict) and "max" in c,
+    )
+
+
+def test_get_voice() -> None:
+    r = brand.get_voice()
+    check(
+        "get_voice() — all voice tokens",
+        r,
+        status="ok",
+        tokens=lambda t: isinstance(t, dict) and "voice" in t,
+    )
+
+
+def test_get_voice_trait() -> None:
+    r = brand.get_voice("analytical")
+    check(
+        "get_voice('analytical')",
+        r,
+        status="ok",
+        trait=lambda t: t == "analytical",
+        token=lambda t: isinstance(t, dict) and "$value" in t,
+    )
+
+
+def test_get_voice_invalid_trait() -> None:
+    r = brand.get_voice("bogus_trait_xyz")
+    check(
+        "get_voice('bogus_trait_xyz') → not_found",
+        r,
+        status="not_found",
+        available=lambda a: isinstance(a, list) and "analytical" in a,
     )
 
 
@@ -287,6 +318,9 @@ _TESTS = [
     test_get_spacing_step,
     test_get_spacing_invalid,
     test_get_breakpoints,
+    test_get_voice,
+    test_get_voice_trait,
+    test_get_voice_invalid_trait,
     test_get_motion,
     test_get_icon,
     test_get_icon_fuzzy,
