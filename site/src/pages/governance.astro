@@ -137,7 +137,7 @@ import SectionHeader from '~/components/SectionHeader.astro';
       <div class="grid grid--2" style="margin-top: var(--space-6, 24px);">
         <div class="card">
           <h3 style="margin:0 0 8px; font-size:18px;">Proposing a new tool or resource</h3>
-          <ol class="text-small muted" style="padding-left: 18px; line-height: 1.7;">
+          <ol class="text-small muted" style="padding-left: 16px; line-height: 1.7;">
             <li>Open an issue describing the tool name, inputs, and return shape.</li>
             <li>Design review ensures the answer is something the brand system actually owns.</li>
             <li>Implement in <code>mcp/tools/brand.py</code> and register in <code>mcp/server.py</code>.</li>
@@ -147,7 +147,7 @@ import SectionHeader from '~/components/SectionHeader.astro';
         </div>
         <div class="card">
           <h3 style="margin:0 0 8px; font-size:18px;">Auth &amp; consent policy</h3>
-          <ul class="text-small muted" style="padding-left: 18px; line-height: 1.7;">
+          <ul class="text-small muted" style="padding-left: 16px; line-height: 1.7;">
             <li>Read-only by default. Write operations require explicit review.</li>
             <li>Per-user delegated OAuth (Entra + PKCE) for SharePoint access.</li>
             <li>Secrets live in <code>.env</code>, never in the repo.</li>
