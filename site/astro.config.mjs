@@ -12,9 +12,10 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? 'https://smithdavedesign.github.io'
   : 'http://localhost:4321';
 
-// GitHub Pages serves from /repo-name/ unless a custom domain is set.
-// Vercel and local dev serve from /.
-const base = process.env.GITHUB_ACTIONS === 'true' ? '/ai-brand-context/' : '/';
+// PAGES_BASE can be set per-workflow to control the base path explicitly.
+// Falls back to /ai-brand-context/ for GitHub Actions (personal repo) or / everywhere else.
+const base = process.env.PAGES_BASE
+  ?? (process.env.GITHUB_ACTIONS === 'true' ? '/ai-brand-context/' : '/');
 
 export default defineConfig({
   site: siteUrl,
